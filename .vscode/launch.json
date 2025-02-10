@@ -4,8 +4,8 @@
             "type": "java",
             "name": "Main",
             "request": "launch",
-            "mainClass": "inf112.skeleton.app.Main",
-            "projectName": "gdx-template-25v"
+            "mainClass": "inf112.ppbros.app.Main",
+            "projectName": "power-pipes-bros"
         },
         {
             "type": "java",
