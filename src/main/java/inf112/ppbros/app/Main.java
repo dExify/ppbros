@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package inf112.ppbros.app;
 
 import org.lwjgl.system.Configuration;
 
@@ -13,7 +13,7 @@ public class Main {
 			Configuration.GLFW_LIBRARY_NAME.set("glfw_async");
 		}
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-		cfg.setTitle("hello-world");
+		cfg.setTitle("Power Pipes Bros");
 		cfg.setWindowedMode(480, 320);
 
 		new Lwjgl3Application(new HelloWorld(), cfg);
