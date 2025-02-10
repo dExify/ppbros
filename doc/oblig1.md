@@ -4,13 +4,19 @@
 
 # Konsept
 
-- Navn: Power Pipes Bros 25
-- 2 player lokalt (en spiller på WASD og den andre på piltastene)
-- Spilleren kan slå fiendene.
-- Platform basert verden der kameraet ikke er knyttet til spillerne og paltformene forsvinner nedover i voiden.
-  Hver ny platform har nye fiender.
-- Etter 10 poeng (kills) når du neste nivå, og en boss spawner. Disse blir progressivt vanskeligere jo flere poeng du har.
+Spillmekanikk:
+- Spillbare figurer: To spillere kan styre hver sin figur – én med WASD og én med piltastene.
+- Bevegelse: Spillfigurene kan gå til venstre/høyre og hoppe oppover.
+- Kamp: Spillerne kan slå fiender for å eliminere dem.
 
+Spillverden:
+- Plattformbasert: Plattformene forsvinner nedover i voiden, noe som tvinger spillerne til å stadig bevege seg oppover.
+- Dynamiske fiender: Hver ny plattform introduserer nye fiender med varierende utfordringer.
+
+Mål og progresjon:
+- Poengsystem: Spilleren får poeng ved å slå fiender.
+- Nivåer og bosser: Når en spiller når 10 poeng (kills), går de videre til neste nivå, og en boss spawner.
+- Økende vanskelighetsgrad: Bossene blir progressivt vanskeligere etter hvert som spillerne samler flere poeng.
 
 ## Kjøring
 * Kompileres med `mvn package`.
