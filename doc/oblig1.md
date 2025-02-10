@@ -5,7 +5,7 @@
 # Konsept
 
 Spillmekanikk:
-- Spillbare figurer: To spillere kan styre hver sin figur – én med WASD og én med piltastene.
+- Spillbare figurer: To spillere kan styre hver sin figur, en med WASD og en med piltastene.
 - Bevegelse: Spillfigurene kan gå til venstre/høyre og hoppe oppover.
 - Kamp: Spillerne kan slå fiender for å eliminere dem.
 
