@@ -4,6 +4,13 @@
             "type": "java",
             "name": "Main",
             "request": "launch",
+            "mainClass": "inf112.ppbros.app.Main",
+            "projectName": "gdx-template-25v"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
             "mainClass": "inf112.skeleton.app.Main",
             "projectName": "gdx-template-25v"
         },
