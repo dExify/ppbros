@@ -40,7 +40,7 @@
 - 3. Flytte spiller venstre, høyre, opp(hopp) og ned (fall)
 - 4. Spiller interagerer med terrenget og monstre
 - 5. Vise fiender/monstre; de skal interagere med terreng og spiller
-- 6. 
+- 6. Gi spiller poeng for å bekjempe fiender/monstre.
 - 7. Spiller kan dø ved kontakt med fiender, eller ved å falle utfor skjermen/verden
 - 8. Start-skjerm UI ved oppstart / game over
 - 
