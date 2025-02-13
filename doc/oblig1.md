@@ -1,8 +1,13 @@
 # Rapport – innlevering 1
 **Team:** *Sample group* – *Luka Silic, Even Tveit, Ole Christian Sollid, Åse Holen*...
 
+## Roller
+- Kundekontakt / Developer - Åse Holen
+- Gitsvarlig / Developer - Ole Christian Sollid
+- Assetansvarlig / Developer - Luka Silic
+- Assetansvarlig / Developer - Even Tveit
 
-# Konsept
+## Konsept
 
 - Navn: Power Pipes Bros
 
@@ -24,3 +29,34 @@
 > Hvert lag får en frist, og innen denne fristen skal dette pushes til hver sin respektive branch.
 > Luka & Åse får nå oppgave om å gå gjennom og teste Ole & Even sin løsning og vice versa
 > Etter suksessfull testing og review vil branchene merges til main
+
+## Spesifikasjon
+- Vi skal lage et 2D-plattformspill der spilleren styrer en karakter gjennom ulike plattformer, 
+- unngår fiender og samler poeng. Målet er å overleve så lenge som mulig samtidig som man prøve å oppnå ny high score." 
+- 
+- Kravene til MVP er som følger:
+- 1. Vise en statisk spilleverden
+- 2. Vise spiller i spillverden
+- 3. Flytte spiller venstre, høyre, opp(hopp) og ned (fall)
+- 4. Spiller interagerer med terrenget og monstre
+- 5. Vise fiender/monstre; de skal interagere med terreng og spiller
+- 6. 
+- 7. Spiller kan dø ved kontakt med fiender, eller ved å falle utfor skjermen/verden
+- 8. Start-skjerm UI ved oppstart / game over
+- 
+- Brukerhistorier
+- 
+- Som en spiller trenger jeg en spillverden for å kunne spille.
+- 
+- Som en spiller trenger jeg ha en karakter for å kunne interagere med spillverden.
+- 
+- Som en spiller trenger jeg fiender for å samle poeng.
+- 
+- Som programmerer trenger jeg å kunne skille mellom bakgrunn og objekter i spillet for å kunne vite hva jeg jobber med.
+- 
+- Som en spiller trenger jeg å kunne angripe for å kunne bekjempe fiendene.
+- 
+- Som en spiller trenger jeg å kunne bevege en karakter for å navigere spillverden.
+- 
+- Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
+- 
