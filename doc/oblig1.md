@@ -15,8 +15,9 @@
 
 ### Mål og progresjon:
 - Poengsystem: Spilleren får poeng ved å slå fiender.
-- Nivåer og bosser: Når en spiller når 10 poeng (kills), går de videre til neste nivå, og en boss spawner.
-- Økende vanskelighetsgrad: Bossene blir progressivt vanskeligere etter hvert som spillerne samler flere poeng.
+- Nivåer og bosser: Når en spiller når et viss antall poeng (kills), går de videre til neste nivå, og en boss spawner.
+- Økende vanskelighetsgrad: Spillet blir progressivt vanskeligere etter hvert som spillerne samler flere poeng.
+- Mål: Holde seg i livet og samle så mange poeng som mulig.
 
 ## Kjøring
 * Kompileres med `mvn package`.
