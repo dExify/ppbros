@@ -90,7 +90,6 @@ public class HelloWorld implements ApplicationListener {
 			spriteRect.y = Gdx.graphics.getHeight() - Gdx.input.getY() - spriteRect.height/2;
 			// System.out.println("X=" + Gdx.input.getX() + "| Y=" + Gdx.input.getY());
 			// System.out.println("POSX=" + spriteRect.x + "| POSY=" + spriteRect.y);
-			System.out.println();
 		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
 			Gdx.app.exit();
