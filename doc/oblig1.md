@@ -44,8 +44,7 @@ Kravene til MVP er som følger:
 * Spiller kan dø ved kontakt med fiender, eller ved å falle utfor skjermen/verden
 * Start-skjerm UI ved oppstart / game over
  
-Brukerhistorier
- 
+## Brukerhistorier
 Som en spiller trenger jeg en spillverden for å kunne spille.
 Akseptansekriterie: Spillverdenen må være tilgjengelig og navigerbar.
 Arbeidsoppgave: Lage en fungerende spillverden med terreng og plattformer.
