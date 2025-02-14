@@ -29,7 +29,6 @@
 * Kjøres med `java -jar target/power-pipes-bros-1.0-SNAPSHOT-fat.jar`
 * Krever Java 21+
 
-=======
 ## Teamprosess
 
 - Vi velger å hente hovedsakelig metodikk fra Kanban.
@@ -41,7 +40,7 @@
 - Eksempel
 > Luka & Åse delegeres til å implementere GameCharacter-klassen, Ole & Even skal lage et spillbrett og implementere det i *view*
 > Hvert lag får en frist, og innen denne fristen skal dette pushes til hver sin respektive branch.
-> Luka & Åse får nå oppgave om å gå gjennom og teste Ole & Even sin løsning og vice versa
+> Luka & Åse får nå oppgave om å gå gjennom og teste Ole & Even sin løsning og vice versa. 
 > Etter suksessfull testing og review vil branchene merges til main
 
 ## Spesifikasjon
@@ -86,6 +85,10 @@ Som en spiller trenger jeg å kunne angripe for å kunne bekjempe fiendene.
 Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 - Akseptansekriterie: Fienden må ha en AI som beveger seg og reagerer på spilleren.
 - Arbeidsoppgave: Implementere AI-styrt bevegelse og angrepsmønstre.
+
+## Eksperimentering med koden
+
+Modifiserte koden slik at bildet i vinduet ble styrt av musepekerens posisjon, samt at bildene og lyden ble erstattet.
 
 ## Oppsummering
 Da vi startet å jobbe med oppgaven kom vi nok litt treigt i gang. Ikke alle hadde muligheten til å møte opp på gruppetimene (bl.a. på grunn av sykdom), derfor ble enkelte avgjørelser og beskjeder kun gitt til de som var tilstedet og de andre måtte bli oppdatert på neste møte. Det kan også være en fordel å være alle sammen slik at alle kan si seg enige og bidra med ideer og beslutninger. I starten brukte vi også litt med å finne ut hva slags spill vi skulle lage. 
