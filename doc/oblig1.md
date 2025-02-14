@@ -46,29 +46,29 @@ Kravene til MVP er som følger:
  
 ## Brukerhistorier
 Som en spiller trenger jeg en spillverden for å kunne spille.
-Akseptansekriterie: Spillverdenen må være tilgjengelig og navigerbar.
-Arbeidsoppgave: Lage en fungerende spillverden med terreng og plattformer.
+- Akseptansekriterie: Spillverdenen må være tilgjengelig og navigerbar.
+- Arbeidsoppgave: Lage en fungerende spillverden med terreng og plattformer.
 
 Som en spiller trenger jeg ha en karakter for å kunne interagere med spillverden.
-Akseptansekriterie: Spilleren må kunne kontrollere en karakter.
-Arbeidsoppgave: Implementere en spillbar karakter med grunnleggende funksjoner som bevegelse og interaksjon.
+- Akseptansekriterie: Spilleren må kunne kontrollere en karakter.
+- Arbeidsoppgave: Implementere en spillbar karakter med grunnleggende funksjoner som bevegelse og interaksjon.
  
 Som en spiller trenger jeg fiender for å samle poeng.
-Akseptansekriterie: Fiender må eksistere i spillverdenen og gi poeng når man bekjemper de.
-Arbeidsoppgave: Lage fiender med oppførsel og poengsystem ved bekjempelse.
+- Akseptansekriterie: Fiender må eksistere i spillverdenen og gi poeng når man bekjemper de.
+- Arbeidsoppgave: Lage fiender med oppførsel og poengsystem ved bekjempelse.
 
 Som programmerer trenger jeg å kunne skille mellom bakgrunn og objekter i spillet for å kunne vite hva jeg jobber med.
-Akseptansekriterie: Det må være mulig å skille bakgrunn og objekter.
-Arbeidsoppgave: Sørge for en tydelig forskjell mellom bakgrunn og objekter.
+- Akseptansekriterie: Det må være mulig å skille bakgrunn og objekter.
+- Arbeidsoppgave: Sørge for en tydelig forskjell mellom bakgrunn og objekter.
  
 Som en spiller trenger jeg å kunne bevege en karakter for å navigere spillverden.
-Akseptansekriterie: Karakteren må kunne bevege seg i alle nødvendige retninger.
-Arbeidsoppgave: Implementere bevegelseskontroller med animasjoner og fysikk.
+- Akseptansekriterie: Karakteren må kunne bevege seg i alle nødvendige retninger.
+- Arbeidsoppgave: Implementere bevegelseskontroller med animasjoner og fysikk.
  
 Som en spiller trenger jeg å kunne angripe for å kunne bekjempe fiendene.
-Akseptansekriterie: Spilleren må kunne utføre angrep som påvirker fiender.
-Arbeidsoppgave: Implementere en angrepsmekanisme og visuelle effekter som forteller spilleren at angrepet er utført.
+- Akseptansekriterie: Spilleren må kunne utføre angrep som påvirker fiender.
+- Arbeidsoppgave: Implementere en angrepsmekanisme og visuelle effekter som forteller spilleren at angrepet er utført.
  
 Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
-Akseptansekriterie: Fienden må ha en AI som beveger seg og reagerer på spilleren.
-Arbeidsoppgave: Implementere AI-styrt bevegelse og angrepsmønstre.
+- Akseptansekriterie: Fienden må ha en AI som beveger seg og reagerer på spilleren.
+- Arbeidsoppgave: Implementere AI-styrt bevegelse og angrepsmønstre.
