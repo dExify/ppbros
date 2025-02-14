@@ -29,6 +29,17 @@
 * Kjøres med `java -jar target/power-pipes-bros-1.0-SNAPSHOT-fat.jar`
 * Krever Java 21+
 
+<<<<<<< doc/oblig1.md
+##  
+
+## Oppsummering
+Da vi startet å jobbe med oppgaven kom vi nok litt treigt i gang. Ikke alle hadde muligheten til å møte opp på gruppetimene (bl.a. på grunn av sykdom), derfor ble enkelte avgjørelser og beskjeder kun gitt til de som var tilstedet og de andre måtte bli oppdatert på neste møte. Det kan også være en fordel å være alle sammen slik at alle kan si seg enige og bidra med ideer og beslutninger. I starten brukte vi også litt med å finne ut hva slags spill vi skulle lage. 
+
+Fremover ønsker vi å lære og eksperimentere mer med rammeverket libgdx. Ingen av oss har erfaring med rammeverket og det vil være essensielt
+at vi er mer komfortabel med det når vi senere skal kode i det. Vi tenker også å utforske og se hvilke bibliotek som finnes og hvilke som kan   
+være nyttige for vårt prosjekt.
+
+=======
 ## Teamprosess
 
 - Vi velger å hente hovedsakelig metodikk fra Kanban.
@@ -85,3 +96,12 @@ Som en spiller trenger jeg å kunne angripe for å kunne bekjempe fiendene.
 Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 - Akseptansekriterie: Fienden må ha en AI som beveger seg og reagerer på spilleren.
 - Arbeidsoppgave: Implementere AI-styrt bevegelse og angrepsmønstre.
+
+## Oppsummering
+Da vi startet å jobbe med oppgaven kom vi nok litt treigt i gang. Ikke alle hadde muligheten til å møte opp på gruppetimene (bl.a. på grunn av sykdom), derfor ble enkelte avgjørelser og beskjeder kun gitt til de som var tilstedet og de andre måtte bli oppdatert på neste møte. Det kan også være en fordel å være alle sammen slik at alle kan si seg enige og bidra med ideer og beslutninger. I starten brukte vi også litt med å finne ut hva slags spill vi skulle lage. 
+
+Fremover ønsker vi å lære og eksperimentere mer med rammeverket libgdx. Ingen av oss har erfaring med rammeverket og det vil være essensielt
+at vi er mer komfortabel med det når vi senere skal kode i det. Vi tenker også å utforske og se hvilke bibliotek som finnes og hvilke som kan   
+være nyttige for vårt prosjekt.
+
+>>>>>>> doc/oblig1.md
