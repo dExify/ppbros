@@ -73,4 +73,4 @@
 - Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 - Akseptansekriterie: Fienden må ha en AI som beveger seg og reagerer på spilleren.
 - Arbeidsoppgave: Implementere AI-styrt bevegelse og angrepsmønstre.
--
+- 
