@@ -15,6 +15,7 @@ public class HelloWorld implements ApplicationListener {
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private Texture spriteImage;
+	private Texture spriteImage2;
 	private Sound bellSound;
 	private Rectangle spriteRect;
 	private Rectangle screenRect = new Rectangle();
@@ -26,10 +27,11 @@ public class HelloWorld implements ApplicationListener {
 
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		font.setColor(Color.RED);
+		font.setColor(Color.PINK);
 		spriteImage = new Texture(Gdx.files.internal("obligator.png"));
+		spriteImage2 = new Texture(Gdx.files.internal("ubligator.png"));
 		spriteRect = new Rectangle(1, 1, spriteImage.getWidth() / 2, spriteImage.getHeight() / 2);
-		bellSound = Gdx.audio.newSound(Gdx.files.internal("blipp.ogg"));
+		bellSound = Gdx.audio.newSound(Gdx.files.internal("slash.ogg"));
 		Gdx.graphics.setForegroundFPS(60);
 	}
 
@@ -61,8 +63,8 @@ public class HelloWorld implements ApplicationListener {
 
 		// Draw calls should be wrapped in batch.begin() ... batch.end()
 		batch.begin();
-		font.draw(batch, "Hello, World!", 200, 200);
-		batch.draw(spriteImage, spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
+		font.draw(batch, "Sample team!!", 0, Gdx.graphics.getHeight() -10);
+		batch.draw(spriteImage2, spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
 		batch.end();
 
 		// Move the alligator a bit. You normally shouldn't mix rendering with logic in
@@ -84,6 +86,10 @@ public class HelloWorld implements ApplicationListener {
 		// Don't handle input this way – use event handlers!
 		if (Gdx.input.justTouched()) { // check for mouse click
 			bellSound.play();
+			spriteRect.x = Gdx.input.getX() - spriteRect.width/2;
+			spriteRect.y = Gdx.graphics.getHeight() - Gdx.input.getY() - spriteRect.height/2;
+			// System.out.println("X=" + Gdx.input.getX() + "| Y=" + Gdx.input.getY());
+			// System.out.println("POSX=" + spriteRect.x + "| POSY=" + spriteRect.y);
 		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
 			Gdx.app.exit();
