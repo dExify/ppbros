@@ -11,11 +11,23 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Texture;
 
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion; // to use only parts of an image
+
+
 public class HelloWorld implements ApplicationListener {
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private Texture spriteImage;
 	private Texture spriteImage2;
+
+	
+	private Texture background;
+	private Texture characterPoses;
+	private TextureRegion character;
+	private Sound jumpSound;
+	private float speed = 50.0f;
+
 	private Sound bellSound;
 	private Rectangle spriteRect;
 	private Rectangle screenRect = new Rectangle();
@@ -30,9 +42,14 @@ public class HelloWorld implements ApplicationListener {
 		font.setColor(Color.PINK);
 		spriteImage = new Texture(Gdx.files.internal("obligator.png"));
 		spriteImage2 = new Texture(Gdx.files.internal("ubligator.png"));
+		background = new Texture(Gdx.files.internal("sky.png"));
 		spriteRect = new Rectangle(1, 1, spriteImage.getWidth() / 2, spriteImage.getHeight() / 2);
-		bellSound = Gdx.audio.newSound(Gdx.files.internal("slash.ogg"));
+		characterPoses = new Texture(Gdx.files.internal("character.png"));
+		character = new TextureRegion(characterPoses,0,0, 50,50);
+		bellSound = Gdx.audio.newSound(Gdx.files.internal(	"slash.ogg"));
+		jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.wav"));
 		Gdx.graphics.setForegroundFPS(60);
+		Gdx.graphics.setWindowedMode(320, 256); // set window to the size of background
 	}
 
 	@Override
@@ -59,37 +76,47 @@ public class HelloWorld implements ApplicationListener {
 		// This is a minimal example – don't write your application this way!
 
 		// Start with a blank screen
-		ScreenUtils.clear(Color.WHITE);
+		//ScreenUtils.clear(Color.WHITE);
 
 		// Draw calls should be wrapped in batch.begin() ... batch.end()
 		batch.begin();
-		font.draw(batch, "Sample team!!", 0, Gdx.graphics.getHeight() -10);
-		batch.draw(spriteImage2, spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
+		//font.draw(batch, "Sample group's game", 10, Gdx.graphics.getHeight() -10);
+		//batch.draw(spriteImage2, spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
+		batch.draw(background, 0, 0);
+		batch.draw(character,spriteRect.x,spriteRect.y, spriteRect.width, spriteRect.height);
 		batch.end();
 
 		// Move the alligator a bit. You normally shouldn't mix rendering with logic in
 		// this way. (Also, movement should probably be based on *time*, not on how
 		// often we update the graphics!)
+		// change: move side to side
 		Rectangle.tmp.set(spriteRect);
 		Rectangle.tmp.x += dx;
 		Rectangle.tmp2.set(spriteRect);
-		Rectangle.tmp2.y += dy;
+		
 		if (screenRect.contains(Rectangle.tmp))
 			spriteRect.x += dx;
 		else
 			dx = -dx;
-		if (screenRect.contains(Rectangle.tmp2))
+		// add to go vertical
+		//Rectangle.tmp2.y += dy; 
+		/**if (screenRect.contains(Rectangle.tmp2))
 			spriteRect.y += dy;
 		else
 			dy = -dy;
-
+		*/
 		// Don't handle input this way – use event handlers!
-		if (Gdx.input.justTouched()) { // check for mouse click
-			bellSound.play();
-			spriteRect.x = Gdx.input.getX() - spriteRect.width/2;
-			spriteRect.y = Gdx.graphics.getHeight() - Gdx.input.getY() - spriteRect.height/2;
+		//if (Gdx.input.justTouched()) { // check for mouse click
+		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+			//bellSound.play();
+			jumpSound.play();
+			spriteRect.y += dy; // jumps up slightly (still moves side to side)
+			
+			//spriteRect.x = Gdx.input.getX() - spriteRect.width/2;
+			//spriteRect.y = Gdx.graphics.getHeight() - Gdx.input.getY() - spriteRect.height/2;
 			// System.out.println("X=" + Gdx.input.getX() + "| Y=" + Gdx.input.getY());
 			// System.out.println("POSX=" + spriteRect.x + "| POSY=" + spriteRect.y);
+
 		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
 			Gdx.app.exit();
