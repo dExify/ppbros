@@ -44,7 +44,7 @@ public class HelloWorld implements ApplicationListener {
 		spriteImage2 = new Texture(Gdx.files.internal("ubligator.png"));
 		background = new Texture(Gdx.files.internal("sky.png"));
 		spriteRect = new Rectangle(1, 1, spriteImage.getWidth() / 2, spriteImage.getHeight() / 2);
-		characterPoses = new Texture(Gdx.files.internal("character.png"));
+		characterPoses = new Texture(Gdx.files.internal("characterpos.png"));
 		character = new TextureRegion(characterPoses,0,0, 50,50);
 		bellSound = Gdx.audio.newSound(Gdx.files.internal(	"slash.ogg"));
 		jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.wav"));

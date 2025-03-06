@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launcher",
+            "request": "launch",
+            "mainClass": "inf112.ppbros.controller.Launcher",
+            "projectName": "power-pipes-bros"
+        },
+        {
+            "type": "java",
+            "name": "StartPlayer",
+            "request": "launch",
+            "mainClass": "inf112.ppbros.controller.StartPlayer",
+            "projectName": "power-pipes-bros"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "inf112.ppbros.app.Main",
