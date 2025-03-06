@@ -16,13 +16,18 @@ public class PlayerController extends InputAdapter implements Screen{
     Texture player;
     Texture brick;
     float Speed = 50.0f; // each time moved, moves 50 pixels
-    
+
+    // map size (should probably be moved somewhere else later)
+    final float MAP_WIDTH = 480;
+    final float MAP_HEIGHT = 320;
+
     // starting positions
     float playerx = 0;
     float playery = 0;
     float brickx = 100;
     float bricky = 100;
 
+    boolean wasOutside = false;
     // collision rectangles
     Rectangle player_rect;
     Rectangle brick_rect;
@@ -64,7 +69,6 @@ public class PlayerController extends InputAdapter implements Screen{
             System.out.println("collided");
             playery = prevy;
             playerx = prevx;
-
         }
 
         // check for input
@@ -94,6 +98,24 @@ public class PlayerController extends InputAdapter implements Screen{
 
         player_rect = new Rectangle(playerx, playery, player.getWidth(), player.getHeight());
         brick_rect = new Rectangle(brickx, bricky, brick.getWidth(), brick.getHeight()); // only really needed if the object can be moved
+
+        
+        //check if player touchess edge of map boundries
+        if (playerx < 0 || playerx + player.getWidth() > MAP_WIDTH ||
+            playery < 0 || playery + player.getHeight() > MAP_HEIGHT){
+                System.out.println("Player touched the edge of map!"); // Change later
+            }
+        
+        
+        // Get player width
+        float playerWidth = player.getWidth();
+        // Check if completely outside on the left or right
+        boolean isNowOutside = (playerx + playerWidth < 0) || (playerx > MAP_WIDTH);
+
+        if (isNowOutside && !wasOutside) {
+            System.out.println("Player went out of map!"); // change later
+        }
+        wasOutside = isNowOutside; // Update state
 
         // close program with escape button
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { 
