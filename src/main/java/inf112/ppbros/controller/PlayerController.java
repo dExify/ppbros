@@ -20,6 +20,7 @@ public class PlayerController extends InputAdapter implements Screen{
     // map size (should probably be moved somewhere else later)
     final float MAP_WIDTH = 480;
     final float MAP_HEIGHT = 320;
+    final float ATTACK_RANGE = 10; // change if attack range can be changed during game
 
     // starting positions
     float playerx = 0;
@@ -117,11 +118,45 @@ public class PlayerController extends InputAdapter implements Screen{
         }
         wasOutside = isNowOutside; // Update state
 
+        // Check for attack (F key)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            if (canPlayerReach(brick_rect)) {
+                System.out.println("Hit registered!"); // change later
+            } else {
+                System.out.println("No hit, too far away."); 
+            }
+        }
+
         // close program with escape button
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { 
 			Gdx.app.exit();
 		}
         
+    }
+
+    // Function to check if the player is close enough to the enemy
+    private boolean canPlayerReach(Rectangle enemy) { // change type later when enemytype is made
+        float playerWidth = player.getWidth();
+        float playerHeight = player.getHeight();
+
+        // Find the edges of the player
+        float playerLeft = playerx;
+        float playerRight = playerx + playerWidth;
+        float playerTop = playery + playerHeight;
+        float playerBottom = playery;
+
+        // Find the edges of the enemy
+        float enemyLeft = enemy.getX();
+        float enemyRight = enemy.getX() + enemy.getWidth();
+        float enemyTop = enemy.getY() + enemy.getHeight();
+        float enemyBottom = enemy.getY();
+
+        // Calculate the closest horizontal and vertical distances between player and brick
+        float horizontalDistance = Math.max(0, Math.max(enemyLeft - playerRight, playerLeft - enemyRight));
+        float verticalDistance = Math.max(0, Math.max(enemyBottom - playerTop, playerBottom - enemyTop));
+    
+        // Check if the smallest gap is within the attack range
+        return (horizontalDistance <= ATTACK_RANGE && verticalDistance <= ATTACK_RANGE);
     }
 
     @Override
