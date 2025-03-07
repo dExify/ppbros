@@ -18,7 +18,7 @@ class GameView implements Screen {
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("clean-crispy-ui.json"));
+        skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
 
         Table healthTable = new Table();
         Table scoreTable = new Table();
