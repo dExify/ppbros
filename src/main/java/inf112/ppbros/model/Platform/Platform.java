@@ -6,4 +6,8 @@ public class Platform {
     public Platform(boolean[][] doubleArray) {
         pattern = doubleArray;
     }
+
+    public boolean[][] getPlatform() {
+        return pattern;
+    }
 }

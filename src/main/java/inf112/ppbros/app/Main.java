@@ -8,9 +8,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
-import inf112.ppbros.controller.GameController;
 import inf112.ppbros.model.GameModel;
-import inf112.ppbros.view.ScreenView;
 
 public class Main {
 	public static void main(String[] args) {
