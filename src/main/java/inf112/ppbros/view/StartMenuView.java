@@ -13,10 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import inf112.ppbros.controller.PlayerController;
 
-import inf112.ppbros.controller.PlayerController;
-
 // Start Menu View
 public class StartMenuView implements Screen {
+    @SuppressWarnings("unused")
     private Game game;
     private Stage stage;
     private Skin skin;
