@@ -9,133 +9,115 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import inf112.ppbros.view.GameView;
 
-public class PlayerController extends InputAdapter implements Screen{
-    Stage stage;
-    SpriteBatch batch;
-    Texture player;
-    Texture brick;
-    float Speed = 50.0f; // each time moved, moves 50 pixels
+public class PlayerController extends InputAdapter implements Screen {
+    private Stage stage;
+    private SpriteBatch batch;
+    private Texture player;
+    private Texture brick;
+    private GameView gameView;
+    
+    private static final float SPEED = 50.0f;
+    private static final float MAP_WIDTH = 480;
+    private static final float MAP_HEIGHT = 320;
+    private static final float ATTACK_RANGE = 10;
 
-    // map size (should probably be moved somewhere else later)
-    final float MAP_WIDTH = 480;
-    final float MAP_HEIGHT = 320;
-    final float ATTACK_RANGE = 10; // change if attack range can be changed during game
+    private float playerx = 50;
+    private float playery = 0;
+    private float brickx = 100;
+    private float bricky = 100;
 
-    // starting positions
-    float playerx = 0;
-    float playery = 0;
-    float brickx = 100;
-    float bricky = 100;
+    private boolean wasOutside = false;
 
-    boolean wasOutside = false; // keeps track if player was out of bounds
+    private Rectangle player_rect;
+    private Rectangle brick_rect;
 
-    // collision rectangles
-    Rectangle player_rect;
-    Rectangle brick_rect;
+    private float prevx;
+    private float prevy;
 
-    // previous positions
-    float prevx;
-    float prevy;
+    public PlayerController(GameView gameView) {
+        this.gameView = gameView;
+    }
 
     @Override
     public void show() {
-        // load pictures
         player = new Texture(Gdx.files.internal("character.png"));
         brick = new Texture(Gdx.files.internal("brick.png"));
-        // create collision rectangles
+
         player_rect = new Rectangle(playerx, playery, player.getWidth(), player.getHeight());
         brick_rect = new Rectangle(brickx, bricky, brick.getWidth(), brick.getHeight());
-        // initialize previous positions 
-        prevx = 0;
-        prevy = 0;
+
+        prevx = playerx;
+        prevy = playery;
 
         stage = new Stage();
-
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
+
+        gameView.show();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,1, 1, 0);
-        ScreenUtils.clear(1,1, 1, 0); // to avoid flickering
+        ScreenUtils.clear(1, 1, 1, 0);
 
-        // draw player on screen
-        batch.begin();
-            stage.draw();
-            batch.draw(player,playerx,playery);
-            batch.draw(brick, brickx, bricky);
-        batch.end();
-
-        // check for collision
-        if (brick_rect.overlaps(player_rect)) {
-            System.out.println("collided");
-            playery = prevy;
-            playerx = prevx;
-        }
-
-        // check for input
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            System.out.println("D");
-            prevx = playerx;
-            playerx += Gdx.graphics.getDeltaTime()*Speed;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            System.out.println("A");
-            prevx = playerx;
-            playerx -= Gdx.graphics.getDeltaTime()*Speed;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            System.out.println("W");
-            prevy = playery;
-            playery += Gdx.graphics.getDeltaTime()*Speed;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            System.out.println("S");
-            prevy = playery;
-            playery -= Gdx.graphics.getDeltaTime()*Speed;
-        }
+        handleInput();
+        checkCollisions();
+        drawObjects();
         
-        // update collision rectangles
-        player_rect = new Rectangle(playerx, playery, player.getWidth(), player.getHeight());
-        brick_rect = new Rectangle(brickx, bricky, brick.getWidth(), brick.getHeight()); // only really needed if the object can be moved
-
-        //check if player touchess edge of map boundries
-        if (playerx < 0 || playerx + player.getWidth() > MAP_WIDTH ||
-            playery < 0 || playery + player.getHeight() > MAP_HEIGHT){
-                //System.out.println("Player touched the edge of map!"); // Change later
-            }
-        
-        float playerWidth = player.getWidth();
-        // Check if completely outside on the left or right
-        boolean isNowOutside = (playerx + playerWidth < 0) || (playerx > MAP_WIDTH);
-
-        if (isNowOutside && !wasOutside) {
-            System.out.println("Player went out of map!"); // change later
-        }
-        wasOutside = isNowOutside; // Update state
-
-        // Check for attack (F key)
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-            if (canPlayerReach(brick_rect)) {
-                System.out.println("Hit registered!"); // change later
-            } else {
-                System.out.println("No hit, too far away or cannot hit from below."); 
-            }
-        }
-
-        // close program with escape button
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { 
-			Gdx.app.exit();
-		}
-        
+        gameView.render(delta);
     }
 
-    // Function to check if the player is close enough to the enemy
+    private void drawObjects() {
+        batch.begin();
+        stage.draw();
+        batch.draw(player, playerx, playery);
+        batch.draw(brick, brickx, bricky);
+        batch.end();
+    }
+
+    private void handleInput() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && canPlayerReach(brick_rect)) {
+            System.out.println("Hit registered!");
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            System.out.println("No hit");
+        }
+
+        prevx = playerx;
+        prevy = playery;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) playerx += Gdx.graphics.getDeltaTime() * SPEED;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) playerx -= Gdx.graphics.getDeltaTime() * SPEED;
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) playery += Gdx.graphics.getDeltaTime() * SPEED;
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) playery -= Gdx.graphics.getDeltaTime() * SPEED;
+        
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+    }
+
+    private void checkCollisions() {
+        player_rect.set(playerx, playery, player.getWidth(), player.getHeight());
+        brick_rect.set(brickx, bricky, brick.getWidth(), brick.getHeight());
+
+        if (playerx < 0 || playerx + player.getWidth() > MAP_WIDTH ||
+            playery < 0 || playery + player.getHeight() > MAP_HEIGHT) {
+            System.out.println("Player touched the edge of the map!");
+        }
+
+        boolean isNowOutside = (playerx + player.getWidth() < 0) || (playerx > MAP_WIDTH);
+        if (isNowOutside && !wasOutside) {
+            System.out.println("Player went out of map!");
+        }
+        wasOutside = isNowOutside;
+
+        if (brick_rect.overlaps(player_rect)) {
+            playerx = prevx;
+            playery = prevy;
+        }
+    }
+
     private boolean canPlayerReach(Rectangle enemy) { // change type later when enemytype is made
         float playerWidth = player.getWidth();
         float playerHeight = player.getHeight();
@@ -163,28 +145,34 @@ public class PlayerController extends InputAdapter implements Screen{
         return (horizontalDistance <= ATTACK_RANGE && verticalDistance <= ATTACK_RANGE && isNotBelow);
     }
 
+
+
     @Override
     public void resize(int width, int height) {
-        
+        gameView.resize(width, height);
     }
 
     @Override
     public void pause() {
-
+        gameView.pause();
     }
 
     @Override
     public void resume() {
-
+        gameView.resume();
     }
 
     @Override
     public void hide() {
-    
+        gameView.hide();
     }
 
     @Override
     public void dispose() {
-       
+        gameView.dispose();
+        batch.dispose();
+        player.dispose();
+        brick.dispose();
+        stage.dispose();
     }
 }

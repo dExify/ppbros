@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-class GameView implements Screen {
+public class GameView implements Screen {
     private Game game;
     private Stage stage;
     private Skin skin;
@@ -36,13 +36,13 @@ class GameView implements Screen {
         healthTable.add(healthLabel).pad(10);
     }
 
+
     @Override
     public void show() {}
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
     }
 
