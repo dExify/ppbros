@@ -28,7 +28,8 @@ public class PlayerController extends InputAdapter implements Screen{
     float brickx = 100;
     float bricky = 100;
 
-    boolean wasOutside = false;
+    boolean wasOutside = false; // keeps track if player was out of bounds
+
     // collision rectangles
     Rectangle player_rect;
     Rectangle brick_rect;
@@ -39,11 +40,13 @@ public class PlayerController extends InputAdapter implements Screen{
 
     @Override
     public void show() {
-
+        // load pictures
         player = new Texture(Gdx.files.internal("character.png"));
         brick = new Texture(Gdx.files.internal("brick.png"));
+        // create collision rectangles
         player_rect = new Rectangle(playerx, playery, player.getWidth(), player.getHeight());
         brick_rect = new Rectangle(brickx, bricky, brick.getWidth(), brick.getHeight());
+        // initialize previous positions 
         prevx = 0;
         prevy = 0;
 
@@ -96,19 +99,17 @@ public class PlayerController extends InputAdapter implements Screen{
             prevy = playery;
             playery -= Gdx.graphics.getDeltaTime()*Speed;
         }
-
+        
+        // update collision rectangles
         player_rect = new Rectangle(playerx, playery, player.getWidth(), player.getHeight());
         brick_rect = new Rectangle(brickx, bricky, brick.getWidth(), brick.getHeight()); // only really needed if the object can be moved
 
-        
         //check if player touchess edge of map boundries
         if (playerx < 0 || playerx + player.getWidth() > MAP_WIDTH ||
             playery < 0 || playery + player.getHeight() > MAP_HEIGHT){
-                System.out.println("Player touched the edge of map!"); // Change later
+                //System.out.println("Player touched the edge of map!"); // Change later
             }
         
-        
-        // Get player width
         float playerWidth = player.getWidth();
         // Check if completely outside on the left or right
         boolean isNowOutside = (playerx + playerWidth < 0) || (playerx > MAP_WIDTH);
@@ -123,7 +124,7 @@ public class PlayerController extends InputAdapter implements Screen{
             if (canPlayerReach(brick_rect)) {
                 System.out.println("Hit registered!"); // change later
             } else {
-                System.out.println("No hit, too far away."); 
+                System.out.println("No hit, too far away or cannot hit from below."); 
             }
         }
 
@@ -155,8 +156,11 @@ public class PlayerController extends InputAdapter implements Screen{
         float horizontalDistance = Math.max(0, Math.max(enemyLeft - playerRight, playerLeft - enemyRight));
         float verticalDistance = Math.max(0, Math.max(enemyBottom - playerTop, playerBottom - enemyTop));
     
-        // Check if the smallest gap is within the attack range
-        return (horizontalDistance <= ATTACK_RANGE && verticalDistance <= ATTACK_RANGE);
+        // Prevent hits from below (playerBottom must be above enemyBottom)
+        boolean isNotBelow = playerBottom >= enemyBottom;
+        
+        // Check if the smallest gap is within the attack range and player is not hitting from below 
+        return (horizontalDistance <= ATTACK_RANGE && verticalDistance <= ATTACK_RANGE && isNotBelow);
     }
 
     @Override
