@@ -14,8 +14,8 @@ public class Main {
 		}
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Power Pipes Bros");
-		cfg.setWindowedMode(480, 320);
+		cfg.setWindowedMode(900, 600);
 
-		new Lwjgl3Application(new HelloWorld(), cfg);
+		new Lwjgl3Application(new PowerPipesBros(), cfg);
 	}
 }
