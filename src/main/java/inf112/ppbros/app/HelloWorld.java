@@ -23,8 +23,6 @@ public class HelloWorld implements ApplicationListener {
 
 	@Override
 	public void create() {
-		// Called at startup
-
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		font.setColor(Color.PINK);
@@ -33,6 +31,7 @@ public class HelloWorld implements ApplicationListener {
 		spriteRect = new Rectangle(1, 1, spriteImage.getWidth() / 2, spriteImage.getHeight() / 2);
 		bellSound = Gdx.audio.newSound(Gdx.files.internal("slash.ogg"));
 		Gdx.graphics.setForegroundFPS(60);
+		
 	}
 
 	@Override
@@ -63,7 +62,6 @@ public class HelloWorld implements ApplicationListener {
 
 		// Draw calls should be wrapped in batch.begin() ... batch.end()
 		batch.begin();
-		font.draw(batch, "Sample team!!", 0, Gdx.graphics.getHeight() -10);
 		batch.draw(spriteImage2, spriteRect.x, spriteRect.y, spriteRect.width, spriteRect.height);
 		batch.end();
 
