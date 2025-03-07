@@ -32,15 +32,7 @@
 ## Teamprosess
 
 - Vi velger å hente hovedsakelig metodikk fra Kanban.
-    Vi velger å følge kanban sine praksiser:
-    * La arbeidet ditt bli synlig ved å committe og pushe ofte, med gode commit meldinger, slik at andre i teamet kan se hvor vi ligger an og for å estimere resterende arbeidsmengde og tidsbruk. 
-    * Begrense pågående arbeid i oppfordring av å fullføre påbegynt arbeid før nytt startes. Kan begrenses ved å for eksempel begrense antall WIP kort som kan lages eller begrense antall branches per medlem.   
-    * Opprettholde og forbedre arbeidsflyt ved at alle prøver å analysere arbeidsflyten med et formål for å oppnå effektiv og jevn progressjon. Det vil også være viktig å identifisere, kommunisere og håndtere hindringer og utfordringer som oppstår.
-    * Lage og gjøre prosessprinsippene klare og tydlige. Når alle har en felles forståelse og enighet for målet med prosjektet blir det lettere å jobbe målrettet med minst mulig misforståelser, komme med innspill og ta avgjørelser som gir positiv innvirkning. 
-    * Opprette "feedback loops". Ved å møtes gjevnlig og ofte sørges det for at nødvendig informasjon blir gitt, det sjekkes tilgjengelig kapasitet og det er en mulighet for å respondere til potensielle endringer. Vår løsning på dette er beskrevet nedenfor. 
-
-Vi har også planer om å:
-- Sette opp ukentlige møter hvor vi setter mål for uken, bruker trello for oversikt om veien videre
+- Ukentlige møter hvor vi setter mål for uken, bruker trello for oversikt om veien videre
 - Delegerer oppgaver ukentlig. deler teamet opp, og 1-2 utviklere jobber på hver sin branch hvor de implementerer/løser bestemt problem
 - Etter begge lagene med utviklere er ferdig, bytter utviklerlagene til det andre laget sin branch, og reviewer/tester hver sin branch.
 - Teamet avtaler faste møtetider ukentlig, kommunikasjon skjer via Snapchat og Discord
