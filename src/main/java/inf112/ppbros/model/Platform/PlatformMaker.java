@@ -1,53 +1,18 @@
 package inf112.ppbros.model.Platform;
 
+import java.util.Random;
+
 public class PlatformMaker {
 
-    public PlatformMaker() {
+    // public PlatformMaker() {
         
-    }
+    // }
 
-    public Platform newPlatform(int randomNumberUpTo4) {
-        boolean[][] pattern;
-    
-        switch (randomNumberUpTo4) {
-            case 1:
-                pattern = new boolean[][] {
-                    { true, false, false },
-                    { true,  true,  true },
-                    { false, false, true }
-                };
-                break;
-            case 2:
-                pattern = new boolean[][] {
-                    { false, false, false },
-                    { true, true, true },
-                    { false, false, false }
-                };
-                break;
-            case 3:
-            pattern = new boolean[][] {
-                { false, false, false },
-                { false, true, true },
-                { true, false, false }
-            };
-            break;
-            case 4:
-            pattern = new boolean[][] {
-                { true, false, false },
-                { true, false, false },
-                { true, true, false }
-            };
-            break;
-            default:
-                pattern = new boolean[][] {
-                    { false, false, false },
-                    { false, false, false },
-                    { false, false, false }
-                };
-                break;
-        }
-    
-        return new Platform(pattern);
+    public Platform getNext() {
+        Random random = new Random();
+        int randomInt = random.nextInt(4);
+        Platform platform = Platform.newPlatform(randomInt);
+        return platform;
     }
 
 }

@@ -17,11 +17,15 @@ public class GameModel extends Game {
     @Override
     public void create() {
         this.setScreen(new ScreenView(this));
+        getPlatformGrid();
     }
 
     public PlatformGrid getPlatformGrid() {
         platformMaker = new PlatformMaker();
         platformGrid = new PlatformGrid(platformMaker);
+        platformGrid.buildGrid();
+        platformGrid.buildGrid();
+        platformGrid.printArray(); //Debugging
         return platformGrid;
     }
 

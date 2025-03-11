@@ -1,5 +1,6 @@
 package inf112.ppbros.model;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -15,20 +16,56 @@ public class PlatformGrid {
     private static final int TILE_SIZE = 80; //80x80 piksler
     private static final int PLATFORM_SIZE = 240; //3x3 grid av tiles (240x240 piksler)
 
-    private Texture paltformTexture;
-    private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
+    private Texture platformTexture;
+    private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT]; //I piksler
     private Rectangle[] hitboxes;
     private PlatformMaker platformMaker;
+    //private HashSet occupiedCoordinates;
 
     public PlatformGrid(PlatformMaker maker) {
         this.platformMaker = maker;
-        paltformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
+        platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
     }
 
-    private Coordinate getRandomPlatformStart() { //Fra venstre nede i 3x3 plattformen
+    public void buildGrid() {
+        Coordinate platformStart = getPlatformStart();
+        Platform platform = platformMaker.getNext();
+        int[][] pattern = platform.getPlatform();
+        for (int x = 0; x < pattern.length; x++) {
+            for (int y = 0; y < pattern[x].length; y++) {
+                if (x == 0 && y == 0) {
+                    continue;
+                } else {
+                    Coordinate platformGrid = getTilePosInPixels(x, y, TILE_SIZE);
+                    tileGrid[platformStart.x() + platformGrid.x()][platformStart.y() + platformGrid.y()] = 1;
+                }
+            }
+        }
+    }
+
+    public void printArray() {
+        for (int x = 0; x < tileGrid.length; x++) {
+            for (int y = 0; y < tileGrid[x].length; y++) {
+                System.out.print(tileGrid[x][y] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private Coordinate getTilePosInPixels(int x, int y, int tileSize) {
+        int tileX = tileSize * x;
+        int tileY = tileSize * y;
+        return new Coordinate(x, y);
+    }
+
+    private void hitboxMaker() {
+
+    }
+
+    private Coordinate getPlatformStart() { //Fra venstre nede i 3x3 plattformen
         Random random = new Random();
-        int x = random.nextInt(GRID_WIDTH);
-        int y = random.nextInt(GRID_HEIGHT);
+        int x = random.nextInt(GRID_WIDTH - 3);
+        int y = random.nextInt(GRID_HEIGHT - 3);
         Coordinate coordinates = new Coordinate(x, y);
         return coordinates;
     }
