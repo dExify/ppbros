@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import inf112.ppbros.model.GameModel;
@@ -22,6 +23,7 @@ public class ScreenView implements Screen {
     // private SpriteBatch batch;
     OrthogonalTiledMapRenderer mapRenderer;
     OrthographicCamera camera;
+    Vector2 vector;
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
@@ -31,16 +33,17 @@ public class ScreenView implements Screen {
     public void show() {
         shapeRenderer = new ShapeRenderer();
         screenRect = new Rectangle();
-        // batch = new SpriteBatch();
-        TiledMap tiledMap = new TmxMapLoader().load("TileMap.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        camera = new OrthographicCamera(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Kamera er på samme størrelse som skjermen
+        vector = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2); //Kamera?
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.CLEAR);
+        camera.position.set(vector, 0);
+        camera.update();
 
+        mapRenderer = gameModel.getMapRenderer();
         mapRenderer.setView(camera);
         mapRenderer.render();
     }
