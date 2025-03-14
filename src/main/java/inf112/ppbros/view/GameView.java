@@ -8,13 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import inf112.ppbros.model.GameModel;
+
 public class GameView implements Screen {
     private Game game;
     private Stage stage;
     private Skin skin;
+    private GameModel model;
 
-    public GameView(Game game) {
+    public GameView(Game game, GameModel model) {
         this.game = game;
+        this.model = model;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
@@ -43,6 +47,7 @@ public class GameView implements Screen {
     public void render(float delta) {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
+        
     }
 
     @Override

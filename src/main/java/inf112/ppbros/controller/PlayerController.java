@@ -11,7 +11,7 @@ import inf112.ppbros.view.GameView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-public class PlayerController extends InputAdapter implements Screen{
+public class PlayerController extends InputAdapter implements Screen {
     private GameModel gameModel;
     private Texture playerTexture, enemyTexture;
     private SpriteBatch batch;
@@ -21,12 +21,12 @@ public class PlayerController extends InputAdapter implements Screen{
     final float MAP_WIDTH = 480;
     final float MAP_HEIGHT = 320;
 
-    public void playerController(GameModel gameModel, GameView gameView) {
+    public PlayerController(GameModel gameModel, GameView gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
         this.batch = new SpriteBatch();
-        this.playerTexture = new Texture(Gdx.files.internal("character.png"));
-        this.enemyTexture = new Texture(Gdx.files.internal("enemy.png"));
+        //this.playerTexture = new Texture(Gdx.files.internal("character.png"));
+        //this.enemyTexture = new Texture(Gdx.files.internal("enemy.png"));
         Gdx.input.setInputProcessor(this);
     }
 

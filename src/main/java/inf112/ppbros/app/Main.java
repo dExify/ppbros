@@ -21,6 +21,6 @@ public class Main {
 		cfg.setFullscreenMode(displayMode);
 		cfg.setForegroundFPS(60);
 
-		new Lwjgl3Application(new GameModel(), cfg);
+		new Lwjgl3Application(new PowerPipesBros(), cfg);
 	}
 }
