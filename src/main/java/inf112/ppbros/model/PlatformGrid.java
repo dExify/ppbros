@@ -39,7 +39,7 @@ public class PlatformGrid {
      * Returns a simple array of rectangles representing the hitboxes of the platforms
      * @return Rectangle[]
      */
-    private Rectangle[] getHitboxes() {
+    public Rectangle[] getHitboxes() {
         return hitboxes;
     }
 

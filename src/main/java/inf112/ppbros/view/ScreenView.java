@@ -36,13 +36,13 @@ public class ScreenView implements Screen {
 
     @Override
     public void show() {
-        //Lage kamera og shaperenderer
+        //Initiate a camera and shaperenderer
         shapeRenderer = new ShapeRenderer();
         screenRect = new Rectangle();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Kamera er på samme størrelse som skjermen
         vector = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2); //Kamera?
 
-        //Lage platformteksturen og platformGrid objektet
+        //Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
         platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
         platformGridObject = gameModel.getPlatformGrid();
