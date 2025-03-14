@@ -12,6 +12,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import inf112.ppbros.model.Coordinate;
@@ -28,10 +32,30 @@ public class ScreenView implements Screen {
     PlatformGrid platformGridObject;
     private Texture platformTexture;
     private SpriteBatch batch;
+    private Stage stage;
+    private Skin skin;
     private static final int TILE_SIZE = 80;
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
+
+        Table healthTable = new Table();
+        Table scoreTable = new Table();
+        healthTable.top().left();
+        scoreTable.top().right();
+        scoreTable.setFillParent(true);
+        healthTable.setFillParent(true);
+        stage.addActor(healthTable);
+        stage.addActor(scoreTable);
+
+        Label scoreLabel = new Label("Score: 0", skin);
+        Label healthLabel = new Label("Health: 100", skin);
+        
+        scoreTable.add(scoreLabel).pad(10);
+        healthTable.add(healthLabel).pad(10);
     }
 
     @Override
@@ -58,6 +82,8 @@ public class ScreenView implements Screen {
         mapRenderer.render();
 
         drawPlatformGrid(platformGridObject);
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
+        stage.draw();
     }
 
     /**

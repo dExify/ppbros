@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Screen;
 
 import inf112.ppbros.model.GameModel;
-import inf112.ppbros.view.GameView;
+import inf112.ppbros.view.ScreenView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,13 +15,13 @@ public class PlayerController extends InputAdapter implements Screen {
     private GameModel gameModel;
     private Texture playerTexture, enemyTexture;
     private SpriteBatch batch;
-    private GameView gameView;
+    private ScreenView gameView;
 
     // map size (should probably be moved somewhere else later)
     final float MAP_WIDTH = 480;
     final float MAP_HEIGHT = 320;
 
-    public PlayerController(GameModel gameModel, GameView gameView) {
+    public PlayerController(GameModel gameModel, ScreenView gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
         this.batch = new SpriteBatch();

@@ -39,8 +39,7 @@ public class StartMenuView implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameModel model = new GameModel();
-                GameView gameView = new GameView(game, model);
-                game.setScreen(new PlayerController(model, gameView));
+                game.setScreen(new ScreenView(model));
             }
         });
 

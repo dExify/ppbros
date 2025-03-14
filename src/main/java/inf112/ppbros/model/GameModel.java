@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import inf112.ppbros.model.Platform.PlatformMaker;
 import inf112.ppbros.view.ScreenView;
+import inf112.ppbros.view.StartMenuView;
 
 public class GameModel extends Game {
     private PlayerModel player;
@@ -17,7 +18,7 @@ public class GameModel extends Game {
     PlatformMaker platformMaker; //Move these to getPlatformGrid()?
 
     public GameModel() { // change later so it has the background and platform as parameters
-        // TODO: add necessary variables
+        this.setScreen(new StartMenuView(this));
 
 
     }
