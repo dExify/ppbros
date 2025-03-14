@@ -11,6 +11,8 @@ public class AudioController {
 
     public AudioController() {
         soundEffects = new HashMap<>();
+        loadBackgroundMusic("null");
+
     }
 
     public void loadBackgroundMusic(String filePath) {
