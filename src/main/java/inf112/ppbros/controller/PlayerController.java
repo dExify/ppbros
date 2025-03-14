@@ -11,6 +11,7 @@ import inf112.ppbros.view.GameView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import inf112.ppbros.view.GameView;
 
 public class PlayerController extends InputAdapter implements Screen{
     private GameModel gameModel;
@@ -71,24 +72,26 @@ public class PlayerController extends InputAdapter implements Screen{
 
     }
 
+
+
     @Override
     public void resize(int width, int height) {
-        
+        gameView.resize(width, height);
     }
 
     @Override
     public void pause() {
-
+        gameView.pause();
     }
 
     @Override
     public void resume() {
-
+        gameView.resume();
     }
 
     @Override
     public void hide() {
-    
+        gameView.hide();
     }
 
     @Override

@@ -11,8 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import inf112.ppbros.controller.PlayerController;
+
 // Start Menu View
 public class StartMenuView implements Screen {
+    @SuppressWarnings("unused")
     private Game game;
     private Stage stage;
     private Skin skin;
@@ -34,7 +37,8 @@ public class StartMenuView implements Screen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen((Screen) new GameView(game));
+                GameView gameView = new GameView(game);
+                game.setScreen(new PlayerController(gameView));
             }
         });
 
