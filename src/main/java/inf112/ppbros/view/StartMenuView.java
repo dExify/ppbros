@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.GameModel;
 
 // Start Menu View

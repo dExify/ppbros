@@ -8,8 +8,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
-import inf112.ppbros.model.GameModel;
-
 public class Main {
 	public static void main(String[] args) {
 		if (SharedLibraryLoader.os == Os.MacOsX) {
