@@ -47,6 +47,7 @@ public class GameModel extends Game {
     public OrthogonalTiledMapRenderer getMapRenderer() {
         TiledMap tiledMap = new TmxMapLoader().load("TileMap.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+    
         return mapRenderer;
     }
 }
