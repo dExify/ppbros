@@ -2,10 +2,13 @@ package inf112.ppbros.app;
 
 import org.lwjgl.system.Configuration;
 
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
+
+import inf112.ppbros.model.GameModel;
 
 public class Main {
 	public static void main(String[] args) {
@@ -14,8 +17,10 @@ public class Main {
 		}
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Power Pipes Bros");
-		cfg.setWindowedMode(900, 600);
+		Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+		cfg.setFullscreenMode(displayMode);
+		cfg.setForegroundFPS(60);
 
-		new Lwjgl3Application(new PowerPipesBros(), cfg);
+		new Lwjgl3Application(new GameModel(), cfg);
 	}
 }
