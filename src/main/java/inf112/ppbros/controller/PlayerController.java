@@ -3,7 +3,6 @@ package inf112.ppbros.controller;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.Screen;
 
 import inf112.ppbros.model.GameModel;
@@ -11,7 +10,6 @@ import inf112.ppbros.view.GameView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import inf112.ppbros.view.GameView;
 
 public class PlayerController extends InputAdapter implements Screen{
     private GameModel gameModel;
