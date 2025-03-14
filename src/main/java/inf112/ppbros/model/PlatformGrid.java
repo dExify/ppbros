@@ -1,11 +1,8 @@
 package inf112.ppbros.model;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.model.Platform.Platform;
@@ -17,8 +14,8 @@ public class PlatformGrid {
     private static final int GRID_HEIGHT = 12; //12x80 = 960 (nesten opp til 1080)
     private static final int TILE_SIZE = 80; //80x80 piksler
 
-    private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT]; //I piksler
-    private Rectangle[] hitboxes; //Mest effektivt? O(1)?
+    private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
+    private Rectangle[] hitboxes; //Most effective? O(1)?
     private PlatformMaker platformMaker;
     private HashSet<Coordinate> occupiedCoordinates;
 
@@ -54,8 +51,8 @@ public class PlatformGrid {
         for (int x = 0; x < pattern.length; x++) {
             for (int y = 0; y < pattern[x].length; y++) {
                 if (pattern[y][x] == 1) {
-                    int gridX = platformStart.x() + x;
-                    int gridY = platformStart.y() + y;
+                    int gridX = platformStart.x() + x - 1;
+                    int gridY = platformStart.y() + y - 1;
                     tileGrid[gridX][gridY] = 1;
                     updateOccupiedCoordinates(gridX, gridY);
                     Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
@@ -74,14 +71,18 @@ public class PlatformGrid {
         Boolean occupiedPosition = true;
         Random random = new Random();
         Coordinate coordinate = null;
-        int x;
-        int y;
+        int randomX;
+        int randomY;
         while (occupiedPosition) { //TODO: Fix this method/make a helper method. Right now it only checks the lower left position, so if the rest of the 3x3 is occupied it will still draw the platform.
-            x = random.nextInt(GRID_WIDTH - 3);
-            y = random.nextInt(GRID_HEIGHT - 3);
-            coordinate = new Coordinate(x, y);
-            if (!occupiedCoordinates.contains(coordinate)) {
-                occupiedPosition = false;
+            randomX = random.nextInt(GRID_WIDTH - 3);
+            randomY = random.nextInt(GRID_HEIGHT - 3);
+            for (int x = randomX; x < randomX + 3; x++) {
+                for (int y = randomY; y < randomY + 3; y++) {
+                    coordinate = new Coordinate(x, y);
+                    if (!occupiedCoordinates.contains(coordinate)) {
+                        occupiedPosition = false;
+                    }
+                }
             }
         }
         return coordinate;
