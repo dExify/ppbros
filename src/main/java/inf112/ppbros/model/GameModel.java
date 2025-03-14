@@ -11,20 +11,31 @@ import inf112.ppbros.view.ScreenView;
 public class GameModel extends Game {
     TiledMap tiledMap;
     OrthogonalTiledMapRenderer mapRenderer;
-    PlatformGrid platformGrid;
-    PlatformMaker platformMaker;
+    PlatformGrid platformGrid; //Move these to getPlatformGrid()?
+    PlatformMaker platformMaker; //Move these to getPlatformGrid()?
 
     @Override
     public void create() {
         this.setScreen(new ScreenView(this));
-        getPlatformGrid();
     }
 
+    /**
+     * Builds a platform grid and returns the platformGrid object
+     * @return PlatformGrid
+     */
     public PlatformGrid getPlatformGrid() {
-        platformMaker = new PlatformMaker();
+        platformMaker = new PlatformMaker(); //Abstract class?
         platformGrid = new PlatformGrid(platformMaker);
+
+        platformGrid.buildGrid(); //Here we choose how many platforms to make (very ineffective)
         platformGrid.buildGrid();
         platformGrid.buildGrid();
+        platformGrid.buildGrid();
+        platformGrid.buildGrid();
+        platformGrid.buildGrid();
+        platformGrid.buildGrid();
+        platformGrid.buildGrid();
+
         platformGrid.printArray(); //Debugging
         return platformGrid;
     }
