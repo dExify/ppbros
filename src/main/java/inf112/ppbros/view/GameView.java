@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class GameView implements Screen {
-    @SuppressWarnings("unused")
     private Game game;
     private Stage stage;
     private Skin skin;
