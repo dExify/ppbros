@@ -1,7 +1,5 @@
 package inf112.ppbros.model;
 
-import inf112.ppbros.model.EnemyModel;
-import inf112.ppbros.model.PlayerModel;
 public class GameModel {
     private PlayerModel player;
     private EnemyModel enemy;
@@ -9,14 +7,6 @@ public class GameModel {
     public GameModel() { // change later so it has the background and platform as parameters
         // TODO: add necessary variables
 
-    }
-
-    public PlayerModel getPlayer() { // might delete
-        return player;
-    }
-
-    public EnemyModel getEnemy() { // might delete
-        return enemy;
     }
 
     /** Moves player to the left based on its speed */

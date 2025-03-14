@@ -62,7 +62,7 @@ public class PlayerController extends InputAdapter implements Screen{
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(1, 1, 1, 0);
+        //ScreenUtils.clear(1, 1, 1, 0);
 
         handleInput(1);
         //drawObjects(); method to be created in view

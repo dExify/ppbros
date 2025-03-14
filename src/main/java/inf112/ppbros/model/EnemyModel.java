@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class EnemyModel implements Entity {
     private float x, y;
     private int health;
+    private final float speed;
     private final float attackRange;
     private final Rectangle collisionBox;
     private final int attackDmg;
@@ -18,6 +19,7 @@ public class EnemyModel implements Entity {
         this.x = startX;
         this.y = startY;
         this.health = 100;
+        this.speed = 50.0f;
         this.collisionBox = new Rectangle(x, y, getWidth(), getHeight());
         this.attackRange = 0;
         this.attackDmg = 10;
@@ -30,6 +32,16 @@ public class EnemyModel implements Entity {
     public void takeDamage(int damage) {
         health -= damage;
     }
+
+    @Override
+    public void move(float dx, float dy) {
+        x += dx;
+        y += dy;
+        collisionBox.setPosition(x,y);
+    }
+
+    // if platforms has patterns with elevation we should make method to check for collision
+    // and check if they can go up or down (e.g. depending on if there is a platform instance x amount of height below)
 
     @Override
     public EntityType getType() {
@@ -58,8 +70,7 @@ public class EnemyModel implements Entity {
 
     @Override
     public float getSpeed() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSpeed'");
+        return speed;
     }
 
     @Override
@@ -81,6 +92,5 @@ public class EnemyModel implements Entity {
     public int getAttackDmg() {
         return attackDmg;
     }
-    
     
 }

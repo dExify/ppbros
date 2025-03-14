@@ -21,6 +21,7 @@ public interface Entity {
      * @return rectangle collision box of entity
      */
     public Rectangle getCollisionBox();
+
     /**
      * get the x value of character
      * @return x value set for character
@@ -35,9 +36,16 @@ public interface Entity {
 
     /**
      * get the speed of character
-     * @return speed of character
+     * @return speed of character in pixel
      */
     public float getSpeed();
+
+    /** 
+     * Moves entity by updating x and y pos and updates positions for collisionBox
+     * @param dx new x position
+     * @param dy new y position
+     */
+    public void move(float dx, float dy);
 
     /**
      * get the attack range for character
@@ -47,7 +55,7 @@ public interface Entity {
 
     /**
      * get the attack damage the entity can do
-     * @return
+     * @return attack damage of entity 
      */
     public int getAttackDmg();
 

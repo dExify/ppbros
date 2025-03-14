@@ -21,20 +21,9 @@ public class PlayerModel implements Entity {
         this.collisionBox = new Rectangle(x, y, getWidth(), getHeight());
         // sets default values
         this.health = 100; 
-        this.speed = 50.0f; 
+        this.speed = 50.0f; // in pixels
         this.attackRange = 10;
         this.attackDmg = 20;
-    }
-
-    /** 
-     * Moves character based on input and updates positions for collisionBox
-     * @param dx new x position
-     * @param dy new y position
-     */
-    public void move(float dx, float dy) {
-        x += dx;
-        y += dy;
-        collisionBox.setPosition(x,y);
     }
 
     /**
@@ -46,11 +35,12 @@ public class PlayerModel implements Entity {
         if (health >= damage) {
             health -= damage;
         } else {
+            health = 0;
             // TODO: initiate GAMEE_OVER state/screen
         }
         if (health == 0) {
             // TODO: initiate GAMEE_OVER state/screen
-        } 
+        }
     }
 
     /**
@@ -79,6 +69,13 @@ public class PlayerModel implements Entity {
         return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
     }
 
+    @Override
+    public void move(float dx, float dy) {
+        x += dx;
+        y += dy;
+        collisionBox.setPosition(x,y);
+    }
+    
     @Override
     public Rectangle getCollisionBox() {
         return collisionBox;

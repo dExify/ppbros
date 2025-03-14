@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-class GameView implements Screen {
+public class GameView implements Screen {
     private Game game;
     private Stage stage;
     private Skin skin;
