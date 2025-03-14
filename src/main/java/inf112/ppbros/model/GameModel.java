@@ -5,6 +5,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import inf112.ppbros.model.Entity.EnemyModel;
+import inf112.ppbros.model.Entity.PlayerModel;
+import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.PlatformMaker;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;

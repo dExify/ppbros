@@ -1,12 +1,11 @@
-package inf112.ppbros.model;
+package inf112.ppbros.model.Platform;
 
 import java.util.HashSet;
 import java.util.Random;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import inf112.ppbros.model.Platform.Platform;
-import inf112.ppbros.model.Platform.PlatformMaker;
+import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.view.TilePositionInPixels;
 
 public class PlatformGrid {

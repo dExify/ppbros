@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
-import inf112.ppbros.model.PlatformGrid;
+import inf112.ppbros.model.Platform.PlatformGrid;
 
 public class ScreenView implements Screen {
     private GameModel gameModel;

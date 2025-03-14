@@ -1,4 +1,4 @@
-package inf112.ppbros.model;
+package inf112.ppbros.model.Entity;
 
 /** Entities can be of different types, the different types are listed in EntityType */
 public enum EntityType {
