@@ -27,6 +27,7 @@ public class ScreenView implements Screen {
     Vector2 vector;
     PlatformGrid platformGridObject;
     private Texture platformTexture;
+    private Texture platformRustyTexture;
     private SpriteBatch batch;
     private Stage stage;
     private Skin skin;
@@ -65,6 +66,7 @@ public class ScreenView implements Screen {
         //Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
         platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
+        platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
         platformGridObject = gameModel.getPlatformGrid();
     }
 
@@ -96,6 +98,9 @@ public class ScreenView implements Screen {
                 } else if (grid[x][y] == 1) {
                     Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
                     batch.draw(platformTexture, platformPixelPos.x(), platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                } else if (grid[x][y] == 2) {
+                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
+                    batch.draw(platformRustyTexture, platformPixelPos.x(), platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
                 } else { //Here we can choose what type of tiles to draw based on the integer in the 2D array
                     continue;
                 }

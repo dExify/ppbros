@@ -28,48 +28,47 @@ public class PlatformMaker { //Abstrakt klasse?
     private Platform newPlatform(int randInt) {
         int[][] pattern;
     
-        // switch (randInt) { //Here we can add the 
+        // switch (randInt) {
         //     case 1:
         //         pattern = new int[][] {
-        //         { 1, 0, 0},
-        //         { 1, 0, 0},
-        //         { 1, 1, 1}
+        //             { 0, 0, 1, 1},
+        //             { 0, 0, 0, 0},
+        //             { 1, 1, 0, 0},
         //         };
         //         break;
         //     case 2:
         //         pattern = new int[][] {
-        //         { 0, 0, 1},
-        //         { 0, 1, 0},
-        //         { 1, 0, 0}
+        //             { 0, 0, 0, 0},
+        //             { 1, 1, 0, 0},
+        //             { 0, 0, 1, 1},
         //         };
         //         break;
         //     case 3:
         //         pattern = new int[][] {
-        //         { 0, 0, 1},
-        //         { 1, 0, 1},
-        //         { 1, 1, 1}
+        //             { 0, 0, 0, 0},
+        //             { 1, 1, 1, 1},
+        //             { 0, 0, 0, 0},
         //     };
         //     break;
         //     case 4:
         //         pattern = new int[][] {
-        //         { 1, 1, 0},
-        //         { 0, 0, 0},
-        //         { 0, 1, 1}
+        //             { 0, 1, 1, 1},
+        //             { 0, 0, 0, 0},
+        //             { 1, 1, 0, 1},
         //     };
         //     break;
         //     default:
         //         pattern = new int[][] {
-        //         { 0, 0, 0},
-        //         { 1, 1, 1},
-        //         { 0, 0, 0}
+        //             { 1, 0, 0, 0},
+        //             { 1, 1, 0, 0},
+        //             { 0, 1, 1, 1},
         //         };
         //         break;
         // } 
-    
-        pattern = new int[][] {
-            { 1, 1, 1},
-            { 1, 0, 1},
-            { 1, 1, 1}
+            pattern = new int[][] {
+                { 2, 2, 2, 2},
+                { 1, 0, 0, 1},
+                { 1, 1, 1, 1},
             };
         return new Platform(pattern);
     }
