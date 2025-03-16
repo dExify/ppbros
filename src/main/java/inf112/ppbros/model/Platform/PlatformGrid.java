@@ -89,8 +89,8 @@ public class PlatformGrid {
             randomX = random.nextInt(GRID_WIDTH - 4);
             randomY = random.nextInt(GRID_HEIGHT - 3);
             startCoordinate = new Coordinate(randomX, randomY);
-            for (int x = randomX; x < randomX + 4; x++) {
-                for (int y = randomY; y < randomY + 3; y++) {
+            for (int y = randomY; y < randomY + 3; y++) {
+                for (int x = randomX; x < randomX + 4; x++) {
                     coordinate = new Coordinate(x, y);
                     if (!occupiedCoordinates.contains(coordinate)) {
                         vacantPosCount += 1;
