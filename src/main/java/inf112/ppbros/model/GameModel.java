@@ -22,8 +22,6 @@ public class GameModel extends Game {
 
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
-
-
     }
 
     /** Moves player to the left based on its speed */
@@ -107,8 +105,6 @@ public class GameModel extends Game {
         platformGrid = new PlatformGrid(platformMaker);
 
         platformGrid.buildGrid(); //Here we choose how many platforms to make (very ineffective)
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
         platformGrid.buildGrid();
         platformGrid.buildGrid();
         platformGrid.buildGrid();

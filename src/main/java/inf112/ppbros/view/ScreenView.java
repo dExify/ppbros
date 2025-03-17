@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.Platform.PlatformGrid;
+import inf112.ppbros.model.Platform.TileConfig;
 
 public class ScreenView implements Screen {
     private GameModel gameModel;
@@ -31,7 +32,7 @@ public class ScreenView implements Screen {
     private SpriteBatch batch;
     private Stage stage;
     private Skin skin;
-    private static final int TILE_SIZE = 80;
+    private static final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
