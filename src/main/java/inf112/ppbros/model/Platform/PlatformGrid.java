@@ -9,12 +9,12 @@ import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.view.TilePositionInPixels;
 
 public class PlatformGrid {
-    private static final int GRID_WIDTH = 24;
-    private static final int GRID_HEIGHT = 12;
-    private static final int TILE_SIZE = 80; //80x80 piksler
+    private static final int GRID_WIDTH = TileConfig.GRID_WIDTH;
+    private static final int GRID_HEIGHT = TileConfig.GRID_HEIGHT;
+    private static final int TILE_SIZE = TileConfig.TILE_SIZE;
 
     private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
-    private Rectangle[] hitboxes; //Most effective? O(1)?
+    private Rectangle[] hitboxes;
     private PlatformMaker platformMaker;
     private HashSet<Coordinate> occupiedCoordinates;
 
@@ -123,5 +123,16 @@ public class PlatformGrid {
         }
         System.out.println();
     }
+
+    // public void printArray() { // debugging
+    //     System.out.println("Platform grid upside down :");
+    //     for (int y = tileGrid[0].length; y < 0; y--) {
+    //         for (int x = 0; x < tileGrid.length; x++) {
+    //             System.out.print(tileGrid[x][y] + " ");
+    //         }
+    //         System.out.println();
+    //     }
+    //     System.out.println();
+    // }
 
 }

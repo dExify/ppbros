@@ -66,8 +66,8 @@ public class PlatformMaker { //Abstrakt klasse?
         //         break;
         // } 
             pattern = new int[][] {
-                { 1, 0, 0, 0},
-                { 1, 0, 0, 0},
+                { 1, 1, 1, 1},
+                { 1, 0, 0, 1},
                 { 1, 1, 1, 1},
             };
         return new Platform(pattern);

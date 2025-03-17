@@ -118,8 +118,6 @@ public class GameModel extends Game {
         platformGrid.buildGrid();
         platformGrid.buildGrid();
         platformGrid.buildGrid();
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
 
         platformGrid.printArray(); //Debugging
         return platformGrid;
