@@ -1,32 +1,32 @@
 # INF112 - Power Pipes Bros
 **Team:** *Sample group* – *Luka Silic, Even Tveit, Ole Christian Sollid, Åse Holen*
 
-## Roller
+## Roles
 - Customer contact / Developer - Åse Holen
 - Git manager / Developer - Ole Christian Sollid
-- Assetansvarlig / Developer - Luka Silic
-- Assetansvarlig / Developer - Even Tveit
+- Asset manager / Developer - Luka Silic
+- Asset manager / Developer - Even Tveit
 
-## Konsept
+## Concept
 
-### Spillmekanikk:
-- Spillbare figurer: To spillere kan styre hver sin figur, en med WASD og en med piltastene.
-- Bevegelse: Spillfigurene kan gå til venstre/høyre og hoppe oppover.
-- Kamp: Spillerne kan slå fiender for å eliminere dem.
+### Game mechanic:
+- Playable character: Two players can control each of their character, one with 'WASD'-keys and one with arrow buttons.
+- Movement: Playable characters can move left/right and jump up.
+- Combat: Players can hit enemies to eliminate them.
 
-### Spillverden:
-- Plattformbasert: Plattformene forsvinner nedover i voiden, noe som tvinger spillerne til å stadig bevege seg oppover.
-- Dynamiske fiender: Hver ny plattform introduserer nye fiender med varierende utfordringer.
+### Game world:
+- Platform based: Platforms disappears down in the void as the camera moves up, which forces players to be constantly moving upwards.
+- Dynamic enemies: With new platforms introduces new enemies with various of challenges.
 
-### Mål og progresjon:
-- Poengsystem: Spilleren får poeng ved å slå fiender.
-- Nivåer og bosser: Når en spiller når et viss antall poeng (kills), går de videre til neste nivå, og en boss spawner.
-- Økende vanskelighetsgrad: Spillet blir progressivt vanskeligere etter hvert som spillerne samler flere poeng.
-- Mål: Holde seg i livet og samle så mange poeng som mulig.
+### Goal and progression:
+- Score system: The player earns points by defeating enemies.
+- Levels and bosses: When a player reaches a certain amount of points (kills), they have to kill a boss to move on to next level.
+- Increasing in difficulty: The game becomes progressively more difficult as players accumulate more points.
+- Goal: Stay alive and collect as many points as possible.
 
-## Kjøring
-* Kompileres med `mvn package`.
-* Kjøres med `java -jar target/power-pipes-bros-1.0-SNAPSHOT-fat.jar`
-* Krever Java 21+
+## Runner
+* Compiles with `mvn package`.
+* Runs with `java -jar target/power-pipes-bros-1.0-SNAPSHOT-fat.jar`
+* Requires Java 21+
 
 ## Credits
