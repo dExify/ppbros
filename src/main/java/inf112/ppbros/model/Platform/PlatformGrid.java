@@ -1,5 +1,6 @@
 package inf112.ppbros.model.Platform;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -14,13 +15,14 @@ public class PlatformGrid {
     private static final int TILE_SIZE = TileConfig.TILE_SIZE;
 
     private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
-    private Rectangle[] hitboxes;
+    private ArrayList<Rectangle> hitboxes;
     private PlatformMaker platformMaker;
     private HashSet<Coordinate> occupiedCoordinates;
 
     public PlatformGrid(PlatformMaker maker) {
         this.platformMaker = maker;
         this.occupiedCoordinates = new HashSet<>();
+        this.hitboxes = new ArrayList<>();
     }
 
     /**
@@ -35,7 +37,7 @@ public class PlatformGrid {
      * Returns a simple array of rectangles representing the hitboxes of the platforms
      * @return Rectangle[]
      */
-    public Rectangle[] getHitboxes() {
+    public ArrayList<Rectangle> getHitboxes() {
         return hitboxes;
     }
 
@@ -59,7 +61,7 @@ public class PlatformGrid {
                         }
                     }
                 }
-                addNoSpawnZone(platformStart);
+                // addNoSpawnZone(platformStart);
             } catch (Exception e) {
                 System.out.println("The " + i + "th platform couldnt be placed on grid"); //debugging
             }
@@ -74,7 +76,11 @@ public class PlatformGrid {
         int startY = platformStart.y() + 3;
         for (int x = startX; (x < startX + 4) && x < GRID_WIDTH; x++) {
             for (int y = startY; (y < startY + 2) && y < GRID_HEIGHT; y++) {
-                insertTile(-1, new Coordinate(startX, startY), x, y);
+                // insertTile(-1, new Coordinate(startX, startY), x, y);
+                int gridX = platformStart.x() + x;
+                int gridY = platformStart.y() + y;
+                tileGrid[gridX][gridY] = -1;
+                updateOccupiedCoordinates(gridX, gridY);
             }
         }
     }    
@@ -92,7 +98,7 @@ public class PlatformGrid {
         tileGrid[gridX][gridY] = tileType;
         updateOccupiedCoordinates(gridX, gridY);
         Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
-        new Rectangle(tilePosInPixels.x(), tilePosInPixels.y(), TILE_SIZE, TILE_SIZE);
+        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y(), TILE_SIZE, TILE_SIZE));
     }
 
     /**
