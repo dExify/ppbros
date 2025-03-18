@@ -22,6 +22,12 @@ public class GameModel extends Game {
 
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
+        this.player = new PlayerModel(50, 50);
+
+    }
+
+    public PlayerModel getPlayer() {
+        return player;
     }
 
     /** Moves player to the left based on its speed */

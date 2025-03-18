@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
+import inf112.ppbros.model.Entity.PlayerModel;
 import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.TileConfig;
 
@@ -34,12 +35,15 @@ public class ScreenView implements Screen {
     private Stage stage;
     private Skin skin;
     private static final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
+    private PlayerModel player;
+    private Texture playerTexture;
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
+        playerTexture = new Texture(Gdx.files.internal("character.png"));
 
         Table healthTable = new Table();
         Table scoreTable = new Table();
@@ -71,6 +75,8 @@ public class ScreenView implements Screen {
         platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
         redX = new Texture(Gdx.files.internal("redX.png"));
         platformGridObject = gameModel.getPlatformGrid();
+
+        player = gameModel.getPlayer();
     }
 
     @Override
@@ -85,6 +91,8 @@ public class ScreenView implements Screen {
         drawPlatformGrid(platformGridObject);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
+
+        drawPlayer();
     }
 
     /**
@@ -112,6 +120,12 @@ public class ScreenView implements Screen {
                 }
             }
         }
+        batch.end();
+    }
+
+    private void drawPlayer() {
+        batch.begin();
+        batch.draw(playerTexture, player.getX(), player.getY(), 46, 68);
         batch.end();
     }
 
