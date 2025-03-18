@@ -8,12 +8,12 @@ import inf112.ppbros.view.ScreenView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+/** 
+ * The controller for Power Pipes Bros characters.
+ * This class handles input for any playable characters. 
+ */
 public class PlayerController extends InputAdapter {
     private GameModel gameModel;
-    
-    // map size (should probably be moved somewhere else later)
-    final float MAP_WIDTH = 480;
-    final float MAP_HEIGHT = 320;
     
     public PlayerController(GameModel gameModel, ScreenView gameView) {
         this.gameModel = gameModel;
@@ -23,6 +23,7 @@ public class PlayerController extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
+            // inputs for movement
             case Input.Keys.D:
             System.out.println("D PRESSED");
             gameModel.movePlayerRight(1);
@@ -40,6 +41,7 @@ public class PlayerController extends InputAdapter {
             gameModel.movePlayerDown(1);
             break;
             case Input.Keys.F:
+            // when F is pressed, checks to see if player can attack
             if (gameModel.canPlayerAttack()) {
                 System.out.println("Hit registered!");
                 gameModel.playerAttacksEnemy();
@@ -47,6 +49,9 @@ public class PlayerController extends InputAdapter {
                 System.out.println("No hit");
             }
             break;
+            // close program with escape button
+            case Input.Keys.ESCAPE:
+            Gdx.app.exit();
         }
         return true; // Return true to indicate input was handled
     }
