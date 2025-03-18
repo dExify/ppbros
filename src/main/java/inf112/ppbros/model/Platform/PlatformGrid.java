@@ -72,7 +72,6 @@ public class PlatformGrid {
     private void addNoSpawnZone(Coordinate platformStart) {
         int startX = platformStart.x();
         int startY = platformStart.y() + 3;
-    
         for (int x = startX; (x < startX + 4) && x < GRID_WIDTH; x++) {
             for (int y = startY; (y < startY + 2) && y < GRID_HEIGHT; y++) {
                 tileGrid[x][y] = -1;
