@@ -40,7 +40,6 @@ public class ScreenView implements Screen {
     public ScreenView(GameModel model) {
         this.gameModel = model;
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
         playerTexture = new Texture(Gdx.files.internal("character.png"));
 

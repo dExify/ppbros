@@ -11,16 +11,16 @@ import inf112.ppbros.view.ScreenView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-public class PlayerController extends InputAdapter implements Screen {
+public class PlayerController extends InputAdapter {
     private GameModel gameModel;
     private Texture playerTexture, enemyTexture;
     private SpriteBatch batch;
     private ScreenView gameView;
-
+    
     // map size (should probably be moved somewhere else later)
     final float MAP_WIDTH = 480;
     final float MAP_HEIGHT = 320;
-
+    
     public PlayerController(GameModel gameModel, ScreenView gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
@@ -29,73 +29,36 @@ public class PlayerController extends InputAdapter implements Screen {
         //this.enemyTexture = new Texture(Gdx.files.internal("enemy.png"));
         Gdx.input.setInputProcessor(this);
     }
-
-    public void handleInput(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            gameModel.movePlayerRight(delta);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            gameModel.movePlayerLeft(delta);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            gameModel.movePlayerUp(delta);    
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            gameModel.movePlayerDown(delta);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+    
+    @Override
+    public boolean keyDown(int keycode) {
+        switch (keycode) {
+            case Input.Keys.D:
+            System.out.println("D PRESSED");
+            gameModel.movePlayerRight(1);
+            break;
+            case Input.Keys.A:
+            System.out.println("A PRESSED");
+            gameModel.movePlayerLeft(1);
+            break;
+            case Input.Keys.W:
+            System.out.println("W PRESSED");
+            gameModel.movePlayerUp(1);
+            break;
+            case Input.Keys.S:
+            System.out.println("S PRESSED");
+            gameModel.movePlayerDown(1);
+            break;
+            case Input.Keys.F:
             if (gameModel.canPlayerAttack()) {
                 System.out.println("Hit registered!");
                 gameModel.playerAttacksEnemy();
             } else {
                 System.out.println("No hit");
             }
+            break;
         }
+        return true; // Return true to indicate input was handled
     }
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
-        //ScreenUtils.clear(1, 1, 1, 0);
-
-        handleInput(1);
-        //drawObjects(); method to be created in view
-        
-        gameView.render(delta);
-
-    }
-
-
-
-    @Override
-    public void resize(int width, int height) {
-        gameView.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-        gameView.pause();
-    }
-
-    @Override
-    public void resume() {
-        gameView.resume();
-    }
-
-    @Override
-    public void hide() {
-        gameView.hide();
-    }
-
-    @Override
-    public void dispose() {
-       batch.dispose();
-       playerTexture.dispose();
-       enemyTexture.dispose();
-    }
+    
 }
