@@ -74,8 +74,7 @@ public class PlatformGrid {
         int startY = platformStart.y() + 3;
         for (int x = startX; (x < startX + 4) && x < GRID_WIDTH; x++) {
             for (int y = startY; (y < startY + 2) && y < GRID_HEIGHT; y++) {
-                tileGrid[x][y] = -1;
-                updateOccupiedCoordinates(x, y);
+                insertTile(-1, new Coordinate(startX, startY), x, y);
             }
         }
     }    
