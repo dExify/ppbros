@@ -18,6 +18,7 @@ import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.Entity.PlayerModel;
 import inf112.ppbros.model.Platform.PlatformGrid;
+import inf112.ppbros.model.Platform.TileConfig;
 
 public class ScreenView implements Screen {
     private GameModel gameModel;
@@ -28,10 +29,11 @@ public class ScreenView implements Screen {
     Vector2 vector;
     PlatformGrid platformGridObject;
     private Texture platformTexture;
+    private Texture platformRustyTexture;
     private SpriteBatch batch;
     private Stage stage;
     private Skin skin;
-    private static final int TILE_SIZE = 80;
+    private static final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
     private PlayerModel player;
     private Texture playerTexture;
 
@@ -69,6 +71,7 @@ public class ScreenView implements Screen {
         //Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
         platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
+        platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
         platformGridObject = gameModel.getPlatformGrid();
 
         player = gameModel.getPlayer();
@@ -104,6 +107,9 @@ public class ScreenView implements Screen {
                 } else if (grid[x][y] == 1) {
                     Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
                     batch.draw(platformTexture, platformPixelPos.x(), platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                } else if (grid[x][y] == 2) {
+                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
+                    batch.draw(platformRustyTexture, platformPixelPos.x(), platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
                 } else { //Here we can choose what type of tiles to draw based on the integer in the 2D array
                     continue;
                 }
