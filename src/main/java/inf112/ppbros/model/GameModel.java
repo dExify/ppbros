@@ -101,18 +101,9 @@ public class GameModel extends Game {
      * @return PlatformGrid
      */
     public PlatformGrid getPlatformGrid() {
-        platformMaker = new PlatformMaker(); //Abstract class?
+        platformMaker = new PlatformMaker();
         platformGrid = new PlatformGrid(platformMaker);
-
-        platformGrid.buildGrid(); //Here we choose how many platforms to make (very ineffective)
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
-        platformGrid.buildGrid();
-
+        platformGrid.buildGrid(28);
         platformGrid.printArray(); //Debugging
         return platformGrid;
     }
