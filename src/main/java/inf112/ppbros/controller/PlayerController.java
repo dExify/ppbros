@@ -17,8 +17,6 @@ public class PlayerController extends InputAdapter {
     
     public PlayerController(GameModel gameModel, ScreenView gameView) {
         this.gameModel = gameModel;
-        //this.playerTexture = new Texture(Gdx.files.internal("character.png"));
-        //this.enemyTexture = new Texture(Gdx.files.internal("enemy.png"));
         Gdx.input.setInputProcessor(this);
     }
     
