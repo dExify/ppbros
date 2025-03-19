@@ -109,7 +109,7 @@ public class GameModel extends Game {
     public PlatformGrid getPlatformGrid() {
         platformMaker = new PlatformMaker();
         platformGrid = new PlatformGrid(platformMaker);
-        platformGrid.buildGrid(15);
+        platformGrid.buildGrid(25);
         platformGrid.printArray(); //Debugging
         return platformGrid;
     }

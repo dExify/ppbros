@@ -61,7 +61,7 @@ public class PlatformGrid {
                         }
                     }
                 }
-                // addNoSpawnZone(platformStart);
+                addNoSpawnZone(platformStart);
             } catch (Exception e) {
                 System.out.println("The " + i + "th platform couldnt be placed on grid"); //debugging
             }
@@ -76,11 +76,8 @@ public class PlatformGrid {
         int startY = platformStart.y() + 3;
         for (int x = startX; (x < startX + 4) && x < GRID_WIDTH; x++) {
             for (int y = startY; (y < startY + 2) && y < GRID_HEIGHT; y++) {
-                // insertTile(-1, new Coordinate(startX, startY), x, y);
-                int gridX = platformStart.x() + x;
-                int gridY = platformStart.y() + y;
-                tileGrid[gridX][gridY] = -1;
-                updateOccupiedCoordinates(gridX, gridY);
+                tileGrid[x][y] = -1;
+                updateOccupiedCoordinates(x, y);
             }
         }
     }    
@@ -118,7 +115,7 @@ public class PlatformGrid {
             randomX = random.nextInt(GRID_WIDTH - 3);
             randomY = random.nextInt(GRID_HEIGHT - 2);
             startCoordinate = new Coordinate(randomX, randomY);
-            for (int y = randomY; y < randomY + 3; y++) {
+            for (int y = randomY; y < randomY + 5; y++) {
                 for (int x = randomX; x < randomX + 4; x++) {
                     coordinate = new Coordinate(x, y);
                     if (!occupiedCoordinates.contains(coordinate)) {
@@ -126,7 +123,7 @@ public class PlatformGrid {
                     } //Break earlier than vacantPosCount == 12 if occupiedposition is detected?
                 }
             }
-            if (vacantPosCount == 12) {
+            if (vacantPosCount == 20) {
                 occupiedPosition = false;
             }
             checks += 1;
