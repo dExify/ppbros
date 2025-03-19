@@ -45,42 +45,52 @@ public class PlatformGrid {
      * Builds a platform grid and updates the tileGrid 2D array with the correct values. 
      * Also updates the hitboxes simple array to include the new platforms
      */
+    // public void buildGrid(int platformCount) {
+    //     Coordinate platformStart;
+    //     Platform platform;
+    //     int[][] pattern;
+    //     for (int i = 0; i <= platformCount; i++) {
+    //         try { //Bad code style? Potentially too much code in try
+    //             platformStart = getPlatformStart();
+    //             platform = platformMaker.getNext();
+    //             pattern = platform.getPlatform();
+    //             for (int y = 0; y < pattern.length; y++) {
+    //                 for (int x = 0; x < pattern[y].length; x++) {
+    //                     if (pattern[y][x] != 0) {
+    //                         insertTile(pattern[y][x], platformStart, x, y);
+    //                     }
+    //                 }
+    //             }
+    //             addNoSpawnZone(platformStart);
+    //         } catch (Exception e) {
+    //             System.out.println("The " + i + "th platform couldnt be placed on grid"); //debugging
+    //         }
+    //     }
+    // }
     public void buildGrid(int platformCount) {
-        Coordinate platformStart;
-        Platform platform;
-        int[][] pattern;
-        for (int i = 0; i <= platformCount; i++) {
-            try { //Bad code style? Potentially too much code in try
-                platformStart = getPlatformStart();
-                platform = platformMaker.getNext();
-                pattern = platform.getPlatform();
-                for (int y = 0; y < pattern.length; y++) {
-                    for (int x = 0; x < pattern[y].length; x++) {
-                        if (pattern[y][x] != 0) {
-                            insertTile(pattern[y][x], platformStart, x, y);
-                        }
+        for (int i = 0; i < platformCount; i++) {
+            Coordinate start = getPlatformStart();
+            
+            if (start == null) {
+                // Hvis getPlatformStart returnerer null, 
+                // betyr det at vi ikke fant en gyldig plass
+                System.out.println("Fant ingen plass for plattform nr. " + i);
+                continue; // hopper over resten av denne løkken
+            }
+            
+            // Hvis vi kommer hit, har vi en gyldig start
+            Platform platform = platformMaker.getNext();
+            int[][] pattern = platform.getPlatform();
+    
+            for (int y = 0; y < pattern.length; y++) {
+                for (int x = 0; x < pattern[y].length; x++) {
+                    if (pattern[y][x] != 0) {
+                        insertTile(pattern[y][x], start, x, y);
                     }
-                }
-                addNoSpawnZone(platformStart);
-            } catch (Exception e) {
-                System.out.println("The " + i + "th platform couldnt be placed on grid"); //debugging
+                }   
             }
         }
     }
-
-    /**
-     * Updates the grid above a platform with values so that other platforms dont spawn too close to each other.
-     */
-    private void addNoSpawnZone(Coordinate platformStart) {
-        int startX = platformStart.x();
-        int startY = platformStart.y() + 3;
-        for (int x = startX; (x < startX + 4) && x < GRID_WIDTH; x++) {
-            for (int y = startY; (y < startY + 2) && y < GRID_HEIGHT; y++) {
-                tileGrid[x][y] = -1;
-                updateOccupiedCoordinates(x, y);
-            }
-        }
-    }    
 
     /**
      * Updates the tileGrid 2D array with the correct tile type
@@ -115,15 +125,18 @@ public class PlatformGrid {
             randomX = random.nextInt(GRID_WIDTH - 3);
             randomY = random.nextInt(GRID_HEIGHT - 2);
             startCoordinate = new Coordinate(randomX, randomY);
+            outerLoop:
             for (int y = randomY; y < randomY + 5; y++) {
-                for (int x = randomX; x < randomX + 4; x++) {
+                for (int x = randomX - 1; x < randomX + 5; x++) {
                     coordinate = new Coordinate(x, y);
                     if (!occupiedCoordinates.contains(coordinate)) {
                         vacantPosCount += 1;
-                    } //Break earlier than vacantPosCount == 12 if occupiedposition is detected?
+                    } else {
+                        break outerLoop;
+                    }
                 }
             }
-            if (vacantPosCount == 20) {
+            if (vacantPosCount == 30) {
                 occupiedPosition = false;
             }
             checks += 1;
@@ -144,6 +157,9 @@ public class PlatformGrid {
         occupiedCoordinates.add(new Coordinate(x, y));
     }
 
+    /**
+     * Prints a text representation of the array
+     */
     public void printArray() { // debugging
         System.out.println("Platform grid upside down :");
         for (int y = 0; y < tileGrid[0].length; y++) {

@@ -1,9 +1,8 @@
 package inf112.ppbros.model;
 
+import java.util.Timer;
+
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import inf112.ppbros.model.Entity.EnemyModel;
 import inf112.ppbros.model.Entity.PlayerModel;
@@ -15,15 +14,19 @@ import inf112.ppbros.view.StartMenuView;
 public class GameModel extends Game {
     private PlayerModel player;
     private EnemyModel enemy;
-    TiledMap tiledMap;  
-    OrthogonalTiledMapRenderer mapRenderer;
-    PlatformGrid platformGrid; //Move these to getPlatformGrid()?
-    PlatformMaker platformMaker; //Move these to getPlatformGrid()?
-
+    private int cameraPos;
+    private PlatformGrid platformGrid; //Move these to getPlatformGrid()?
+    private PlatformMaker platformMaker; //Move these to getPlatformGrid()?
+    private Timer timer;
+    private CameraXPos timerTask;
+    
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
         this.player = new PlayerModel(50, 50);
-
+        this.cameraPos = 0;
+        this.timer = new Timer();
+        this.timerTask = new CameraXPos();
+        timer.scheduleAtFixedRate(timerTask, 1, 500);
     }
 
     public PlayerModel getPlayer() {
@@ -115,13 +118,15 @@ public class GameModel extends Game {
     }
 
     /**
-     * Returns the tile background
-     * @return OrthogonalTiledMapRenderer
+     * Returns an integer that represents the x coordiante of the viewport
+     * @return int
      */
-    public OrthogonalTiledMapRenderer getMapRenderer() {
-        TiledMap tiledMap = new TmxMapLoader().load("TileMap.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-    
-        return mapRenderer;
+    public int getCameraXCoordinate() {
+        cameraPos = timerTask.getCameraPos();
+        return cameraPos;
+    }
+
+    public void dispose() {
+        timer.cancel();
     }
 }

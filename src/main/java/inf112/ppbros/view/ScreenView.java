@@ -37,6 +37,7 @@ public class ScreenView implements Screen {
     private static final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
     private PlayerModel player;
     private Texture playerTexture;
+    private Texture mapTexture;
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
@@ -73,7 +74,9 @@ public class ScreenView implements Screen {
         batch = new SpriteBatch();
         platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
         platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
+        mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
         redX = new Texture(Gdx.files.internal("redX.png"));
+
         platformGridObject = gameModel.getPlatformGrid();
 
         player = gameModel.getPlayer();
@@ -81,18 +84,27 @@ public class ScreenView implements Screen {
 
     @Override
     public void render(float delta) {
+        vector = new Vector2(1000, Gdx.graphics.getHeight()/2);
+        // gameModel.getCameraXCoordinate()
         camera.position.set(vector, 0);
         camera.update();
 
-        mapRenderer = gameModel.getMapRenderer();
-        mapRenderer.setView(camera);
-        mapRenderer.render();
-
+        drawBackground(); //Should only run once
         drawPlatformGrid(platformGridObject);
+
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
 
         drawPlayer();
+    }
+
+    private void drawBackground() {
+        batch.begin();
+        batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
+        // batch.setColor(0F, 0F, 0F, 1F); //Set brightness to 0% (debugging)
+        batch.draw(mapTexture, 0, 0, 1920, 4800);
+        batch.setColor(1F, 1F, 1F, 1F);
+        batch.end();
     }
 
     /**
