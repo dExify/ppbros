@@ -11,7 +11,7 @@ public class CameraXPos extends TimerTask {
     }
     @Override
     public void run() {
-        cameraXPos += 50;
+        cameraXPos += 1;
         System.out.println(cameraXPos);
     }
 

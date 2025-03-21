@@ -26,7 +26,7 @@ public class GameModel extends Game {
         this.cameraPos = 0;
         this.timer = new Timer();
         this.timerTask = new CameraXPos();
-        timer.scheduleAtFixedRate(timerTask, 1, 500);
+        timer.scheduleAtFixedRate(timerTask, 1, 25);
     }
 
     public PlayerModel getPlayer() {
@@ -121,7 +121,7 @@ public class GameModel extends Game {
      * Returns an integer that represents the x coordiante of the viewport
      * @return int
      */
-    public int getCameraXCoordinate() {
+    public int getCameraYCoordinate() {
         cameraPos = timerTask.getCameraPos();
         return cameraPos;
     }
