@@ -17,6 +17,7 @@ public class Main {
 		cfg.setTitle("Power Pipes Bros");
 		Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
 		cfg.setFullscreenMode(displayMode);
+		// cfg.setWindowedMode(1600, 900);
 		cfg.setForegroundFPS(60);
 
 		new Lwjgl3Application(new PowerPipesBros(), cfg);
