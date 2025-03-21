@@ -24,10 +24,9 @@ public class ScreenView implements Screen {
     private GameModel gameModel;
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
-    OrthogonalTiledMapRenderer mapRenderer;
-    OrthographicCamera camera;
-    Vector2 vector;
-    PlatformGrid platformGridObject;
+    private OrthographicCamera camera;
+    private Vector2 vector;
+    private PlatformGrid platformGridObject;
     private Texture platformTexture;
     private Texture platformRustyTexture;
     private Texture redX;
@@ -68,7 +67,7 @@ public class ScreenView implements Screen {
         shapeRenderer = new ShapeRenderer();
         screenRect = new Rectangle();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Kamera er på samme størrelse som skjermen
-        vector = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2); //Kamera?
+        vector = new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Kamera?
 
         //Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
@@ -84,11 +83,10 @@ public class ScreenView implements Screen {
 
     @Override
     public void render(float delta) {
-        vector = new Vector2(1000, Gdx.graphics.getHeight()/2);
-        // gameModel.getCameraXCoordinate()
-        camera.position.set(vector, 0);
+        // camera.position.set(vector, 0);
+        camera.position.y = gameModel.getCameraXCoordinate();
         camera.update();
-
+ 
         drawBackground(); //Should only run once
         drawPlatformGrid(platformGridObject);
 
