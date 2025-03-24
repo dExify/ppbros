@@ -13,16 +13,19 @@ public class PlatformGrid {
     private static final int GRID_WIDTH = TileConfig.GRID_WIDTH;
     private static final int GRID_HEIGHT = TileConfig.GRID_HEIGHT;
     private static final int TILE_SIZE = TileConfig.TILE_SIZE;
+    private static final int platformGridHeight = TileConfig.platformGridHeightInPixels;;
 
     private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
     private ArrayList<Rectangle> hitboxes;
     private PlatformMaker platformMaker;
     private HashSet<Coordinate> occupiedCoordinates;
+    private int yPos;
 
-    public PlatformGrid(PlatformMaker maker) {
+    public PlatformGrid(PlatformMaker maker, int iteration) {
         this.platformMaker = maker;
         this.occupiedCoordinates = new HashSet<>();
         this.hitboxes = new ArrayList<>();
+        this.yPos = iteration * platformGridHeight;
     }
 
     /**
@@ -33,6 +36,10 @@ public class PlatformGrid {
         return tileGrid;
     }
 
+    public int getYPos() {
+        return yPos;
+    }
+
     /**
      * Returns a simple array of rectangles representing the hitboxes of the platforms
      * @return Rectangle[]
@@ -41,47 +48,15 @@ public class PlatformGrid {
         return hitboxes;
     }
 
-    /**
-     * Builds a platform grid and updates the tileGrid 2D array with the correct values. 
-     * Also updates the hitboxes simple array to include the new platforms
-     */
-    // public void buildGrid(int platformCount) {
-    //     Coordinate platformStart;
-    //     Platform platform;
-    //     int[][] pattern;
-    //     for (int i = 0; i <= platformCount; i++) {
-    //         try { //Bad code style? Potentially too much code in try
-    //             platformStart = getPlatformStart();
-    //             platform = platformMaker.getNext();
-    //             pattern = platform.getPlatform();
-    //             for (int y = 0; y < pattern.length; y++) {
-    //                 for (int x = 0; x < pattern[y].length; x++) {
-    //                     if (pattern[y][x] != 0) {
-    //                         insertTile(pattern[y][x], platformStart, x, y);
-    //                     }
-    //                 }
-    //             }
-    //             addNoSpawnZone(platformStart);
-    //         } catch (Exception e) {
-    //             System.out.println("The " + i + "th platform couldnt be placed on grid"); //debugging
-    //         }
-    //     }
-    // }
     public void buildGrid(int platformCount) {
         for (int i = 0; i < platformCount; i++) {
             Coordinate start = getPlatformStart();
-            
             if (start == null) {
-                // Hvis getPlatformStart returnerer null, 
-                // betyr det at vi ikke fant en gyldig plass
-                System.out.println("Fant ingen plass for plattform nr. " + i);
-                continue; // hopper over resten av denne løkken
+                // System.out.println("Fant ingen plass for plattform nr. " + i); Debugging
+                continue;
             }
-            
-            // Hvis vi kommer hit, har vi en gyldig start
             Platform platform = platformMaker.getNext();
             int[][] pattern = platform.getPlatform();
-    
             for (int y = 0; y < pattern.length; y++) {
                 for (int x = 0; x < pattern[y].length; x++) {
                     if (pattern[y][x] != 0) {
@@ -99,7 +74,7 @@ public class PlatformGrid {
      * @param x
      * @param y
      */
-    private void insertTile(int tileType, Coordinate platformStart, int x, int y) {
+    private void insertTile(int tileType, Coordinate platformStart, int x, int y) { //Todo: Update this method so that it is affected by yPos
         int gridX = platformStart.x() + x;
         int gridY = platformStart.y() + y;
         tileGrid[gridX][gridY] = tileType;
