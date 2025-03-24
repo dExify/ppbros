@@ -26,7 +26,7 @@ public class GameModel extends Game {
         this.cameraPos = 0;
         this.timer = new Timer();
         this.timerTask = new CameraXPos();
-        timer.scheduleAtFixedRate(timerTask, 1, 3);
+        timer.scheduleAtFixedRate(timerTask, 0, 5);
         this.platformGridMaker = new PlatformGridMaker();
     }
 

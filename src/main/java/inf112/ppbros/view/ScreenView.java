@@ -109,7 +109,8 @@ public class ScreenView implements Screen {
         batch.begin();
         batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
         // batch.setColor(0F, 0F, 0F, 1F); //Set brightness to 0% (debugging)
-        batch.draw(mapTexture, startX, startY, 1920, 4800); //Maybe use screenwidth?
+        double backgroundHeight = (double) Gdx.graphics.getWidth() * 2.5;
+        batch.draw(mapTexture, startX, startY, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.setColor(1F, 1F, 1F, 1F);
         batch.end();
     }
