@@ -31,15 +31,11 @@ public class ScreenView implements Screen {
     private Skin skin;
     private final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
     private PlayerModel player;
-<<<<<<< src/main/java/inf112/ppbros/view/ScreenView.java
-    
-=======
     private Texture playerTexture, mapTexture, platformTexture, platformRustyTexture, redX, resizedPlayerTexture;
     private String playerRight, playerLeft;
     private final int startX, startY;
     private int yPos;
     PlatformGrid platformGridObject1, platformGridObject2;
->>>>>>> src/main/java/inf112/ppbros/view/ScreenView.java
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
@@ -175,10 +171,7 @@ public class ScreenView implements Screen {
 
     private void drawPlayer() {
         batch.begin();
-<<<<<<< src/main/java/inf112/ppbros/view/ScreenView.java
         batch.draw(resizedPlayerTexture, player.getX(), player.getY(), resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
-=======
->>>>>>> src/main/java/inf112/ppbros/view/ScreenView.java
         batch.end();
     }
 
