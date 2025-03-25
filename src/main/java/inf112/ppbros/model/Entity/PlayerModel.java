@@ -9,6 +9,7 @@ public class PlayerModel implements Entity {
     private final float attackRange;
     private final int attackDmg;
     private final Rectangle collisionBox;
+    private float width, height;
 
     /**
      * A player model contains the attributes and functions for any controllable character in the game
@@ -18,12 +19,14 @@ public class PlayerModel implements Entity {
     public PlayerModel(float startX, float startY) {
         this.x = startX;
         this.y = startY;
-        this.collisionBox = new Rectangle(x, y, 23, 34);
         // sets default values
         this.health = 100; 
-        this.speed = 50.0f; // in pixels
+        this.speed = 70.0f; // in pixels
         this.attackRange = 10;
         this.attackDmg = 20;
+        this.width = 0;
+        this.height = 0;
+        this.collisionBox = new Rectangle(x, y, width, height);
     }
 
     /**
@@ -41,6 +44,13 @@ public class PlayerModel implements Entity {
         if (health == 0) {
             // TODO: initiate GAMEE_OVER state/screen
         }
+    }
+
+    @Override
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+        this.collisionBox.setSize(width, height);
     }
 
     /**
@@ -117,13 +127,13 @@ public class PlayerModel implements Entity {
     }
 
     @Override
-    public int getHeight() {
-        return getHeight();
+    public float getHeight() {
+        return height;
     }
 
     @Override
-    public int getWidth() {
-        return getWidth();
+    public float getWidth() {
+        return width;
     }
     
 }

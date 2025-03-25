@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.Entity.PlayerModel;
@@ -20,6 +21,7 @@ import inf112.ppbros.model.Platform.TileConfig;
 
 public class ScreenView implements Screen {
     private GameModel gameModel;
+    private PlayerController playerController;
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
     private OrthographicCamera camera;
@@ -29,18 +31,30 @@ public class ScreenView implements Screen {
     private Skin skin;
     private final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
     private PlayerModel player;
-    private Texture playerTexture, mapTexture, platformTexture, platformRustyTexture, redX;
+<<<<<<< src/main/java/inf112/ppbros/view/ScreenView.java
+    
+=======
+    private Texture playerTexture, mapTexture, platformTexture, platformRustyTexture, redX, resizedPlayerTexture;
+    private String playerRight, playerLeft;
     private final int startX, startY;
     private int yPos;
     PlatformGrid platformGridObject1, platformGridObject2;
+>>>>>>> src/main/java/inf112/ppbros/view/ScreenView.java
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
+        this.playerController = new PlayerController(model, this);
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
-        playerTexture = new Texture(Gdx.files.internal("character.png"));
 
+        playerRight = "character.png";
+        playerLeft = "charFlipped.png";
+        playerTexture = new Texture(Gdx.files.internal(playerRight));
+        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
+
+        // set player size based on texture size
+        gameModel.getPlayer().setSize(resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
+        
         Table healthTable = new Table();
         Table scoreTable = new Table();
         healthTable.top().left();
@@ -102,7 +116,22 @@ public class ScreenView implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
 
+        // draw player and update controller for input
         drawPlayer();
+        // show hitbox delete later
+        shapeRenderer.setColor(1, 0, 0, 0);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);    
+        shapeRenderer.rect(2*gameModel.getPlayer().getWidth(), 50, gameModel.getPlayer().getWidth(), gameModel.getPlayer().getHeight());
+        shapeRenderer.end();
+        
+        playerController.update(delta);
+        // player faces the direction it is walking
+        if (playerController.facesLeft){
+            loadNewTexture(playerLeft);
+        } 
+        if (playerController.facesLeft == false) {
+            loadNewTexture(playerRight);
+        }
     }
 
     private void drawBackground() {
@@ -146,8 +175,22 @@ public class ScreenView implements Screen {
 
     private void drawPlayer() {
         batch.begin();
-        batch.draw(playerTexture, startX + player.getX(), startY + player.getY(), 46, 68);
+<<<<<<< src/main/java/inf112/ppbros/view/ScreenView.java
+        batch.draw(resizedPlayerTexture, player.getX(), player.getY(), resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
+=======
+>>>>>>> src/main/java/inf112/ppbros/view/ScreenView.java
         batch.end();
+    }
+
+    public void loadNewTexture(String path) {
+        // Dispose of the previous texture if it exists
+        if (playerTexture != null) {
+            playerTexture.dispose();
+        }
+        
+        // Load the new texture
+        playerTexture = new Texture(Gdx.files.internal(path));
+        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
     }
 
     @Override
@@ -173,7 +216,7 @@ public class ScreenView implements Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+        shapeRenderer.dispose(); 
     }
 
 }

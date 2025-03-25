@@ -1,101 +1,71 @@
 package inf112.ppbros.controller;
 
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Screen;
 
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.view.ScreenView;
 
+import java.util.HashSet;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-public class PlayerController extends InputAdapter implements Screen {
+/** 
+ * The controller for Power Pipes Bros characters.
+ * This class handles input for any playable characters. 
+ */
+public class PlayerController extends InputAdapter {
     private GameModel gameModel;
-    private Texture playerTexture, enemyTexture;
-    private SpriteBatch batch;
-    private ScreenView gameView;
-
-    // map size (should probably be moved somewhere else later)
-    final float MAP_WIDTH = 480;
-    final float MAP_HEIGHT = 320;
-
+    private HashSet<Integer> keysPressed = new HashSet<>();
+    public boolean facesLeft = false;
+    
     public PlayerController(GameModel gameModel, ScreenView gameView) {
         this.gameModel = gameModel;
-        this.gameView = gameView;
-        this.batch = new SpriteBatch();
-        //this.playerTexture = new Texture(Gdx.files.internal("character.png"));
-        //this.enemyTexture = new Texture(Gdx.files.internal("enemy.png"));
         Gdx.input.setInputProcessor(this);
     }
-
-    public void handleInput(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            gameModel.movePlayerRight(delta);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            gameModel.movePlayerLeft(delta);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            gameModel.movePlayerUp(delta);    
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            gameModel.movePlayerDown(delta);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+    
+    @Override
+    public boolean keyDown(int keycode) {
+        keysPressed.add(keycode); // Track key presses
+        switch (keycode) {
+            case Input.Keys.F:
+            // When F is pressed, checks to see if player can attack
             if (gameModel.canPlayerAttack()) {
                 System.out.println("Hit registered!");
                 gameModel.playerAttacksEnemy();
             } else {
                 System.out.println("No hit");
             }
+            break;
+            // Close program with escape button
+            case Input.Keys.ESCAPE:
+            Gdx.app.exit();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        keysPressed.remove(keycode); // Remove released keys
+        return true;
+    }
+
+    public void update(float deltaTime) {
+        // Check held keys and move player continuously
+        if (keysPressed.contains(Input.Keys.D)) {
+            gameModel.movePlayerRight(deltaTime);
+            facesLeft = false;
+        }
+        if (keysPressed.contains(Input.Keys.A)) {
+            gameModel.movePlayerLeft(deltaTime);
+            facesLeft = true;
+        }
+        if (keysPressed.contains(Input.Keys.W)) {
+            gameModel.movePlayerUp(deltaTime);
+        }
+        if (keysPressed.contains(Input.Keys.S)) {
+            gameModel.movePlayerDown(deltaTime);
         }
     }
 
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
-        //ScreenUtils.clear(1, 1, 1, 0);
-
-        handleInput(1);
-        //drawObjects(); method to be created in view
-        
-        gameView.render(delta);
-
-    }
-
-
-
-    @Override
-    public void resize(int width, int height) {
-        gameView.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-        gameView.pause();
-    }
-
-    @Override
-    public void resume() {
-        gameView.resume();
-    }
-
-    @Override
-    public void hide() {
-        gameView.hide();
-    }
-
-    @Override
-    public void dispose() {
-       batch.dispose();
-       playerTexture.dispose();
-       enemyTexture.dispose();
-    }
 }

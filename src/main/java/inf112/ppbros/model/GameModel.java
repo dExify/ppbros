@@ -22,6 +22,7 @@ public class GameModel extends Game {
     
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
+        // initiate player with starting pos
         this.player = new PlayerModel(50, 50);
         this.cameraPos = 0;
         this.timer = new Timer();
