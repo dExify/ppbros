@@ -37,7 +37,7 @@ public class ScreenView implements Screen {
     private Skin skin;
     private static final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
     private PlayerModel player;
-    private Texture playerTexture;
+    private Texture playerTexture, resizedPlayerTexture;
     private String playerRight, playerLeft;
 
     public ScreenView(GameModel model) {
@@ -49,6 +49,10 @@ public class ScreenView implements Screen {
         playerRight = "character.png";
         playerLeft = "charFlipped.png";
         playerTexture = new Texture(Gdx.files.internal(playerRight));
+        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
+
+        // set player size based on texture size
+        gameModel.getPlayer().setSize(resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
         
         Table healthTable = new Table();
         Table scoreTable = new Table();
@@ -98,6 +102,12 @@ public class ScreenView implements Screen {
 
         // draw player and update controller for input
         drawPlayer();
+        // show hitbox delete later
+        shapeRenderer.setColor(1, 0, 0, 0);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);    
+        shapeRenderer.rect(2*gameModel.getPlayer().getWidth(), 50, gameModel.getPlayer().getWidth(), gameModel.getPlayer().getHeight());
+        shapeRenderer.end();
+        
         playerController.update(delta);
         // player faces the direction it is walking
         if (playerController.facesLeft){
@@ -135,8 +145,7 @@ public class ScreenView implements Screen {
 
     private void drawPlayer() {
         batch.begin();
-        
-        batch.draw(playerTexture, player.getX(), player.getY(), playerTexture.getWidth()/3, playerTexture.getHeight()/3);
+        batch.draw(resizedPlayerTexture, player.getX(), player.getY(), resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
         batch.end();
     }
 
@@ -148,6 +157,7 @@ public class ScreenView implements Screen {
         
         // Load the new texture
         playerTexture = new Texture(Gdx.files.internal(path));
+        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
     }
 
     @Override

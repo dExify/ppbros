@@ -63,11 +63,11 @@ public interface Entity {
      * get the height of the character
      * @return height of character
      */
-    public int getHeight();
+    public float getHeight();
 
     /**
      * get the width of the character
      * @return height of character
      */
-    public int getWidth();
+    public float getWidth();
 }
