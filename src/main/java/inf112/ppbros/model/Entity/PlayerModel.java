@@ -18,10 +18,10 @@ public class PlayerModel implements Entity {
     public PlayerModel(float startX, float startY) {
         this.x = startX;
         this.y = startY;
-        this.collisionBox = new Rectangle(x, y, 23, 34);
+        this.collisionBox = new Rectangle(x, y, 0, 0);
         // sets default values
         this.health = 100; 
-        this.speed = 50.0f; // in pixels
+        this.speed = 80.0f; // in pixels
         this.attackRange = 10;
         this.attackDmg = 20;
     }

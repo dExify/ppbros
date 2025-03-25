@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.Entity.PlayerModel;
@@ -22,6 +23,7 @@ import inf112.ppbros.model.Platform.TileConfig;
 
 public class ScreenView implements Screen {
     private GameModel gameModel;
+    private PlayerController playerController;
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
     OrthogonalTiledMapRenderer mapRenderer;
@@ -36,13 +38,18 @@ public class ScreenView implements Screen {
     private static final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
     private PlayerModel player;
     private Texture playerTexture;
+    private String playerRight, playerLeft;
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
+        this.playerController = new PlayerController(model, this);
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
-        playerTexture = new Texture(Gdx.files.internal("character.png"));
 
+        playerRight = "character.png";
+        playerLeft = "charFlipped.png";
+        playerTexture = new Texture(Gdx.files.internal(playerRight));
+        
         Table healthTable = new Table();
         Table scoreTable = new Table();
         healthTable.top().left();
@@ -89,7 +96,16 @@ public class ScreenView implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
 
+        // draw player and update controller for input
         drawPlayer();
+        playerController.update(delta);
+        // player faces the direction it is walking
+        if (playerController.facesLeft){
+            loadNewTexture(playerLeft);
+        } 
+        if (playerController.facesLeft == false) {
+            loadNewTexture(playerRight);
+        }
     }
 
     /**
@@ -119,8 +135,19 @@ public class ScreenView implements Screen {
 
     private void drawPlayer() {
         batch.begin();
-        batch.draw(playerTexture, player.getX(), player.getY(), 46, 68);
+        
+        batch.draw(playerTexture, player.getX(), player.getY(), playerTexture.getWidth()/3, playerTexture.getHeight()/3);
         batch.end();
+    }
+
+    public void loadNewTexture(String path) {
+        // Dispose of the previous texture if it exists
+        if (playerTexture != null) {
+            playerTexture.dispose();
+        }
+        
+        // Load the new texture
+        playerTexture = new Texture(Gdx.files.internal(path));
     }
 
     @Override
@@ -146,7 +173,7 @@ public class ScreenView implements Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+        shapeRenderer.dispose(); 
     }
 
 }
