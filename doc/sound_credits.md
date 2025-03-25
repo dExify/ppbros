@@ -10,3 +10,6 @@
 
 - Background theme
 * https://opengameart.org/content/swamp-environment-audio
+
+- Attack sound
+* https://opengameart.org/content/3-melee-sounds

@@ -14,12 +14,12 @@ public class AudioController {
         loadBackgroundMusic("audio/sewer_theme.mp3");
         loadSoundEffect("jump", "audio/jump_initiated.mp3");
         loadSoundEffect("landing", "audio/jump_landing.mp3");
-        //loadSoundEffect("attack", "audio/attack.mp3"); // Not yet added
+        loadSoundEffect("attack", "audio/sword_attack.mp3");
         loadSoundEffect("bossfight", "audio/boss_battle.mp3");
 
     }
 
-    public void loadBackgroundMusic(String filePath) {
+    private void loadBackgroundMusic(String filePath) {
         if (backgroundMusic != null) {
             backgroundMusic.dispose();
         }
@@ -39,7 +39,7 @@ public class AudioController {
         }
     }
 
-    public void loadSoundEffect(String name, String filePath) {
+    private void loadSoundEffect(String name, String filePath) {
         Sound sound = Gdx.audio.newSound(Gdx.files.internal(filePath));
         soundEffects.put(name, sound);
     }
