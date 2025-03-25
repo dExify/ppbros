@@ -88,8 +88,8 @@ public class ScreenView implements Screen {
         this.yPos = 0;
 
         // Make Textures for player
-        playerRight = "character.png";
-        playerLeft = "charFlipped.png";
+        playerRight = "entity/player/character.png";
+        playerLeft = "entity/player/charFlipped.png";
         playerTexture = new Texture(Gdx.files.internal(playerRight));
         this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
 
