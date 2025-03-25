@@ -22,34 +22,40 @@ import inf112.ppbros.model.Platform.TileConfig;
 public class ScreenView implements Screen {
     private GameModel gameModel;
     private PlayerController playerController;
+
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
     private OrthographicCamera camera;
-    // private PlatformGrid platformGridObject;
     private SpriteBatch batch;
     private Stage stage;
     private Skin skin;
     private final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
-    private PlayerModel player;
-    private Texture playerTexture, mapTexture, platformTexture, platformRustyTexture, redX, resizedPlayerTexture;
-    private String playerRight, playerLeft;
-    private final int startX, startY;
     private int yPos;
     PlatformGrid platformGridObject1, platformGridObject2;
+    private Texture mapTexture, platformTexture, platformRustyTexture, redX;
+
+    private PlayerModel player;
+    private Texture playerTexture, resizedPlayerTexture;
+    private String playerRight, playerLeft;
+    private final int startX, startY;
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
         this.playerController = new PlayerController(model, this);
+
+        // Initiate new start positions for screen based on camera 
+        startX = -Gdx.graphics.getWidth()/2;
+        startY = -Gdx.graphics.getHeight()/2;
+
+        // Sets player start position
+        model.makePlayer(startX, startY);
+    }
+
+    @Override
+    public void show() {
+        // Make UI overlay
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
-
-        playerRight = "character.png";
-        playerLeft = "charFlipped.png";
-        playerTexture = new Texture(Gdx.files.internal(playerRight));
-        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
-
-        // set player size based on texture size
-        gameModel.getPlayer().setSize(resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
         
         Table healthTable = new Table();
         Table scoreTable = new Table();
@@ -66,30 +72,32 @@ public class ScreenView implements Screen {
         scoreTable.add(scoreLabel).pad(10);
         healthTable.add(healthLabel).pad(10);
 
-        startX = -Gdx.graphics.getWidth()/2;
-        startY = -Gdx.graphics.getHeight()/2;
-
-        platformGridObject1 = gameModel.getNextPlatformGrid(); 
-        platformGridObject2 = gameModel.getNextPlatformGrid();
-    }
-
-    @Override
-    public void show() {
-        //Initiate a camera and shaperenderer
+        // Initiate a camera and shaperenderer
         shapeRenderer = new ShapeRenderer();
         screenRect = new Rectangle();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        //Initiate the platform texture and platformGrid object
+        // Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
         platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
         platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
         mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
         redX = new Texture(Gdx.files.internal("redX.png"));
-        // platformGridObject = gameModel.getPlatformGrid();
-
-        player = gameModel.getPlayer();
+        platformGridObject1 = gameModel.getNextPlatformGrid(); 
+        platformGridObject2 = gameModel.getNextPlatformGrid();
         this.yPos = 0;
+
+        // Make Textures for player
+        playerRight = "character.png";
+        playerLeft = "charFlipped.png";
+        playerTexture = new Texture(Gdx.files.internal(playerRight));
+        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
+
+        // set player size based on texture size
+        gameModel.getPlayer().setSize(resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
+        // get player from Model
+        player = gameModel.getPlayer();
+        
     }
 
     @Override
@@ -104,7 +112,7 @@ public class ScreenView implements Screen {
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
 
-        camera.position.y = gameModel.getCameraYCoordinate();
+        //camera.position.y = gameModel.getCameraYCoordinate();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
@@ -128,6 +136,23 @@ public class ScreenView implements Screen {
         if (playerController.facesLeft == false) {
             loadNewTexture(playerRight);
         }
+    }
+
+    private void drawPlayer() {
+        batch.begin();
+        batch.draw(resizedPlayerTexture, player.getX(), player.getY(), resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
+        batch.end();
+    }
+
+    public void loadNewTexture(String path) {
+        // Dispose of the previous texture if it exists
+        if (playerTexture != null) {
+            playerTexture.dispose();
+        }
+        
+        // Load the new texture
+        playerTexture = new Texture(Gdx.files.internal(path));
+        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
     }
 
     private void drawBackground() {
@@ -167,23 +192,6 @@ public class ScreenView implements Screen {
             }
         }
         batch.end();
-    }
-
-    private void drawPlayer() {
-        batch.begin();
-        batch.draw(resizedPlayerTexture, player.getX(), player.getY(), resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
-        batch.end();
-    }
-
-    public void loadNewTexture(String path) {
-        // Dispose of the previous texture if it exists
-        if (playerTexture != null) {
-            playerTexture.dispose();
-        }
-        
-        // Load the new texture
-        playerTexture = new Texture(Gdx.files.internal(path));
-        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
     }
 
     @Override

@@ -22,8 +22,7 @@ public class GameModel extends Game {
     
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
-        // initiate player with starting pos
-        this.player = new PlayerModel(50, 50);
+
         this.cameraPos = 0;
         this.timer = new Timer();
         this.timerTask = new CameraXPos();
@@ -33,6 +32,15 @@ public class GameModel extends Game {
 
     public PlayerModel getPlayer() {
         return player;
+    }
+
+    /**
+     * Creates an instance of player with start values
+     * @param startX start x value
+     * @param startY start y value
+     */
+    public void makePlayer(int startX, int startY) {
+        this.player = new PlayerModel(startX, startY);
     }
 
     /** Moves player to the left based on its speed */
