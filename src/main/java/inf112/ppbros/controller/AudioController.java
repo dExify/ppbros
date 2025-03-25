@@ -19,7 +19,7 @@ public class AudioController {
 
     }
 
-    private void loadBackgroundMusic(String filePath) {
+    public void loadBackgroundMusic(String filePath) {
         if (backgroundMusic != null) {
             backgroundMusic.dispose();
         }
