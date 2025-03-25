@@ -6,6 +6,7 @@ public final class TileConfig {
     public static final int GRID_WIDTH = 24;
     public static final int GRID_HEIGHT = 14;
     public static final int TILE_SIZE = Gdx.graphics.getWidth()/GRID_WIDTH;
+    public static final int platformGridHeightInPixels = TILE_SIZE * GRID_HEIGHT;
 
     private TileConfig() {
         

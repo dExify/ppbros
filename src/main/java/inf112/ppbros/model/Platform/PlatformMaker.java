@@ -2,7 +2,7 @@ package inf112.ppbros.model.Platform;
 
 import java.util.Random;
 
-public class PlatformMaker { //Abstrakt klasse?
+public class PlatformMaker {
     Random random;
 
     public PlatformMaker() {
@@ -14,7 +14,7 @@ public class PlatformMaker { //Abstrakt klasse?
      * @return Platform
      */
     public Platform getNext() {
-        int randomInt = random.nextInt(5);
+        int randomInt = random.nextInt(8);
         // System.out.println(randomInt); // Debugging
         Platform platform = newPlatform(randomInt);
         return platform;
@@ -25,51 +25,71 @@ public class PlatformMaker { //Abstrakt klasse?
      * @param randInt
      * @return Platform
      */
-    private Platform newPlatform(int randInt) {
+    private Platform newPlatform(int randInt) { //Should have methods to add different types of patterns
         int[][] pattern;
     
-        // switch (randInt) {
-        //     case 1:
-        //         pattern = new int[][] {
-        //             { 0, 0, 1, 1},
-        //             { 0, 0, 0, 0},
-        //             { 1, 1, 0, 0},
-        //         };
-        //         break;
-        //     case 2:
-        //         pattern = new int[][] {
-        //             { 0, 0, 0, 0},
-        //             { 1, 1, 0, 0},
-        //             { 0, 0, 1, 1},
-        //         };
-        //         break;
-        //     case 3:
-        //         pattern = new int[][] {
-        //             { 0, 0, 0, 0},
-        //             { 1, 1, 1, 1},
-        //             { 0, 0, 0, 0},
-        //     };
-        //     break;
-        //     case 4:
-        //         pattern = new int[][] {
-        //             { 0, 1, 1, 1},
-        //             { 0, 0, 0, 0},
-        //             { 1, 1, 0, 1},
-        //     };
-        //     break;
-        //     default:
-        //         pattern = new int[][] {
-        //             { 1, 0, 0, 0},
-        //             { 1, 1, 0, 0},
-        //             { 0, 1, 1, 1},
-        //         };
-        //         break;
-        // } 
-            pattern = new int[][] {
-                { 1, 1, 1, 1},
-                { 1, 0, 0, 1},
-                { 1, 1, 1, 1},
-            };
+        switch (randInt) { 
+            case 1:
+                pattern = new int[][] {
+                    { 0, 0, 1, 1},
+                    { 0, 0, 0, 0},
+                    { 1, 1, 0, 0},
+                };
+                break;  
+            case 2:
+                pattern = new int[][] {
+                    { 1, 1, 0, 0},
+                    { 0, 0, 0, 0},
+                    { 0, 0, 1, 1},
+                };
+                break;
+            case 3:
+                pattern = new int[][] {
+                    { 0, 0, 0, 0},
+                    { 1, 1, 0, 0},
+                    { 0, 0, 1, 1},
+                };
+                break;
+            case 4:
+                pattern = new int[][] {
+                    { 0, 0, 0, 0},
+                    { 1, 1, 1, 1},
+                    { 0, 0, 0, 0},
+                };
+                break;
+            case 5:
+                pattern = new int[][] {
+                    { 1, 1, 1, 1},
+                    { 0, 0, 1, 0},
+                    { 0, 0, 0, 0},
+                };
+                break;
+            case 6:
+                pattern = new int[][] {
+                    { 0, 1, 1, 1},
+                    { 1, 1, 0, 0},
+                    { 1, 0, 0, 0},
+                };
+                break;
+            case 7:
+                pattern = new int[][] {
+                    { 1, 1, 1, 0},
+                    { 0, 0, 1, 1},
+                    { 0, 0, 0, 1},
+                };
+                break;
+            default:
+                pattern = new int[][] {
+                    { 1, 1, 1, 1},
+                    { 0, 0, 0, 0},
+                    { 0, 0, 0, 0},
+                };
+        } 
+            // pattern = new int[][] { // debugging
+            //     { 1, 1, 1, 1},
+            //     { 1, 0, 0, 1},
+            //     { 1, 1, 1, 1},
+            // };
         return new Platform(pattern);
     }
 
