@@ -11,10 +11,10 @@ public class AudioController {
 
     public AudioController() {
         soundEffects = new HashMap<>();
-        //loadBackgroundMusic("null");
+        loadBackgroundMusic("audio/sewer_theme.mp3");
         loadSoundEffect("jump", "audio/jump_initiated.mp3");
         loadSoundEffect("landing", "audio/jump_landing.mp3");
-        loadSoundEffect("attack", "audio/attack.mp3");
+        //loadSoundEffect("attack", "audio/attack.mp3"); // Not yet added
         loadSoundEffect("bossfight", "audio/boss_battle.mp3");
 
     }
