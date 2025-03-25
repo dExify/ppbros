@@ -9,6 +9,10 @@ public class AudioController {
     private Music backgroundMusic;
     private HashMap<String, Sound> soundEffects;
 
+
+    /**
+     * Constructs a AudioController-object, responsible for playing background music and sound effects.
+     */
     public AudioController() {
         soundEffects = new HashMap<>();
         loadBackgroundMusic("audio/sewer_theme.mp3");
@@ -19,13 +23,17 @@ public class AudioController {
 
     }
 
-    public void loadBackgroundMusic(String filePath) {
+    private void loadBackgroundMusic(String filePath) {
         if (backgroundMusic != null) {
             backgroundMusic.dispose();
         }
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(filePath));
     }
 
+    /**
+     * Starts playing the loaded background music.
+     * @param looping replays the track after finishing if true
+     */
     public void playBackgroundMusic(boolean looping) {
         if (backgroundMusic != null) {
             backgroundMusic.setLooping(looping);
@@ -33,6 +41,9 @@ public class AudioController {
         }
     }
 
+    /**
+     * Stops the loaded background music.
+     */
     public void stopBackgroundMusic() {
         if (backgroundMusic != null) {
             backgroundMusic.stop();
@@ -44,6 +55,10 @@ public class AudioController {
         soundEffects.put(name, sound);
     }
 
+    /**
+     * Plays the selected sound effect
+     * @param name sound effect to play
+     */
     public void playSoundEffect(String name) {
         Sound sound = soundEffects.get(name);
         if (sound != null) {
