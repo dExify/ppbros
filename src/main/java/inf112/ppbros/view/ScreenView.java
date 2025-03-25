@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,7 +23,7 @@ public class ScreenView implements Screen {
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
     private OrthographicCamera camera;
-    private PlatformGrid platformGridObject;
+    // private PlatformGrid platformGridObject;
     private SpriteBatch batch;
     private Stage stage;
     private Skin skin;
@@ -33,6 +31,8 @@ public class ScreenView implements Screen {
     private PlayerModel player;
     private Texture playerTexture, mapTexture, platformTexture, platformRustyTexture, redX;
     private final int startX, startY;
+    private int yPos;
+    PlatformGrid platformGridObject1, platformGridObject2;
 
     public ScreenView(GameModel model) {
         this.gameModel = model;
@@ -58,6 +58,9 @@ public class ScreenView implements Screen {
 
         startX = -Gdx.graphics.getWidth()/2;
         startY = -Gdx.graphics.getHeight()/2;
+
+        platformGridObject1 = gameModel.getNextPlatformGrid(); 
+        platformGridObject2 = gameModel.getNextPlatformGrid();
     }
 
     @Override
@@ -65,7 +68,7 @@ public class ScreenView implements Screen {
         //Initiate a camera and shaperenderer
         shapeRenderer = new ShapeRenderer();
         screenRect = new Rectangle();
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); //Kamera er på samme størrelse som skjermen
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         //Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
@@ -73,15 +76,23 @@ public class ScreenView implements Screen {
         platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
         mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
         redX = new Texture(Gdx.files.internal("redX.png"));
-        platformGridObject = gameModel.getPlatformGrid();
+        // platformGridObject = gameModel.getPlatformGrid();
+
         player = gameModel.getPlayer();
+        this.yPos = 0;
     }
 
     @Override
     public void render(float delta) {
-        drawBackground(); //Should only run once -- batch.draw(mapTexture, 0, 0, 1920, 4800);
-        drawPlatformGrid(platformGridObject);
-        drawPlatformGrid(platformGridObject);
+        drawBackground(); //Should only run once? -- batch.draw(mapTexture, 0, 0, 1920, 4800);
+
+        drawPlatformGrid(platformGridObject1);
+        drawPlatformGrid(platformGridObject2);
+
+        if (platformGridObject1.getYPos() < camera.position.y - TileConfig.platformGridHeightInPixels) {
+            platformGridObject1 = platformGridObject2;
+            platformGridObject2 = gameModel.getNextPlatformGrid();
+        }
 
         camera.position.y = gameModel.getCameraYCoordinate();
         camera.update();
@@ -98,7 +109,8 @@ public class ScreenView implements Screen {
         batch.begin();
         batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
         // batch.setColor(0F, 0F, 0F, 1F); //Set brightness to 0% (debugging)
-        batch.draw(mapTexture, startX, startY, 1920, 4800);
+        double backgroundHeight = (double) Gdx.graphics.getWidth() * 2.5;
+        batch.draw(mapTexture, startX, startY, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.setColor(1F, 1F, 1F, 1F);
         batch.end();
     }
@@ -108,6 +120,7 @@ public class ScreenView implements Screen {
      * @param platformGrid
      */
     private void drawPlatformGrid(PlatformGrid platformGrid) {
+        yPos = platformGrid.getYPos();
         int[][] grid = platformGrid.returnGrid();
         batch.begin();
         for (int x = 0; x < grid.length; x++) {
@@ -116,13 +129,13 @@ public class ScreenView implements Screen {
                     continue;
                 } else if (grid[x][y] == 1) {
                     Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
-                    batch.draw(platformTexture, startX + platformPixelPos.x(), startY + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                    batch.draw(platformTexture, startX + platformPixelPos.x(), startY + yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
                 } else if (grid[x][y] == 2) {
                     Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
-                    batch.draw(platformRustyTexture, startX + platformPixelPos.x(), startY + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                    batch.draw(platformRustyTexture, startX + platformPixelPos.x(), startY + yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
                 } else if (grid[x][y] == -1) {
-                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
-                    batch.draw(redX, startX + platformPixelPos.x(), startY + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y + yPos, TILE_SIZE);
+                    batch.draw(redX, startX + platformPixelPos.x(), startY + yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
                 } else { //Here we can choose what type of tiles to draw based on the integer in the 2D array
                     continue;
                 }
