@@ -46,11 +46,7 @@ public class PlayerModel implements Entity {
         }
     }
 
-    /**
-     * Sets the size of character og size of collision box.
-     * @param width width set for character
-     * @param height height set for character
-     */
+    @Override
     public void setSize(float width, float height) {
         this.width = width;
         this.height = height;

@@ -9,6 +9,7 @@ public class EnemyModel implements Entity {
     private final float attackRange;
     private final Rectangle collisionBox;
     private final int attackDmg;
+    private float width, height;
 
     /**
      * An enemy model contains the attributes and functions for enemies in the game
@@ -20,7 +21,9 @@ public class EnemyModel implements Entity {
         this.y = startY;
         this.health = 100;
         this.speed = 50.0f;
-        this.collisionBox = new Rectangle(x, y, getWidth(), getHeight());
+        this.width = 0;
+        this.height = 0;
+        this.collisionBox = new Rectangle(x, y, width, height);
         this.attackRange = 0;
         this.attackDmg = 10;
     }
@@ -38,6 +41,13 @@ public class EnemyModel implements Entity {
         x += dx;
         y += dy;
         collisionBox.setPosition(x,y);
+    }
+    
+    @Override
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+        this.collisionBox.setSize(width, height);
     }
 
     // if platforms has patterns with elevation we should make method to check for collision
@@ -79,12 +89,12 @@ public class EnemyModel implements Entity {
     }
 
     @Override
-    public int getHeight() {
+    public float getHeight() {
         return getHeight();
     }
 
     @Override
-    public int getWidth() {
+    public float getWidth() {
         return getWidth();
     }
 

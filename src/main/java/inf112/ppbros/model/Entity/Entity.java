@@ -70,4 +70,11 @@ public interface Entity {
      * @return height of character
      */
     public float getWidth();
+
+    /**
+     * Sets the size of entity and size of collision box.
+     * @param width width set for entity
+     * @param height height set for entity
+     */
+    public void setSize(float width, float height);
 }
