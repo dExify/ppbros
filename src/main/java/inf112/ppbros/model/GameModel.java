@@ -16,18 +16,16 @@ public class GameModel extends Game {
     private EnemyModel enemy;
     private int cameraPos;
     private Timer timer;
-    private CameraXPos timerTask;
+    private CameraYPos timerTask;
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
     
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
-
         this.cameraPos = 0;
-        this.timer = new Timer();
-        this.timerTask = new CameraXPos();
-        timer.scheduleAtFixedRate(timerTask, 0, 5);
         this.platformGridMaker = new PlatformGridMaker();
+        this.timer = new Timer();
+        this.timerTask = new CameraYPos();
     }
 
     public PlayerModel getPlayer() {
@@ -131,6 +129,10 @@ public class GameModel extends Game {
     public int getCameraYCoordinate() {
         cameraPos = timerTask.getCameraPos();
         return cameraPos;
+    }
+
+    public void startTimer() {
+        timer.scheduleAtFixedRate(timerTask, 0, 10);
     }
 
     public void dispose() {
