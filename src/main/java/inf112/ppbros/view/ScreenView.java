@@ -116,6 +116,7 @@ public class ScreenView implements Screen {
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
 
+        // gameModel.stopTimer();
         camera.position.y = gameModel.getCameraYCoordinate();
         camera.update();
 
@@ -138,6 +139,12 @@ public class ScreenView implements Screen {
         } 
         if (playerController.facesLeft == false) {
             loadNewTexture(playerRight);
+        }
+
+        if (gameModel.isOutOfBounds()) {
+            System.out.println("Player is out of bounds!");
+            //TODO: set game state Game over or take live/heath of player
+            // this.dispose();
         }
     }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.model.Entity.EnemyModel;
@@ -49,24 +50,20 @@ public class GameModel extends Game {
     public void movePlayerLeft(float delta) { // for å bevege karakter når man bruker wasd
         float prevX = player.getX();
         player.move(-delta * player.getSpeed(), 0);
-
-        if (platformCollision())
+        if (platformCollision()) {
             player.setX(prevX);
-        // TODO: use method in playerModel to check if player collides with obstacles in the game
-        // remember to update previous pos for character
-
-        // TODO: use method that checks if player went out of map
+        } 
+        // TODO: Check if player collides with enemies
     }
 
     /** Moves player to the right based on its speed */
     public void movePlayerRight(float delta) {
         float prevX = player.getX();
         player.move(delta * player.getSpeed(), 0);
-
-        if (platformCollision())
+        if (platformCollision()) {
             player.setX(prevX);
-        // TODO: use method in playerModel to check if player collides with obstacles in the game
-        // remember to update previous pos for character
+        } 
+          // TODO: Check if player collides with enemies
     }
 
 
@@ -74,11 +71,10 @@ public class GameModel extends Game {
     public void movePlayerUp(float delta) {
         float prevY = player.getY();
         player.move(0, delta * player.getSpeed());
-
-        if (platformCollision())
+        if (platformCollision()) {
             player.setY(prevY);
-        // TODO: use method in playerModel to check if player collides with obstacles in the game
-        // remember to update previous pos for character
+        } 
+         // TODO: Check if player collides with enemies
     }
 
 
@@ -86,11 +82,10 @@ public class GameModel extends Game {
     public void movePlayerDown(float delta) {
         float prevY = player.getY();
         player.move(0, -delta * player.getSpeed());
-
-        if (platformCollision())
+        if (platformCollision()) {
             player.setY(prevY);
-        // TODO: use method in playerModel to check if player collides with obstacles in the game
-        // remember to update previous pos for character
+        }
+        // TODO: Check if player collides with enemies
     }
 
     /**
@@ -119,23 +114,23 @@ public class GameModel extends Game {
     }
 
     /**
-     * Checks if player is out of bounds, if so they loose health
+     * Checks if player is out of bounds left, right and bottom of screeen.
      * @return true if player is out of bounds, false if they are within bounds
      */
     public boolean isOutOfBounds() {
-        // TODO: check if player is out of map and loose health/a life if they are
-        return false;
+        float playerX = player.getX();
+        float playerY = player.getY();
+        return (playerX + player.getWidth() < 0) || (playerX > Gdx.graphics.getWidth() || 
+        playerY + player.getHeight() < getCameraYCoordinate() - Gdx.graphics.getHeight()/2);
     }
 
     private boolean platformCollision() {
-        boolean collision = false;
         for (Rectangle rec : hitboxes) {
             if (player.collidesWith(rec)) {
-                collision = true;
-                break;
+                return true;
             }
         }
-        return collision;
+        return false;
     }
 
     @Override
@@ -164,6 +159,10 @@ public class GameModel extends Game {
 
     public void startTimer() {
         timer.scheduleAtFixedRate(timerTask, 0, 13);
+    }
+
+    public void stopTimer() {
+        timerTask.cancel();
     }
 
     public void dispose() {
