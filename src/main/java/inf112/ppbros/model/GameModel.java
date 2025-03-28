@@ -1,8 +1,10 @@
 package inf112.ppbros.model;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.model.Entity.EnemyModel;
 import inf112.ppbros.model.Entity.PlayerModel;
@@ -19,6 +21,7 @@ public class GameModel extends Game {
     private CameraYPos timerTask;
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
+    private ArrayList<Rectangle> hitboxes;
     
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
@@ -26,6 +29,7 @@ public class GameModel extends Game {
         this.platformGridMaker = new PlatformGridMaker();
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
+        this.hitboxes = new ArrayList<Rectangle>();
     }
 
     public PlayerModel getPlayer() {
@@ -43,7 +47,11 @@ public class GameModel extends Game {
 
     /** Moves player to the left based on its speed */
     public void movePlayerLeft(float delta) { // for å bevege karakter når man bruker wasd
+        float prevX = player.getX();
         player.move(-delta * player.getSpeed(), 0);
+
+        if (platformCollision())
+            player.setX(prevX);
         // TODO: use method in playerModel to check if player collides with obstacles in the game
         // remember to update previous pos for character
 
@@ -52,7 +60,11 @@ public class GameModel extends Game {
 
     /** Moves player to the right based on its speed */
     public void movePlayerRight(float delta) {
+        float prevX = player.getX();
         player.move(delta * player.getSpeed(), 0);
+
+        if (platformCollision())
+            player.setX(prevX);
         // TODO: use method in playerModel to check if player collides with obstacles in the game
         // remember to update previous pos for character
     }
@@ -60,7 +72,11 @@ public class GameModel extends Game {
 
     /** Moves player to the up based on its speed */
     public void movePlayerUp(float delta) {
+        float prevY = player.getY();
         player.move(0, delta * player.getSpeed());
+
+        if (platformCollision())
+            player.setY(prevY);
         // TODO: use method in playerModel to check if player collides with obstacles in the game
         // remember to update previous pos for character
     }
@@ -68,7 +84,11 @@ public class GameModel extends Game {
 
     /** Moves player to the down based on its speed */
     public void movePlayerDown(float delta) {
+        float prevY = player.getY();
         player.move(0, -delta * player.getSpeed());
+
+        if (platformCollision())
+            player.setY(prevY);
         // TODO: use method in playerModel to check if player collides with obstacles in the game
         // remember to update previous pos for character
     }
@@ -107,6 +127,16 @@ public class GameModel extends Game {
         return false;
     }
 
+    private boolean platformCollision() {
+        boolean collision = false;
+        for (Rectangle rec : hitboxes) {
+            if (player.collidesWith(rec)) {
+                collision = true;
+                break;
+            }
+        }
+        return collision;
+    }
 
     @Override
     public void create() {
@@ -119,6 +149,7 @@ public class GameModel extends Game {
      */
     public PlatformGrid getNextPlatformGrid() {
         platformGrid = platformGridMaker.getNextPlatformGrid();
+        hitboxes.addAll(platformGrid.getHitboxes());
         return platformGrid;
     }
 
@@ -132,7 +163,7 @@ public class GameModel extends Game {
     }
 
     public void startTimer() {
-        timer.scheduleAtFixedRate(timerTask, 0, 10);
+        timer.scheduleAtFixedRate(timerTask, 0, 13);
     }
 
     public void dispose() {
