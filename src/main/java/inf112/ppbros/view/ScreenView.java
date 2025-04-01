@@ -150,14 +150,14 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         animationTime += delta;
 
-        isAttacking = playerController.isAttacking();
+        isAttacking = playerController.getAttackState();
         isMoving = playerController.isMoving();
         facesLeft = playerController.facesLeft();
 
 
         if (isAttacking) { 
             currentFrame = facesLeft ? playerAttLeft.getKeyFrame(0) : playerAttRight.getKeyFrame(0);
-            
+
         } else if (!isMoving) { // Draws only first frame is character is standing still
             currentFrame = facesLeft ? playerAnimLeft.getKeyFrame(0) : playerAnimRight.getKeyFrame(0);
 
@@ -175,6 +175,12 @@ public class ScreenView implements Screen {
     }
     
     private void drawPlayer() {
+        batch.begin();
+        batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
+        batch.end();
+    }
+
+    private void drawPlayerAttack() {
         batch.begin();
         batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
         batch.end();
