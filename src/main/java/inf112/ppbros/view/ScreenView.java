@@ -5,13 +5,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 
 import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
@@ -23,7 +26,7 @@ import inf112.ppbros.model.Platform.TileConfig;
 public class ScreenView implements Screen {
     private GameModel gameModel;
     private PlayerController playerController;
-
+    
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
     private OrthographicCamera camera;
@@ -33,25 +36,28 @@ public class ScreenView implements Screen {
     private final int TILE_SIZE = TileConfig.TILE_SIZE; //Should we initialise TILE_SIZE in the show function?
     private int yPos;
     PlatformGrid platformGridObject1, platformGridObject2;
-    private Texture mapTexture, platformTexture, platformRustyTexture, redX;
-
+    private Texture mapTexture, platformTexture, platformRustyTexture;
+    
     private PlayerModel player;
-    private Texture playerTexture, resizedPlayerTexture;
-    private String playerRight, playerLeft;
-    // private final int startX, startY;
-
+    private Texture playerTextureRight;
+    private Texture playerTextureLeft;
+    private Texture resizedPlayerTexture;
+    private Animation<TextureRegion> playerAnimRight;
+    private Animation<TextureRegion> playerAnimLeft;
+    private boolean isAttacking;
+    private boolean facesLeft;
+    private boolean isMoving;
+    private TextureRegion currentFrame;
+    private float animationTime = 0;
+    
     public ScreenView(GameModel model) {
         this.gameModel = model;
         this.playerController = new PlayerController(model, this);
-
-        // Initiate new start positions for screen based on camera 
-        // startX = -Gdx.graphics.getWidth()/2;
-        // startY = -Gdx.graphics.getHeight()/2;
-
+    
         // Sets player start position
         gameModel.makePlayer(0, 0);
     }
-
+    
     @Override
     public void show() {
         // Make UI overlay
@@ -66,98 +72,115 @@ public class ScreenView implements Screen {
         healthTable.setFillParent(true);
         stage.addActor(healthTable);
         stage.addActor(scoreTable);
-
+        
         Label scoreLabel = new Label("Score: 0", skin);
         Label healthLabel = new Label("Health: 100", skin);
         
         scoreTable.add(scoreLabel).pad(10);
         healthTable.add(healthLabel).pad(10);
-
+        
         // Initiate a camera and shaperenderer
         shapeRenderer = new ShapeRenderer();
         screenRect = new Rectangle();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+        
         // Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
         platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
         platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
         mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
-        redX = new Texture(Gdx.files.internal("redX.png"));
         platformGridObject1 = gameModel.getNextPlatformGrid(); 
         platformGridObject2 = gameModel.getNextPlatformGrid();
         this.yPos = 0;
+        
+        // // Make Textures for player
+        playerTextureRight = new Texture(Gdx.files.internal("entity/player/player_r.png"));
+        playerTextureLeft = new Texture(Gdx.files.internal("entity/player/player_l.png"));
+        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTextureRight, playerTextureRight.getWidth()/3, playerTextureRight.getHeight()/3);
+        
+        // Load player animation frames
+        Array<TextureRegion> framesRight = new Array<>();
+        for (int i = 1; i <= 3; i++) { // 3 animation frames
+            framesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/player" + i + "r.png"))));
+        }
+        Array<TextureRegion> framesLeft = new Array<>();
+        for (int i = 1; i <= 3; i++) { // 3 animation frames
+            framesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/player" + i + "l.png"))));
+        }
+        playerAnimRight = new Animation<>(0.1f, framesRight, Animation.PlayMode.LOOP);
+        playerAnimLeft = new Animation<>(0.1f, framesLeft, Animation.PlayMode.LOOP);
 
-        // Make Textures for player
-        playerRight = "character.png";
-        playerLeft = "charFlipped.png";
-        playerTexture = new Texture(Gdx.files.internal(playerRight));
-        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
+        currentFrame = playerAnimRight.getKeyFrame(0);
+        player = gameModel.getPlayer();
+        
+
 
         // set player size based on texture size
-        gameModel.getPlayer().setSize(resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
+        gameModel.getPlayer().setSize(resizedPlayerTexture.getWidth()/3, resizedPlayerTexture.getHeight()/3);
         // get player from Model
         player = gameModel.getPlayer();
         gameModel.startTimer();
     }
-
+    
     @Override
     public void render(float delta) {
         batch.setProjectionMatrix(camera.combined);
-
+        
         drawBackground(); //Should only run once? -- batch.draw(mapTexture, 0, 0, 1920, 4800);
-
+        
         drawPlatformGrid(platformGridObject1);
         drawPlatformGrid(platformGridObject2);
-
+        
         if (platformGridObject1.getYPos() < camera.position.y - 3 * TileConfig.platformGridHeightInPixels/2) {
             platformGridObject1 = platformGridObject2;
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
-
-        camera.position.y = gameModel.getCameraYCoordinate();
-        camera.update();
-
+        
+        //camera.position.y = gameModel.getCameraYCoordinate();
+        //camera.update();
+        
         // Health
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
-
+        
         // draw player and update controller for input
         drawPlayer();
-        // show hitbox delete later
-        shapeRenderer.setColor(1, 0, 0, 0);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);    
-        shapeRenderer.rect(2*gameModel.getPlayer().getWidth(), 50, gameModel.getPlayer().getWidth(), gameModel.getPlayer().getHeight());
-        shapeRenderer.end();
         
         playerController.update(delta);
-        // player faces the direction it is walking
-        if (playerController.facesLeft){
-            loadNewTexture(playerLeft);
-        } 
-        if (playerController.facesLeft == false) {
-            loadNewTexture(playerRight);
-        }
-    }
+        animationTime += delta;
 
+        isAttacking = playerController.isAttacking();
+        isMoving = playerController.isMoving();
+        facesLeft = playerController.facesLeft();
+
+
+        if (isAttacking) { 
+            currentFrame = facesLeft ? playerAttLeft.getKeyFrame(0) : playerAttRight.getKeyFrame(0);
+            
+        } else if (!isMoving) { // Draws only first frame is character is standing still
+            currentFrame = facesLeft ? playerAnimLeft.getKeyFrame(0) : playerAnimRight.getKeyFrame(0);
+
+        } else {
+            currentFrame = facesLeft ? playerAnimLeft.getKeyFrame(animationTime) : playerAnimRight.getKeyFrame(animationTime);
+        }
+
+        batch.begin();
+        batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
+        batch.end();
+        
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
+        stage.draw();
+        playerController.update(delta);
+    }
+    
     private void drawPlayer() {
         batch.begin();
-        batch.draw(resizedPlayerTexture, player.getX(), player.getY(), resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
+        batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
         batch.end();
     }
-
-    public void loadNewTexture(String path) {
-        // Dispose of the previous texture if it exists
-        if (playerTexture != null) {
-            playerTexture.dispose();
-        }
-        
-        // Load the new texture
-        playerTexture = new Texture(Gdx.files.internal(path));
-        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTexture, playerTexture.getWidth()/3, playerTexture.getHeight()/3);
-    }
-
+    
+    
     private void drawBackground() {
         batch.begin();
         batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
@@ -167,11 +190,11 @@ public class ScreenView implements Screen {
         batch.setColor(1F, 1F, 1F, 1F);
         batch.end();
     }
-
+    
     /**
-     * Renders the platform grid
-     * @param platformGrid
-     */
+    * Renders the platform grid
+    * @param platformGrid
+    */
     private void drawPlatformGrid(PlatformGrid platformGrid) {
         yPos = platformGrid.getYPos();
         int[][] grid = platformGrid.returnGrid();
@@ -186,41 +209,36 @@ public class ScreenView implements Screen {
                 } else if (grid[x][y] == 2) {
                     Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
                     batch.draw(platformRustyTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
-                } else if (grid[x][y] == -1) {
-                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y + yPos, TILE_SIZE);
-                    batch.draw(redX, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
-                } else { //Here we can choose what type of tiles to draw based on the integer in the 2D array
-                    continue;
                 }
             }
         }
         batch.end();
     }
-
+    
     @Override
     public void resize(int width, int height) {
         screenRect.width = width;
-		screenRect.height = height;
+        screenRect.height = height;
     }
-
+    
     @Override
     public void pause() {
         
     }
-
+    
     @Override
     public void resume() {
         
     }
-
+    
     @Override
     public void hide() {
         
     }
-
+    
     @Override
     public void dispose() {
         shapeRenderer.dispose(); 
     }
-
+    
 }
