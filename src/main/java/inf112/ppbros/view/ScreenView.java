@@ -39,8 +39,8 @@ public class ScreenView implements Screen {
     private Texture mapTexture, platformTexture, platformRustyTexture;
     
     private PlayerModel player;
-    private Texture playerTextureRight;
-    private Texture playerTextureLeft;
+    private TextureRegion playerTextureRight;
+    private TextureRegion playerTextureLeft;
     private Texture resizedPlayerTexture;
     private Animation<TextureRegion> playerAnimRight;
     private Animation<TextureRegion> playerAnimLeft;
@@ -95,29 +95,28 @@ public class ScreenView implements Screen {
         this.yPos = 0;
         
         // // Make Textures for player
-        playerTextureRight = new Texture(Gdx.files.internal("entity/player/player_r.png"));
-        playerTextureLeft = new Texture(Gdx.files.internal("entity/player/player_l.png"));
-        this.resizedPlayerTexture = TextureUtils.resizeTexture(playerTextureRight, playerTextureRight.getWidth()/3, playerTextureRight.getHeight()/3);
+        playerTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_r.png")));
+        playerTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_l.png")));
         
         // Load player animation frames
         Array<TextureRegion> framesRight = new Array<>();
         for (int i = 1; i <= 3; i++) { // 3 animation frames
-            framesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/player" + i + "r.png"))));
+            framesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/anim/player" + i + "r.png"))));
         }
+
         Array<TextureRegion> framesLeft = new Array<>();
         for (int i = 1; i <= 3; i++) { // 3 animation frames
-            framesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/player" + i + "l.png"))));
+            framesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/anim/player" + i + "l.png"))));
         }
+
+
         playerAnimRight = new Animation<>(0.1f, framesRight, Animation.PlayMode.LOOP);
         playerAnimLeft = new Animation<>(0.1f, framesLeft, Animation.PlayMode.LOOP);
 
-        currentFrame = playerAnimRight.getKeyFrame(0);
+
+        currentFrame = playerTextureRight;
         player = gameModel.getPlayer();
         
-
-
-        // set player size based on texture size
-        gameModel.getPlayer().setSize(resizedPlayerTexture.getWidth()/3, resizedPlayerTexture.getHeight()/3);
         // get player from Model
         player = gameModel.getPlayer();
         gameModel.startTimer();
@@ -150,16 +149,16 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         animationTime += delta;
 
-        isAttacking = playerController.getAttackState();
+        //isAttacking = playerController.getAttackState();
         isMoving = playerController.isMoving();
         facesLeft = playerController.facesLeft();
 
 
         if (isAttacking) { 
-            currentFrame = facesLeft ? playerAttLeft.getKeyFrame(0) : playerAttRight.getKeyFrame(0);
+            //currentFrame = facesLeft ? playerAttLeft.getKeyFrame(0) : playerAttRight.getKeyFrame(0);
 
         } else if (!isMoving) { // Draws only first frame is character is standing still
-            currentFrame = facesLeft ? playerAnimLeft.getKeyFrame(0) : playerAnimRight.getKeyFrame(0);
+            currentFrame = facesLeft ? playerTextureLeft : playerAnimRight.getKeyFrame(0);
 
         } else {
             currentFrame = facesLeft ? playerAnimLeft.getKeyFrame(animationTime) : playerAnimRight.getKeyFrame(animationTime);

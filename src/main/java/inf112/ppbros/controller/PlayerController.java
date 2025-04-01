@@ -34,7 +34,6 @@ public class PlayerController extends InputAdapter {
         switch (keycode) {
             case Input.Keys.F:
             
-            gameView.isAttacking();
             // When F is pressed, checks to see if player can attack
             if (gameModel.canPlayerAttack()) {
                 System.out.println("Hit registered!");
