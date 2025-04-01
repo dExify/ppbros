@@ -3,10 +3,14 @@ package inf112.ppbros.model;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
-
+import com.badlogic.gdx.math.Vector2;
 import inf112.ppbros.model.Entity.EnemyModel;
 import inf112.ppbros.model.Entity.PlayerModel;
 import inf112.ppbros.model.Platform.PlatformGrid;
@@ -23,18 +27,32 @@ public class GameModel extends Game {
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
     private ArrayList<Rectangle> hitboxes;
+    private World world;
     
     public GameModel() { // change later so it has the background and platform as parameters
-        this.setScreen(new StartMenuView(this));
-        this.cameraPos = 0;
-        this.platformGridMaker = new PlatformGridMaker();
-        this.timer = new Timer();
-        this.timerTask = new CameraYPos();
-        this.hitboxes = new ArrayList<Rectangle>();
+        setScreen(new StartMenuView(this));
+        cameraPos = 0;
+        platformGridMaker = new PlatformGridMaker();
+        timer = new Timer();
+        timerTask = new CameraYPos();
+        hitboxes = new ArrayList<Rectangle>();
+        world = new World(new Vec2(0, -300f));
+    }
+
+    public void updateWorld() {
+        world.step(1/60f, 6, 2);
     }
 
     public PlayerModel getPlayer() {
         return player;
+    }
+
+    public Body getPlayerBody() {
+        return player.getPlayerBody();
+    }
+
+    public void movePlayerDown() {
+        player.movePlayerDown();
     }
 
     /**
@@ -43,50 +61,60 @@ public class GameModel extends Game {
      * @param startY start y value
      */
     public void makePlayer(int startX, int startY) {
-        this.player = new PlayerModel(startX, startY);
+        this.player = new PlayerModel(startX, startY, world);
     }
-
+    
     /** Moves player to the left based on its speed */
-    public void movePlayerLeft(float delta) { // for å bevege karakter når man bruker wasd
-        float prevX = player.getX();
-        player.move(-delta * player.getSpeed(), 0);
-        if (platformCollision()) {
-            player.setX(prevX);
-        } 
-        // TODO: Check if player collides with enemies
+    public void movePlayerLeft() { // for å bevege karakter når man bruker wasd
+        player.movePlayerLeft();
     }
 
     /** Moves player to the right based on its speed */
-    public void movePlayerRight(float delta) {
-        float prevX = player.getX();
-        player.move(delta * player.getSpeed(), 0);
-        if (platformCollision()) {
-            player.setX(prevX);
-        } 
-          // TODO: Check if player collides with enemies
+    public void movePlayerRight() {
+        player.movePlayerRight();
     }
 
+    // /** Moves player to the left based on its speed */
+    // public void movePlayerLeft(float delta) { // for å bevege karakter når man bruker wasd
+    //     float prevX = player.getX();
+    //     player.move(-delta * player.getSpeed(), 0);
+    //     if (platformCollision()) {
+    //         player.setX(prevX);
+    //     } 
+    //     // TODO: Check if player collides with enemies
+    // }
 
-    /** Moves player to the up based on its speed */
-    public void movePlayerUp(float delta) {
-        float prevY = player.getY();
-        player.move(0, delta * player.getSpeed());
-        if (platformCollision()) {
-            player.setY(prevY);
-        } 
-         // TODO: Check if player collides with enemies
-    }
+    // /** Moves player to the right based on its speed */
+    // public void movePlayerRight(float delta) {
+    //     float prevX = player.getX();
+    //     player.move(delta * player.getSpeed(), 0);
+    //     if (platformCollision()) {
+    //         player.setX(prevX);
+    //     } 
+    //       // TODO: Check if player collides with enemies
+    // }
 
 
-    /** Moves player to the down based on its speed */
-    public void movePlayerDown(float delta) {
-        float prevY = player.getY();
-        player.move(0, -delta * player.getSpeed());
-        if (platformCollision()) {
-            player.setY(prevY);
-        }
-        // TODO: Check if player collides with enemies
-    }
+    // /** Moves player to the up based on its speed */
+    // public void movePlayerUp(float delta) {
+    //     float prevY = player.getY();
+    //     player.move(0, delta * player.getSpeed());
+    //     if (platformCollision()) {
+    //         player.setY(prevY);
+    //     } 
+    //      // TODO: Check if player collides with enemies
+    // }
+
+
+    // /** Moves player to the down based on its speed */
+    // public void movePlayerDown(float delta) {
+    //     float prevY = player.getY();
+    //     player.move(0, -delta * player.getSpeed());
+    //     if (platformCollision()) {
+    //         player.setY(prevY);
+    //     }
+    //     // TODO: Check if player collides with enemies
+    // }
 
     /**
      * Checks to see if player lands a hit on an enemy

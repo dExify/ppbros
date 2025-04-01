@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -49,7 +50,7 @@ public class ScreenView implements Screen {
         // startY = -Gdx.graphics.getHeight()/2;
 
         // Sets player start position
-        gameModel.makePlayer(0, 0);
+        gameModel.makePlayer(700, 700);
     }
 
     @Override
@@ -117,7 +118,7 @@ public class ScreenView implements Screen {
         }
 
         // gameModel.stopTimer();
-        camera.position.y = gameModel.getCameraYCoordinate();
+        // camera.position.y = gameModel.getCameraYCoordinate();
         camera.update();
 
         // Health
@@ -132,7 +133,8 @@ public class ScreenView implements Screen {
         shapeRenderer.rect(2*gameModel.getPlayer().getWidth(), 50, gameModel.getPlayer().getWidth(), gameModel.getPlayer().getHeight());
         shapeRenderer.end();
         
-        playerController.update(delta);
+        playerController.update();
+        
         // player faces the direction it is walking
         if (playerController.facesLeft){
             loadNewTexture(playerLeft);
@@ -146,11 +148,14 @@ public class ScreenView implements Screen {
             //TODO: set game state Game over or take live/heath of player
             // this.dispose();
         }
+
+        gameModel.updateWorld();
     }
 
     private void drawPlayer() {
+        gameModel.movePlayerDown();
         batch.begin();
-        batch.draw(resizedPlayerTexture, player.getX(), player.getY(), resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
+        batch.draw(resizedPlayerTexture, player.getPlayerPos().x, player.getPlayerPos().y, resizedPlayerTexture.getWidth(), resizedPlayerTexture.getHeight());
         batch.end();
     }
 
