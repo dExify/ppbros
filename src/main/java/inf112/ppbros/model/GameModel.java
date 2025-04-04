@@ -1,6 +1,8 @@
 package inf112.ppbros.model;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 
 import com.badlogic.gdx.Game;
@@ -9,15 +11,19 @@ import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.model.Entity.EnemyModel;
+import inf112.ppbros.model.Entity.EntityType;
 import inf112.ppbros.model.Entity.PlayerModel;
+import inf112.ppbros.model.Entity.RandomEnemyMaker;
 import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.PlatformGridMaker;
+import inf112.ppbros.model.Platform.TileConfig;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
 
 public class GameModel extends Game {
     private PlayerModel player;
-    private EnemyModel enemy;
+    private List<EnemyModel> enemies;
+    private RandomEnemyMaker randomEnemyMaker;
     private int cameraPos;
     private Timer timer;
     private CameraYPos timerTask;
@@ -29,9 +35,10 @@ public class GameModel extends Game {
         this.setScreen(new StartMenuView(this));
         this.cameraPos = 0;
         this.platformGridMaker = new PlatformGridMaker();
+        randomEnemyMaker = new RandomEnemyMaker();
+        enemies = new ArrayList<>();
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
-        this.hitboxes = new ArrayList<Rectangle>();
     }
 
     public PlayerModel getPlayer() {
@@ -46,6 +53,7 @@ public class GameModel extends Game {
     public void makePlayer(int startX, int startY) {
         this.player = new PlayerModel(startX, startY);
     }
+
 
     /** Moves player to the left based on its speed */
     public void movePlayerLeft(float delta) { // for å bevege karakter når man bruker wasd
@@ -94,7 +102,8 @@ public class GameModel extends Game {
      * @return true if player can land a hit, false if they cannot
      */
     public boolean canPlayerAttack() {
-        return player.canAttack(enemy);
+        throw new UnsupportedOperationException();
+        //return player.canAttack(enemies);
     }
    
     /**
@@ -145,8 +154,20 @@ public class GameModel extends Game {
      */
     public PlatformGrid getNextPlatformGrid() {
         platformGrid = platformGridMaker.getNextPlatformGrid();
+        for (int i = 0; i < 5; i++) {
+            updateEnemies(platformGrid);
+        }
         hitboxes.addAll(platformGrid.getHitboxes());
         return platformGrid;
+    }
+
+    private void updateEnemies(PlatformGrid platformGrid) {
+        EnemyModel newEnemy = randomEnemyMaker.getNext(platformGrid);
+        enemies.add(newEnemy);
+    }
+
+    public List<EnemyModel> getEnemies() {
+        return enemies;
     }
 
     /**
