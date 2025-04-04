@@ -17,15 +17,17 @@ import com.badlogic.gdx.Input;
 public class PlayerController extends InputAdapter {
     private GameModel gameModel;
     private ScreenView gameView;
+    private AudioController audioController;
     private HashSet<Integer> keysPressed = new HashSet<>();
     private boolean facesLeft = false;
-    private boolean isAttacking;
+    private boolean isAttacking = false;
     
     
     public PlayerController(GameModel gameModel, ScreenView gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
         Gdx.input.setInputProcessor(this);
+        this.audioController = new AudioController();
     }
     
     @Override
@@ -33,7 +35,7 @@ public class PlayerController extends InputAdapter {
         keysPressed.add(keycode); // Track key presses
         switch (keycode) {
             case Input.Keys.F:
-            
+            isAttacking = !isAttacking;
             // When F is pressed, checks to see if player can attack
             if (gameModel.canPlayerAttack()) {
                 System.out.println("Hit registered!");
@@ -56,6 +58,7 @@ public class PlayerController extends InputAdapter {
     }
     
     public void update(float deltaTime) {
+
         // Check held keys and move player continuously
         if (keysPressed.contains(Input.Keys.D)) {
             gameModel.movePlayerRight(deltaTime);
@@ -71,6 +74,9 @@ public class PlayerController extends InputAdapter {
         if (keysPressed.contains(Input.Keys.S)) {
             gameModel.movePlayerDown(deltaTime);
         }
+        if (keysPressed.contains(Input.Keys.F) && isAttacking()) {
+            audioController.playSoundEffect("attack");
+        }
     }
     
     public boolean isMoving() {
@@ -82,6 +88,10 @@ public class PlayerController extends InputAdapter {
     
     public boolean facesLeft() {
         return facesLeft;
+    }
+
+    public boolean isAttacking() {
+        return isAttacking;
     }
     
 }

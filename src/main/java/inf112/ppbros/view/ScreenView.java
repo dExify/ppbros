@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 
+import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
@@ -41,12 +42,11 @@ public class ScreenView implements Screen {
     private PlayerModel player;
     private TextureRegion playerTextureRight;
     private TextureRegion playerTextureLeft;
-    private Texture resizedPlayerTexture;
-    private Animation<TextureRegion> playerAnimRight;
-    private Animation<TextureRegion> playerAnimLeft;
+    private Animation<TextureRegion> playerRunAnimR;
+    private Animation<TextureRegion> playerRunAnimL;
+    private Animation<TextureRegion> playerAttackAnimR;
+    private Animation<TextureRegion> playerAttackAnimL;
     private boolean isAttacking;
-    private boolean facesLeft;
-    private boolean isMoving;
     private TextureRegion currentFrame;
     private float animationTime = 0;
     
@@ -98,20 +98,33 @@ public class ScreenView implements Screen {
         playerTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_r.png")));
         playerTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_l.png")));
         
-        // Load player animation frames
-        Array<TextureRegion> framesRight = new Array<>();
+        // Load player animation frames for movement
+        Array<TextureRegion> runFramesRight = new Array<>();
         for (int i = 1; i <= 3; i++) { // 3 animation frames
-            framesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/anim/player" + i + "r.png"))));
+            runFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/movement/run_r" + i + ".png"))));
         }
 
-        Array<TextureRegion> framesLeft = new Array<>();
+        Array<TextureRegion> runFramesLeft = new Array<>();
         for (int i = 1; i <= 3; i++) { // 3 animation frames
-            framesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/anim/player" + i + "l.png"))));
+            runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/movement/run_l" + i + ".png"))));
+        }
+        // Load player animation frames for attacking
+        Array<TextureRegion> attackFramesRight = new Array<>();
+        for (int i = 1; i <= 4; i++) { // 3 animation frames
+            attackFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/attack/r" + i + ".png"))));
+        }
+
+        Array<TextureRegion> attackFramesLeft = new Array<>();
+        for (int i = 1; i <= 4; i++) { // 3 animation frames
+            attackFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/attack/l" + i + ".png"))));
         }
 
 
-        playerAnimRight = new Animation<>(0.1f, framesRight, Animation.PlayMode.LOOP);
-        playerAnimLeft = new Animation<>(0.1f, framesLeft, Animation.PlayMode.LOOP);
+        playerRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
+        playerRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
+
+        playerAttackAnimR = new Animation<>(0.1f, attackFramesRight, Animation.PlayMode.LOOP);
+        playerAttackAnimL = new Animation<>(0.1f, attackFramesLeft, Animation.PlayMode.LOOP);
 
 
         currentFrame = playerTextureRight;
@@ -149,19 +162,20 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         animationTime += delta;
 
-        //isAttacking = playerController.getAttackState();
-        isMoving = playerController.isMoving();
-        facesLeft = playerController.facesLeft();
+        isAttacking = playerController.isAttacking();
+        boolean isMoving = playerController.isMoving();
+        boolean facesLeft = playerController.facesLeft();
 
 
         if (isAttacking) { 
-            //currentFrame = facesLeft ? playerAttLeft.getKeyFrame(0) : playerAttRight.getKeyFrame(0);
+            currentFrame = facesLeft ? playerAttackAnimL.getKeyFrame(animationTime) : playerAttackAnimR.getKeyFrame(animationTime);
+
 
         } else if (!isMoving) { // Draws only first frame is character is standing still
             currentFrame = facesLeft ? playerTextureLeft : playerTextureRight;
 
         } else {
-            currentFrame = facesLeft ? playerAnimLeft.getKeyFrame(animationTime) : playerAnimRight.getKeyFrame(animationTime);
+            currentFrame = facesLeft ? playerRunAnimL.getKeyFrame(animationTime) : playerRunAnimR.getKeyFrame(animationTime);
         }
 
         batch.begin();
