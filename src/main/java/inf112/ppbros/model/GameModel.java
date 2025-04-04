@@ -102,7 +102,8 @@ public class GameModel extends Game {
      * @return true if player can land a hit, false if they cannot
      */
     public boolean canPlayerAttack() {
-        return player.canAttack(enemy);
+        throw new UnsupportedOperationException();
+        //return player.canAttack(enemies);
     }
    
     /**

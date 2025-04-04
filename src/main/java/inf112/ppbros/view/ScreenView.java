@@ -49,7 +49,7 @@ public class ScreenView implements Screen {
     private Animation<TextureRegion> playerRunAnimR;
     private Animation<TextureRegion> playerRunAnimL;
     private Animation<TextureRegion> playerAttackAnimR;
-    // private Animation<TextureRegion> playerAttackAnimL;
+    private Animation<TextureRegion> playerAttackAnimL;
     private boolean isAttacking;
     private TextureRegion currentFrame;
     private float animationTime = 0;
@@ -172,7 +172,7 @@ public class ScreenView implements Screen {
         stage.draw();
         
         // draw player and update controller for input
-        drawPlayer();
+        drawPlayerAttack();
 
         // temp for texture
         drawEnemies();
@@ -228,17 +228,6 @@ public class ScreenView implements Screen {
         batch.end();
     }
 
-    private void drawEnemies() {
-        enemies = gameModel.getEnemies();
-        batch.begin();
-        for (EnemyModel enemy : enemies) {
-            Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)enemy.getX(), (int)enemy.getY(), TILE_SIZE);
-            batch.draw(resizedEnemyTexture, enemyPosInPixels.x(), enemyPosInPixels.y(), resizedEnemyTexture.getWidth(), resizedEnemyTexture.getHeight());
-        }
-        
-        batch.end();
-    }
-
     private void drawPlayerAttack() {
         batch.begin();
         batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
@@ -276,8 +265,7 @@ public class ScreenView implements Screen {
                     Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
                     batch.draw(platformRustyTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
                 } else if (grid[x][y] == -1) {
-                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y + yPos, TILE_SIZE);
-                    batch.draw(redX, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                    //Placeholder for red X
                 } else { //Here we can choose what type of tiles to draw based on the integer in the 2D array
                     continue;
                 }
