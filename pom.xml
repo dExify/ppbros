@@ -16,12 +16,6 @@
 		<jvm.extra.args></jvm.extra.args>
 	</properties>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.jbox2d/jbox2d-library -->
-		<dependency>
-    		<groupId>org.jbox2d</groupId>
-    		<artifactId>jbox2d-library</artifactId>
-    		<version>2.2.1.1</version>
-		</dependency>
 		<dependency>
 			<!--libGDX graphics library – https://libgdx.com/ -->
 			<groupId>com.badlogicgames.gdx</groupId>
