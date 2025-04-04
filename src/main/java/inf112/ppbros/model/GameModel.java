@@ -1,33 +1,40 @@
 package inf112.ppbros.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 
 import com.badlogic.gdx.Game;
 
 import inf112.ppbros.model.Entity.EnemyModel;
+import inf112.ppbros.model.Entity.EntityType;
 import inf112.ppbros.model.Entity.PlayerModel;
+import inf112.ppbros.model.Entity.RandomEnemyMaker;
 import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.PlatformGridMaker;
+import inf112.ppbros.model.Platform.TileConfig;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
 
 public class GameModel extends Game {
     private PlayerModel player;
-    private EnemyModel enemy;
+    private List<EnemyModel> enemies;
+    private RandomEnemyMaker randomEnemyMaker;
     private int cameraPos;
     private Timer timer;
-    private CameraXPos timerTask;
+    private CameraYPos timerTask;
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
     
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
-
         this.cameraPos = 0;
-        this.timer = new Timer();
-        this.timerTask = new CameraXPos();
-        timer.scheduleAtFixedRate(timerTask, 0, 5);
         this.platformGridMaker = new PlatformGridMaker();
+        randomEnemyMaker = new RandomEnemyMaker();
+        enemies = new ArrayList<>();
+        this.timer = new Timer();
+        this.timerTask = new CameraYPos();
     }
 
     public PlayerModel getPlayer() {
@@ -42,6 +49,7 @@ public class GameModel extends Game {
     public void makePlayer(int startX, int startY) {
         this.player = new PlayerModel(startX, startY);
     }
+
 
     /** Moves player to the left based on its speed */
     public void movePlayerLeft(float delta) { // for å bevege karakter når man bruker wasd
@@ -121,7 +129,19 @@ public class GameModel extends Game {
      */
     public PlatformGrid getNextPlatformGrid() {
         platformGrid = platformGridMaker.getNextPlatformGrid();
+        for (int i = 0; i < 5; i++) {
+            updateEnemies(platformGrid);
+        }
         return platformGrid;
+    }
+
+    private void updateEnemies(PlatformGrid platformGrid) {
+        EnemyModel newEnemy = randomEnemyMaker.getNext(platformGrid);
+        enemies.add(newEnemy);
+    }
+
+    public List<EnemyModel> getEnemies() {
+        return enemies;
     }
 
     /**
@@ -131,6 +151,10 @@ public class GameModel extends Game {
     public int getCameraYCoordinate() {
         cameraPos = timerTask.getCameraPos();
         return cameraPos;
+    }
+
+    public void startTimer() {
+        timer.scheduleAtFixedRate(timerTask, 0, 10);
     }
 
     public void dispose() {
