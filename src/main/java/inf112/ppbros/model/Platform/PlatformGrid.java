@@ -80,7 +80,7 @@ public class PlatformGrid {
         tileGrid[gridX][gridY] = tileType;
         updateOccupiedCoordinates(gridX, gridY);
         Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
-        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y(), TILE_SIZE, TILE_SIZE));
+        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
     }
 
     /**

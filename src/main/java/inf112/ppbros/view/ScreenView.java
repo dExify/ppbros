@@ -148,10 +148,11 @@ public class ScreenView implements Screen {
             platformGridObject1 = platformGridObject2;
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
-        
-        //camera.position.y = gameModel.getCameraYCoordinate();
-        //camera.update();
-        
+
+        // gameModel.stopTimer();
+        camera.position.y = gameModel.getCameraYCoordinate();
+        camera.update();
+
         // Health
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
