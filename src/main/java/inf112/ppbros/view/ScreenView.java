@@ -1,7 +1,10 @@
 package inf112.ppbros.view;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,6 +24,7 @@ import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.Entity.PlayerModel;
+import inf112.ppbros.model.Entity.EnemyModel;
 import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.TileConfig;
 
@@ -45,10 +49,13 @@ public class ScreenView implements Screen {
     private Animation<TextureRegion> playerRunAnimR;
     private Animation<TextureRegion> playerRunAnimL;
     private Animation<TextureRegion> playerAttackAnimR;
-    private Animation<TextureRegion> playerAttackAnimL;
+    // private Animation<TextureRegion> playerAttackAnimL;
     private boolean isAttacking;
     private TextureRegion currentFrame;
     private float animationTime = 0;
+
+    private Texture enemyTexture, resizedEnemyTexture;
+    private List<EnemyModel> enemies;
     
     public ScreenView(GameModel model) {
         this.gameModel = model;
@@ -84,7 +91,7 @@ public class ScreenView implements Screen {
         screenRect = new Rectangle();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        
+
         // Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
         platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
@@ -92,6 +99,7 @@ public class ScreenView implements Screen {
         mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
         platformGridObject1 = gameModel.getNextPlatformGrid(); 
         platformGridObject2 = gameModel.getNextPlatformGrid();
+        enemies = gameModel.getEnemies();
         this.yPos = 0;
         
         // // Make Textures for player
@@ -132,18 +140,24 @@ public class ScreenView implements Screen {
         
         // get player from Model
         player = gameModel.getPlayer();
+
+        // Temp solution to test texture
+        enemyTexture = new Texture(Gdx.files.internal("slime_test.png"));
+        this.resizedEnemyTexture = TextureUtils.resizeTexture(enemyTexture, enemyTexture.getWidth()/3, enemyTexture.getHeight()/3);
+
+
         gameModel.startTimer();
     }
     
     @Override
     public void render(float delta) {
         batch.setProjectionMatrix(camera.combined);
-        
+
         drawBackground(); //Should only run once? -- batch.draw(mapTexture, 0, 0, 1920, 4800);
         
         drawPlatformGrid(platformGridObject1);
         drawPlatformGrid(platformGridObject2);
-        
+
         if (platformGridObject1.getYPos() < camera.position.y - 3 * TileConfig.platformGridHeightInPixels/2) {
             platformGridObject1 = platformGridObject2;
             platformGridObject2 = gameModel.getNextPlatformGrid();
@@ -159,6 +173,15 @@ public class ScreenView implements Screen {
         
         // draw player and update controller for input
         drawPlayer();
+
+        // temp for texture
+        drawEnemies();
+        
+        // show hitbox delete later
+        shapeRenderer.setColor(1, 0, 0, 0);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);    
+        shapeRenderer.rect(2*gameModel.getPlayer().getWidth(), 50, gameModel.getPlayer().getWidth(), gameModel.getPlayer().getHeight());
+        shapeRenderer.end();
         
         playerController.update(delta);
         animationTime += delta;
@@ -194,6 +217,28 @@ public class ScreenView implements Screen {
         batch.end();
     }
 
+    private void drawEnemies() {
+        enemies = gameModel.getEnemies();
+        batch.begin();
+        for (EnemyModel enemy : enemies) {
+            Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)enemy.getX(), (int)enemy.getY(), TILE_SIZE);
+            batch.draw(resizedEnemyTexture, enemyPosInPixels.x(), enemyPosInPixels.y(), resizedEnemyTexture.getWidth(), resizedEnemyTexture.getHeight());
+        }
+        
+        batch.end();
+    }
+
+    private void drawEnemies() {
+        enemies = gameModel.getEnemies();
+        batch.begin();
+        for (EnemyModel enemy : enemies) {
+            Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)enemy.getX(), (int)enemy.getY(), TILE_SIZE);
+            batch.draw(resizedEnemyTexture, enemyPosInPixels.x(), enemyPosInPixels.y(), resizedEnemyTexture.getWidth(), resizedEnemyTexture.getHeight());
+        }
+        
+        batch.end();
+    }
+
     private void drawPlayerAttack() {
         batch.begin();
         batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
@@ -206,6 +251,7 @@ public class ScreenView implements Screen {
         batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
         // batch.setColor(0F, 0F, 0F, 1F); //Set brightness to 0% (debugging)
         double backgroundHeight = (double) Gdx.graphics.getWidth() * 2.5;
+        batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.setColor(1F, 1F, 1F, 1F);
         batch.end();
@@ -229,6 +275,11 @@ public class ScreenView implements Screen {
                 } else if (grid[x][y] == 2) {
                     Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
                     batch.draw(platformRustyTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                } else if (grid[x][y] == -1) {
+                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y + yPos, TILE_SIZE);
+                    batch.draw(redX, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                } else { //Here we can choose what type of tiles to draw based on the integer in the 2D array
+                    continue;
                 }
             }
         }

@@ -2,6 +2,8 @@ package inf112.ppbros.model.Entity;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import inf112.ppbros.model.Coordinate;
+
 public class EnemyModel implements Entity {
     private float x, y;
     private int health;
@@ -16,9 +18,9 @@ public class EnemyModel implements Entity {
      * @param startX start x position for enemy
      * @param startY start y position for enemy
      */
-    public EnemyModel(float startX, float startY) {
-        this.x = startX;
-        this.y = startY;
+    public EnemyModel(Coordinate startPos, int yPos) {
+        this.x = startPos.x();
+        this.y = startPos.y() + yPos;
         this.health = 100;
         this.speed = 50.0f;
         this.width = 0;
