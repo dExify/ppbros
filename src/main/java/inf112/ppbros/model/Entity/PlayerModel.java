@@ -3,7 +3,7 @@ package inf112.ppbros.model.Entity;
 import com.badlogic.gdx.math.Rectangle;
 
 public class PlayerModel implements Entity {
-    private float x, y; // starting positions
+    private float x, y; // player position
     private int health;
     private final float speed; // remove final if player can change speed
     private final float attackRange;
@@ -21,7 +21,7 @@ public class PlayerModel implements Entity {
         this.y = startY;
         // sets default values
         this.health = 100; 
-        this.speed = 70.0f; // in pixels
+        this.speed = 250.0f; // in pixels
         this.attackRange = 10;
         this.attackDmg = 20;
         this.width = 0;
@@ -35,7 +35,7 @@ public class PlayerModel implements Entity {
      * @param damage damage character take
      */
     public void takeDamage(int damage) {
-        if (health >= damage) {
+        if (health > damage) {
             health -= damage;
         } else {
             health = 0;
@@ -58,8 +58,8 @@ public class PlayerModel implements Entity {
      * @param other collision box to check if player collides with
      * @return true or false based on if they collide or not
      */
-    public boolean collidesWith(Rectangle other) {
-        return collisionBox.overlaps(other);
+    public boolean collidesWith(Rectangle rectangle) {
+        return collisionBox.overlaps(rectangle);
     }
 
     /**
@@ -109,6 +109,14 @@ public class PlayerModel implements Entity {
     @Override
     public float getY() {
         return y;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     @Override
