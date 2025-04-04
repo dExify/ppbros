@@ -11,17 +11,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 /** 
- * The controller for Power Pipes Bros characters.
- * This class handles input for any playable characters. 
- */
+* The controller for Power Pipes Bros characters.
+* This class handles input for any playable characters. 
+*/
 public class PlayerController extends InputAdapter {
     private GameModel gameModel;
+    private ScreenView gameView;
+    private AudioController audioController;
     private HashSet<Integer> keysPressed = new HashSet<>();
-    public boolean facesLeft = false;
+    private boolean facesLeft = false;
+    private boolean isAttacking = false;
+    
     
     public PlayerController(GameModel gameModel, ScreenView gameView) {
         this.gameModel = gameModel;
+        this.gameView = gameView;
         Gdx.input.setInputProcessor(this);
+        this.audioController = new AudioController();
     }
     
     @Override
@@ -29,6 +35,7 @@ public class PlayerController extends InputAdapter {
         keysPressed.add(keycode); // Track key presses
         switch (keycode) {
             case Input.Keys.F:
+            isAttacking = !isAttacking;
             // When F is pressed, checks to see if player can attack
             if (gameModel.canPlayerAttack()) {
                 System.out.println("Hit registered!");
@@ -43,14 +50,15 @@ public class PlayerController extends InputAdapter {
         }
         return true;
     }
-
+    
     @Override
     public boolean keyUp(int keycode) {
         keysPressed.remove(keycode); // Remove released keys
         return true;
     }
-
+    
     public void update(float deltaTime) {
+
         // Check held keys and move player continuously
         if (keysPressed.contains(Input.Keys.D)) {
             gameModel.movePlayerRight(deltaTime);
@@ -66,6 +74,24 @@ public class PlayerController extends InputAdapter {
         if (keysPressed.contains(Input.Keys.S)) {
             gameModel.movePlayerDown(deltaTime);
         }
+        if (keysPressed.contains(Input.Keys.F) && isAttacking()) {
+            audioController.playSoundEffect("attack");
+        }
+    }
+    
+    public boolean isMoving() {
+        return keysPressed.contains(Input.Keys.D) || 
+        keysPressed.contains(Input.Keys.A) || 
+        keysPressed.contains(Input.Keys.W) || 
+        keysPressed.contains(Input.Keys.S);
+    }
+    
+    public boolean facesLeft() {
+        return facesLeft;
     }
 
+    public boolean isAttacking() {
+        return isAttacking;
+    }
+    
 }
