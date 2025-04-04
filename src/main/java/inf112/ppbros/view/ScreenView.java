@@ -158,7 +158,7 @@ public class ScreenView implements Screen {
             //currentFrame = facesLeft ? playerAttLeft.getKeyFrame(0) : playerAttRight.getKeyFrame(0);
 
         } else if (!isMoving) { // Draws only first frame is character is standing still
-            currentFrame = facesLeft ? playerTextureLeft : playerAnimRight.getKeyFrame(0);
+            currentFrame = facesLeft ? playerTextureLeft : playerTextureRight;
 
         } else {
             currentFrame = facesLeft ? playerAnimLeft.getKeyFrame(animationTime) : playerAnimRight.getKeyFrame(animationTime);
