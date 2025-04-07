@@ -30,6 +30,7 @@ public class GameModel extends Game {
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
     private ArrayList<Rectangle> hitboxes;
+    private EnemyModel enemy; // PLACEHOLDER
     
     public GameModel() { // change later so it has the background and platform as parameters
         this.setScreen(new StartMenuView(this));
@@ -39,6 +40,7 @@ public class GameModel extends Game {
         enemies = new ArrayList<>();
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
+        this.hitboxes = new ArrayList<Rectangle>(); // PLACEHOLDER
     }
 
     public PlayerModel getPlayer() {
@@ -102,18 +104,19 @@ public class GameModel extends Game {
      * @return true if player can land a hit, false if they cannot
      */
     public boolean canPlayerAttack() {
-        throw new UnsupportedOperationException();
-        //return player.canAttack(enemies);
+        return player.canAttack(enemy);
     }
    
     /**
      * Player attacks enemy and enemy takes damage.
      * When enemy no longer has more health they die.
      */
-    public void playerAttacksEnemy() {
-        enemy.takeDamage(player.getAttackDmg());
-        // TODO: do a check for when the enemy no longer has hp and update score/kill count
-    }
+    // public void playerAttacksEnemy() {
+    //     enemy.takeDamage(player.getAttackDmg());
+    //     // TODO: do a check for when the enemy no longer has hp and update score/kill count
+    // }
+
+    // KOMMENTERT UT FOR Å FÅ FUNGERENDE KODE
 
     /**
      * Player is hit by enemy and takes damage.

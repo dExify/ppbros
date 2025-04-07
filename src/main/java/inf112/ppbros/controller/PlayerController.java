@@ -39,7 +39,7 @@ public class PlayerController extends InputAdapter {
             // When F is pressed, checks to see if player can attack
             if (gameModel.canPlayerAttack()) {
                 System.out.println("Hit registered!");
-                gameModel.playerAttacksEnemy();
+                //gameModel.playerAttacksEnemy(); // FUNKER IKKE
             } else {
                 System.out.println("No hit");
             }
