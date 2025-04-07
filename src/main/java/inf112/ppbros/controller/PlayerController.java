@@ -61,18 +61,22 @@ public class PlayerController extends InputAdapter {
 
         // Check held keys and move player continuously
         if (keysPressed.contains(Input.Keys.D)) {
-            gameModel.movePlayerRight(deltaTime);
+            // gameModel.movePlayerRight(deltaTime);
+            gameModel.movePlayer(deltaTime, 0);
             facesLeft = false;
         }
         if (keysPressed.contains(Input.Keys.A)) {
-            gameModel.movePlayerLeft(deltaTime);
+            // gameModel.movePlayerLeft(deltaTime);
+            gameModel.movePlayer(-deltaTime, 0);
             facesLeft = true;
         }
         if (keysPressed.contains(Input.Keys.W)) {
-            gameModel.movePlayerUp(deltaTime);
+            // gameModel.movePlayerUp(deltaTime);
+            gameModel.movePlayer(0, deltaTime);
         }
         if (keysPressed.contains(Input.Keys.S)) {
-            gameModel.movePlayerDown(deltaTime);
+            // gameModel.movePlayerDown(deltaTime);
+            gameModel.movePlayer(0, -deltaTime);
         }
         if (keysPressed.contains(Input.Keys.F) && isAttacking()) {
             audioController.playSoundEffect("attack");

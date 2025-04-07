@@ -144,4 +144,8 @@ public class PlayerModel implements Entity {
         return width;
     }
     
+    public Rectangle getHitbox() {
+        return collisionBox;
+    }
+
 }

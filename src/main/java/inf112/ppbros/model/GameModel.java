@@ -58,42 +58,12 @@ public class GameModel extends Game {
 
 
     /** Moves player to the left based on its speed */
-    public void movePlayerLeft(float delta) { // for å bevege karakter når man bruker wasd
+    public void movePlayer(float deltaX, float deltaY) { // for å bevege karakter når man bruker wasd
         float prevX = player.getX();
-        player.move(-delta * player.getSpeed(), 0);
+        float prevY = player.getY();
+        player.move(deltaX * player.getSpeed(), deltaY * player.getSpeed());
         if (platformCollision()) {
             player.setX(prevX);
-        } 
-        // TODO: Check if player collides with enemies
-    }
-
-    /** Moves player to the right based on its speed */
-    public void movePlayerRight(float delta) {
-        float prevX = player.getX();
-        player.move(delta * player.getSpeed(), 0);
-        if (platformCollision()) {
-            player.setX(prevX);
-        } 
-          // TODO: Check if player collides with enemies
-    }
-
-
-    /** Moves player to the up based on its speed */
-    public void movePlayerUp(float delta) {
-        float prevY = player.getY();
-        player.move(0, delta * player.getSpeed());
-        if (platformCollision()) {
-            player.setY(prevY);
-        } 
-         // TODO: Check if player collides with enemies
-    }
-
-
-    /** Moves player to the down based on its speed */
-    public void movePlayerDown(float delta) {
-        float prevY = player.getY();
-        player.move(0, -delta * player.getSpeed());
-        if (platformCollision()) {
             player.setY(prevY);
         }
         // TODO: Check if player collides with enemies
@@ -173,6 +143,10 @@ public class GameModel extends Game {
         return enemies;
     }
 
+    public boolean checkOutOfBounds() {
+        return isOutOfBounds();
+    }
+
     /**
      * Returns an integer that represents the x coordiante of the viewport
      * @return int
@@ -192,5 +166,9 @@ public class GameModel extends Game {
 
     public void dispose() {
         timer.cancel();
+    }
+
+    public ArrayList<Rectangle> getHitboxes() {
+        return hitboxes;
     }
 }
