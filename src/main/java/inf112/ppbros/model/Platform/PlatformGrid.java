@@ -60,7 +60,7 @@ public class PlatformGrid {
             for (int y = 0; y < pattern.length; y++) {
                 for (int x = 0; x < pattern[y].length; x++) {
                     if (pattern[y][x] != 0) {
-                        insertTile(pattern[y][x], start, x, y);
+                        insertTile(pattern[y][x], start, x, pattern.length - 1 - y);
                     }
                 }   
             }
@@ -130,20 +130,6 @@ public class PlatformGrid {
      */
     private void updateOccupiedCoordinates(int x, int y) {
         occupiedCoordinates.add(new Coordinate(x, y));
-    }
-
-    /**
-     * Prints a text representation of the array
-     */
-    public void printArray() { // debugging
-        System.out.println("Platform grid upside down :");
-        for (int y = 0; y < tileGrid[0].length; y++) {
-            for (int x = 0; x < tileGrid.length; x++) {
-                System.out.print(tileGrid[x][y] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
 }
