@@ -9,9 +9,9 @@ public class EnemyModel implements Entity {
     private int health;
     private final float speed;
     private final float attackRange;
-    private final Rectangle collisionBox;
     private final int attackDmg;
     private float width, height;
+    private Rectangle collisionBox;
 
     /**
      * An enemy model contains the attributes and functions for enemies in the game
@@ -31,18 +31,32 @@ public class EnemyModel implements Entity {
     }
 
     /**
-     * Enemy looses health based on how much damage taken 
-     * @param damage damage enemy takes
+     * Update collision box with new x and y values
+     * @param x new x value
+     * @param y new y value
      */
+    public void updateCollisionBox(float x, float y) {
+        this.collisionBox.setPosition(x, y);
+    }
+    
+    @Override
     public void takeDamage(int damage) {
-        health -= damage;
+        if (health > damage) {
+            health -= damage;
+        } else {
+            health = 0;
+            // TODO: enemy dies and has to be removed
+        }
+        if (health == 0) {
+            // TODO: enemy dies and has to be removed
+        }
     }
 
     @Override
     public void move(float dx, float dy) {
         x += dx;
         y += dy;
-        collisionBox.setPosition(x,y);
+        collisionBox.setPosition(x, y);
     }
     
     @Override
@@ -92,12 +106,12 @@ public class EnemyModel implements Entity {
 
     @Override
     public float getHeight() {
-        return getHeight();
+        return height;
     }
 
     @Override
     public float getWidth() {
-        return getWidth();
+        return width;
     }
 
     @Override

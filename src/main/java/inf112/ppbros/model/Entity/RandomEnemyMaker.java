@@ -1,6 +1,9 @@
 package inf112.ppbros.model.Entity;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.Platform.PlatformGrid;
@@ -13,6 +16,7 @@ public class RandomEnemyMaker {
 
   public RandomEnemyMaker() {
     this.random = new Random();
+    // this.hitboxes = new ArrayList<>();
   }
 
   /**
@@ -24,7 +28,8 @@ public class RandomEnemyMaker {
     this.grid = grid;
     Coordinate spawnPos = getValidSpawnPos(grid); // get a valid spawn position for the enemy
     // EnemyModel enemy = newRandomEnemy();
-    return new EnemyModel(spawnPos, (grid.getYPos()/TileConfig.platformGridHeightInPixels)*14);
+    EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos()/TileConfig.platformGridHeightInPixels)*TileConfig.GRID_HEIGHT);
+    return enemy;
     // TODO: GOSH DARN FIX THE Y POSITION CALCUALATION, IT CANT BE CALCULATED AS IS
   }
 
@@ -45,6 +50,7 @@ public class RandomEnemyMaker {
       int y = random.nextInt(TileConfig.GRID_HEIGHT - 1) + 1; // random y coordinate for enemy
       coordinate = new Coordinate(x, y); // random coordinate for enemy
       if (platformGrid[x][y] == 0 && platformGrid[x][y-1] != 0) {
+        // TODO: MAKE A CHECK THAT TAKES IN CONSIDERATION OF ENEMY'S SURROUNDING AREA (DON'T LET IT SPAWN WHEN ANOTHER ENEMY IS NEARBY)
         return coordinate; // returns the valid spawn coordnate for the enemy
       } else {
         continue; // if the coordinate is not valid, continue to search for a new one

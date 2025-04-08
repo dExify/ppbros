@@ -96,7 +96,6 @@ public class ScreenView implements Screen {
         mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
         platformGridObject1 = gameModel.getNextPlatformGrid(); 
         platformGridObject2 = gameModel.getNextPlatformGrid();
-        enemies = gameModel.getEnemies();
         this.yPos = 0;
         
         // Make Textures for player
@@ -138,7 +137,12 @@ public class ScreenView implements Screen {
         // Temp solution to test texture
         enemyTexture = new Texture(Gdx.files.internal("slime_test.png"));
         this.resizedEnemyTexture = TextureUtils.resizeTexture(enemyTexture, enemyTexture.getWidth()/3, enemyTexture.getHeight()/3);
-
+        enemies = gameModel.getEnemies();
+        // Set size for enemies based on enemy texture
+        for (EnemyModel enemy : enemies) {
+            enemy.setSize(resizedEnemyTexture.getWidth(),resizedEnemyTexture.getHeight());
+        }
+        
         gameModel.startTimer();
     }
     
@@ -156,7 +160,7 @@ public class ScreenView implements Screen {
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
 
-        // gameModel.stopTimer();
+        gameModel.stopTimer();
         camera.position.y = gameModel.getCameraYCoordinate();
         camera.update();
 
@@ -166,7 +170,7 @@ public class ScreenView implements Screen {
         
         // draw player and update controller for input
         drawPlayerAttack();
-
+        
         // temp for texture
         drawEnemies();
         
@@ -199,6 +203,7 @@ public class ScreenView implements Screen {
 
         // drawHitboxes(); //debugging
         // drawPlayerHitbox(); //debugging
+        // drawEnemiesHitbox(); //debugging
 
         if (gameModel.checkOutOfBounds()) {
             System.out.println("Player is out of bounds!");
@@ -213,14 +218,14 @@ public class ScreenView implements Screen {
 
     private void drawHitboxes() {
         batch.begin();
-        for (Rectangle rec : gameModel.getHitboxes()) {
+        for (Rectangle rec : gameModel.getPlatformHitboxes()) {
             batch.draw(debuggingTexture, rec.getX(), rec.getY(), TILE_SIZE, TILE_SIZE);
         }
         batch.end();
     }
 
     private void drawPlayerHitbox() {
-        Rectangle playerCollisionBox = player.getHitbox();
+        Rectangle playerCollisionBox = player.getCollisionBox();
         batch.begin();
         batch.draw(debuggingTexture, playerCollisionBox.getX(), playerCollisionBox.getY(), playerCollisionBox.getWidth(), playerCollisionBox.getHeight());
         batch.end();
@@ -232,6 +237,17 @@ public class ScreenView implements Screen {
         for (EnemyModel enemy : enemies) {
             Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)enemy.getX(), (int)enemy.getY(), TILE_SIZE);
             batch.draw(resizedEnemyTexture, enemyPosInPixels.x(), enemyPosInPixels.y(), resizedEnemyTexture.getWidth(), resizedEnemyTexture.getHeight());
+        }
+        batch.end();
+    }
+
+    private void drawEnemiesHitbox() {
+        enemies = gameModel.getEnemies();
+        batch.begin();
+        for (EnemyModel enemy : enemies){
+            batch.draw(debuggingTexture, enemy.getCollisionBox().getX(), enemy.getCollisionBox().getY(), enemy.getWidth(), enemy.getHeight());
+            // System.out.println("Enemy at: " + enemy.getCollisionBox().getX() + ", " + enemy.getCollisionBox().getY());
+            // System.out.println("Size: " + enemy.getCollisionBox().getWidth() + "x" + enemy.getCollisionBox().getHeight());
         }
         batch.end();
     }

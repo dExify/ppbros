@@ -5,37 +5,44 @@ import com.badlogic.gdx.math.Rectangle;
 public interface Entity {
     
     /**
-     * get the type of entity
+     * Get the type of entity
      * @return the type of entity
      */
     public EntityType getType();
 
     /**
-     * get the health of entity
+     * Get the health of entity
      * @return health for entity
      */
     public int getHealth();
 
     /**
-     * get the collision box of entity
+     * Entity looses damage based on how much damage taken.
+     * Entity dies when health drops to 0.
+     * @param damage damage entity takes
+     */
+    public void takeDamage(int damage);
+
+    /**
+     * Get the collision box of entity
      * @return rectangle collision box of entity
      */
     public Rectangle getCollisionBox();
 
     /**
-     * get the x value of character
+     * Get the x value of character
      * @return x value set for character
      */
     public float getX();
 
     /**
-     * get the y value of character
+     * Get the y value of character
      * @return y value set for character
      */
     public float getY();
 
     /**
-     * get the speed of character
+     * Get the speed of character
      * @return speed of character in pixel
      */
     public float getSpeed();
@@ -48,25 +55,25 @@ public interface Entity {
     public void move(float dx, float dy);
 
     /**
-     * get the attack range for character
+     * Get the attack range for character
      * @return attack range in pixels
      */
     public float getAttackRange();
 
     /**
-     * get the attack damage the entity can do
+     * Get the attack damage the entity can do
      * @return attack damage of entity 
      */
     public int getAttackDmg();
 
     /**
-     * get the height of the character
+     * Get the height of the character
      * @return height of character
      */
     public float getHeight();
 
     /**
-     * get the width of the character
+     * Get the width of the character
      * @return height of character
      */
     public float getWidth();

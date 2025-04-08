@@ -22,7 +22,7 @@ public class PlayerModel implements Entity {
         // sets default values
         this.health = 100; 
         this.speed = 250.0f; // in pixels
-        this.attackRange = 10;
+        this.attackRange = 140;
         this.attackDmg = 20;
         this.width = 0;
         this.height = 0;
@@ -30,32 +30,8 @@ public class PlayerModel implements Entity {
     }
 
     /**
-     * Character looses health based on how much damage taken
-     * and it is game over if player looses all health
-     * @param damage damage character take
-     */
-    public void takeDamage(int damage) {
-        if (health > damage) {
-            health -= damage;
-        } else {
-            health = 0;
-            // TODO: initiate GAMEE_OVER state/screen
-        }
-        if (health == 0) {
-            // TODO: initiate GAMEE_OVER state/screen
-        }
-    }
-
-    @Override
-    public void setSize(float width, float height) {
-        this.width = width;
-        this.height = height;
-        this.collisionBox.setSize(width, height);
-    }
-
-    /**
      * Checks to see if player collides with another collision rectangle
-     * @param other collision box to check if player collides with
+     * @param rectangle collision box to check if player collides with
      * @return true or false based on if they collide or not
      */
     public boolean collidesWith(Rectangle rectangle) {
@@ -68,7 +44,7 @@ public class PlayerModel implements Entity {
      * @return true if they can attack, false if they do not meet requirements
      */
     public boolean canAttack(Entity enemy) {
-        if (!(enemy instanceof EnemyModel)) return false;
+        if (!(enemy instanceof EnemyModel)) return false; // change if different enemytypes exists
         Rectangle enemyBox = ((EnemyModel) enemy).getCollisionBox();
         
         float horizontalDistance = Math.abs(enemyBox.x - x);
@@ -77,6 +53,26 @@ public class PlayerModel implements Entity {
         boolean isNotBelow = y >= enemyBox.y;
 
         return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        if (health > damage) {
+            health -= damage;
+        } else {
+            health = 0;
+            // TODO: initiate GAMEE_OVER state/screen
+        }
+        if (health == 0) {
+            // TODO: initiate GAMEE_OVER state/screen
+        }
+    }
+    
+    @Override
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+        this.collisionBox.setSize(width, height);
     }
 
     @Override
@@ -143,9 +139,4 @@ public class PlayerModel implements Entity {
     public float getWidth() {
         return width;
     }
-    
-    public Rectangle getHitbox() {
-        return collisionBox;
-    }
-
 }

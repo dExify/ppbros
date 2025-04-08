@@ -1,6 +1,7 @@
 package inf112.ppbros.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -19,6 +20,7 @@ import inf112.ppbros.model.Platform.PlatformGridMaker;
 import inf112.ppbros.model.Platform.TileConfig;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
+import inf112.ppbros.view.TilePositionInPixels;
 
 public class GameModel extends Game {
     private PlayerModel player;
@@ -27,12 +29,14 @@ public class GameModel extends Game {
     private int cameraPos;
     private Timer timer;
     private CameraYPos timerTask;
+    private static long lastExecution = 0;
+    private final long cooldownTimeMs = 1000; // 1 second, can be changed
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
-    private ArrayList<Rectangle> hitboxes;
-    private EnemyModel enemy; // PLACEHOLDER
+    private ArrayList<Rectangle> platformHitboxes;
+    private ArrayList<Rectangle> enemyHitboxes;
     
-    public GameModel() { // change later so it has the background and platform as parameters
+    public GameModel() {
         this.setScreen(new StartMenuView(this));
         this.cameraPos = 0;
         this.platformGridMaker = new PlatformGridMaker();
@@ -40,11 +44,29 @@ public class GameModel extends Game {
         enemies = new ArrayList<>();
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
-        this.hitboxes = new ArrayList<Rectangle>(); // PLACEHOLDER
+        this.platformHitboxes = new ArrayList<Rectangle>();
+        this.enemyHitboxes = new ArrayList<Rectangle>();
     }
 
+    @Override
+    public void create() {
+        this.setScreen(new ScreenView(this));
+    }
+
+    /**
+     * Returns player
+     * @return player
+     */
     public PlayerModel getPlayer() {
         return player;
+    }
+
+    /**
+     * Returns enemies as a list.
+     * @return enemies 
+     */
+    public List<EnemyModel> getEnemies() {
+        return enemies;
     }
 
     /**
@@ -56,44 +78,61 @@ public class GameModel extends Game {
         this.player = new PlayerModel(startX, startY);
     }
 
-
-    /** Moves player to the left based on its speed */
-    public void movePlayer(float deltaX, float deltaY) { // for å bevege karakter når man bruker wasd
+    /** Moves player based on its speed 
+     * @param deltaX horizontal movement
+     * @param deltaY vertical movement
+    */
+    public void movePlayer(float deltaX, float deltaY) {
         float prevX = player.getX();
         float prevY = player.getY();
         player.move(deltaX * player.getSpeed(), deltaY * player.getSpeed());
-        if (platformCollision()) {
+        if (collisionCheck(platformHitboxes)) {
             player.setX(prevX);
             player.setY(prevY);
         }
-        // TODO: Check if player collides with enemies
+        if (collisionCheck(enemyHitboxes)){
+            playerIsHit();
+        }
     }
 
     /**
-     * Checks to see if player lands a hit on an enemy
-     * @return true if player can land a hit, false if they cannot
+     * Returns enemy player can attack
+     * @return enemy player can attack
      */
-    public boolean canPlayerAttack() {
-        return player.canAttack(enemy);
+    public EnemyModel attackableEnemy() {
+        for (EnemyModel enemy : enemies){ // if mutiple enemies on same platform, this will not work well
+            if (player.canAttack(enemy)) {
+                return enemy;
+            }
+        }
+        return null;
     }
    
     /**
      * Player attacks enemy and enemy takes damage.
      * When enemy no longer has more health they die.
      */
-    // public void playerAttacksEnemy() {
-    //     enemy.takeDamage(player.getAttackDmg());
-    //     // TODO: do a check for when the enemy no longer has hp and update score/kill count
-    // }
-
-    // KOMMENTERT UT FOR Å FÅ FUNGERENDE KODE
+    public void playerAttacksEnemy(EnemyModel enemy) {
+        enemy.takeDamage(player.getAttackDmg());
+        if (enemy.getHealth() == 0) {
+            // TODO: update score/kill count
+        }
+        
+    }
 
     /**
      * Player is hit by enemy and takes damage.
-     * When player no longe has more health they die.
+     * Has a cooldown to prevent player from continously taking damage.
+     * When player no longe has more health they die/its game over.
      */
     public void playerIsHit() {
-        // TODO: do a check if player collision box and enemy collision box is overlapping, if so player looses damage
+        long now = System.currentTimeMillis();
+        if (now - lastExecution >= cooldownTimeMs){
+            lastExecution = now;
+            player.takeDamage(10); // change to getAttackdmg() but once we have added mutiple enemy types? 
+            System.out.println("Player is hit, -10 hp!");
+            System.out.println("Player health: " + player.getHealth());
+        }
     }
 
     /**
@@ -107,8 +146,16 @@ public class GameModel extends Game {
         playerY + player.getHeight() < getCameraYCoordinate() - Gdx.graphics.getHeight()/2);
     }
 
-    private boolean platformCollision() {
-        for (Rectangle rec : hitboxes) {
+    public boolean checkOutOfBounds() {
+        return isOutOfBounds();
+    }
+
+    /**
+     * Checks if player collides with an array containing collision boxes as rectangles
+     * @return true if player collides with a rectangle, false if they don't
+     */
+    private boolean collisionCheck(ArrayList<Rectangle> collisionBox) {
+        for (Rectangle rec : collisionBox) {
             if (player.collidesWith(rec)) {
                 return true;
             }
@@ -116,35 +163,35 @@ public class GameModel extends Game {
         return false;
     }
 
-    @Override
-    public void create() {
-        this.setScreen(new ScreenView(this));
-    }
-
     /**
-     * Builds a platform grid and returns the platformGrid object
-     * @return PlatformGrid
+     * Builds a platform grid and returns the platformGrid object and corresponding enemy on grid
+     * @return PlatformGrid with enemies
      */
     public PlatformGrid getNextPlatformGrid() {
         platformGrid = platformGridMaker.getNextPlatformGrid();
         for (int i = 0; i < 5; i++) {
             updateEnemies(platformGrid);
         }
-        hitboxes.addAll(platformGrid.getHitboxes());
+        platformHitboxes.addAll(platformGrid.getHitboxes());
         return platformGrid;
     }
 
+    /**
+     * Create new enemy based on platform grid.
+     * Converts enemy's position from tiles to pixels.
+     * Updates and adds collision box for enemy.
+     * Adds enemy to ArrayList of enemies.
+     * @param platformGrid grid to check valid position for enemy
+     */
     private void updateEnemies(PlatformGrid platformGrid) {
         EnemyModel newEnemy = randomEnemyMaker.getNext(platformGrid);
+        // Convert enemy positions from tiles to pixels 
+        Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TileConfig.TILE_SIZE);
+        // Update and add collisionbox to a list of all enemy collision boxes 
+        newEnemy.updateCollisionBox(enemyPosInPixels.x(), enemyPosInPixels.y());
+        enemyHitboxes.add(newEnemy.getCollisionBox());
+
         enemies.add(newEnemy);
-    }
-
-    public List<EnemyModel> getEnemies() {
-        return enemies;
-    }
-
-    public boolean checkOutOfBounds() {
-        return isOutOfBounds();
     }
 
     /**
@@ -156,19 +203,32 @@ public class GameModel extends Game {
         return cameraPos;
     }
 
+    /**
+     * Start timer with fixed rate execution
+     */
     public void startTimer() {
         timer.scheduleAtFixedRate(timerTask, 0, 13);
     }
 
+    /**
+     * Stop camera movement.
+     */
     public void stopTimer() {
         timerTask.cancel();
     }
 
+    /**
+     * Terminate timer
+     */
     public void dispose() {
         timer.cancel();
     }
 
-    public ArrayList<Rectangle> getHitboxes() {
-        return hitboxes;
+    /**
+     * Get platform hitboxes
+     * @return platform hitboxes as an ArrayList containing Rectangles
+     */
+    public ArrayList<Rectangle> getPlatformHitboxes() {
+        return platformHitboxes;
     }
 }
