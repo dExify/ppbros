@@ -12,7 +12,7 @@ public class PlatformGridMaker {
 
     public PlatformGrid getNextPlatformGrid() {
         platformGridObject = new PlatformGrid(platformMaker, iteration);
-        platformGridObject.buildGrid(5);
+        platformGridObject.buildGrid(20);
         iteration += 1;
         return platformGridObject;
     }
