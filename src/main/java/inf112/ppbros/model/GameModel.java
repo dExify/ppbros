@@ -3,21 +3,17 @@ package inf112.ppbros.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
-import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.model.Entity.EnemyModel;
-import inf112.ppbros.model.Entity.EntityType;
 import inf112.ppbros.model.Entity.PlayerModel;
 import inf112.ppbros.model.Entity.RandomEnemyMaker;
 import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.PlatformGridMaker;
-import inf112.ppbros.model.Platform.TileConfig;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
 import inf112.ppbros.view.TilePositionInPixels;
@@ -33,8 +29,6 @@ public class GameModel extends Game {
     private static long lastExecution = 0;
     private final long cooldownTimeMs = 1000; // 1 second, can be changed
     private PlatformGridMaker platformGridMaker;
-    private PlatformGrid platformGrid;
-    private PlatformGrid basePlatform;
     private ArrayList<Rectangle> hitboxes;
     private EnemyModel enemy; // PLACEHOLDER
     
@@ -189,6 +183,7 @@ public class GameModel extends Game {
      * @return PlatformGrid with enemies
      */
     public PlatformGrid getNextPlatformGrid() {
+        PlatformGrid platformGrid;
         platformGrid = platformGridMaker.getNextPlatformGrid();
         for (int i = 0; i < 5; i++) {
             updateEnemies(platformGrid);
@@ -245,12 +240,8 @@ public class GameModel extends Game {
         timer.cancel();
     }
 
-    /**
-     * Get platform hitboxes
-     * @return platform hitboxes as an ArrayList containing Rectangles
-     */
-    public ArrayList<Rectangle> getPlatformHitboxes() {
-        return platformHitboxes;
+    public List<Rectangle> getHitboxes() {
+        return hitboxes;
     }
     public void jump() {
         player.jump();

@@ -1,6 +1,6 @@
 package inf112.ppbros.model.Entity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
 
@@ -110,7 +110,7 @@ public class PlayerModel implements Entity {
         return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
     }
 
-        public void update(float deltaTime, ArrayList<Rectangle> platformHitboxes) {
+        public void update(float deltaTime, List<Rectangle> platformHitboxes) {
         // Apply gravity
         if (!isOnGround) {
             velocityY += GRAVITY;
