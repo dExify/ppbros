@@ -1,5 +1,7 @@
 package inf112.ppbros.model.Entity;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Rectangle;
 
 public class PlayerModel implements Entity {
@@ -8,8 +10,15 @@ public class PlayerModel implements Entity {
     private final float speed; // remove final if player can change speed
     private final float attackRange;
     private final int attackDmg;
-    private final Rectangle collisionBox;
-    private float width, height;
+    private Rectangle hitbox;
+    private float width;
+    private float height;
+    private float velocityY = 0;
+    private final float GRAVITY = -20f;
+    private final float MAX_FALL_SPEED = -150f;
+    private final float JUMP_VELOCITY = 700f;
+
+    private boolean isOnGround = false;
 
     /**
      * A player model contains the attributes and functions for any controllable character in the game
@@ -26,7 +35,7 @@ public class PlayerModel implements Entity {
         this.attackDmg = 20;
         this.width = 0;
         this.height = 0;
-        this.collisionBox = new Rectangle(x, y, width, height);
+        this.hitbox = new Rectangle(x, y, width, height);
     }
 
     /**
@@ -72,19 +81,80 @@ public class PlayerModel implements Entity {
     public void setSize(float width, float height) {
         this.width = width;
         this.height = height;
-        this.collisionBox.setSize(width, height);
+        this.hitbox.setSize(width, height);
+    }
+
+    /**
+     * Checks to see if player collides with another collision rectangle
+     * @param other collision box to check if player collides with
+     * @return true or false based on if they collide or not
+     */
+    public boolean collidesWith(Rectangle rectangle) {
+        return hitbox.overlaps(rectangle);
+    }
+
+    /**
+     * Checks if player can attack given enemy
+     * @param enemy enemy to attack
+     * @return true if they can attack, false if they do not meet requirements
+     */
+    public boolean canAttack(Entity enemy) {
+        if (!(enemy instanceof EnemyModel)) return false;
+        Rectangle enemyBox = ((EnemyModel) enemy).getCollisionBox();
+        
+        float horizontalDistance = Math.abs(enemyBox.x - x);
+        float verticalDistance = Math.abs(enemyBox.y - y);
+
+        boolean isNotBelow = y >= enemyBox.y;
+
+        return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
+    }
+
+        public void update(float deltaTime, ArrayList<Rectangle> platformHitboxes) {
+        // Apply gravity
+        if (!isOnGround) {
+            velocityY += GRAVITY;
+            velocityY = Math.max(velocityY, MAX_FALL_SPEED);
+        }
+
+        // Apply velocity
+        y += velocityY * deltaTime;
+
+        // Update hitbox
+        hitbox.setPosition(x, y);
+
+        // Check for collisions
+        isOnGround = false;
+        for (Rectangle platform : platformHitboxes) {
+            if (hitbox.overlaps(platform)) {
+                // Snap the player on top of platform
+                y = platform.y + platform.height;
+                velocityY = 0;
+                isOnGround = true;
+                hitbox.setPosition(x, y);
+                break;
+            }
+        }
+    }
+
+
+    public void jump() {
+        if (isOnGround) {
+            velocityY = JUMP_VELOCITY;
+            isOnGround = false;
+        }
     }
 
     @Override
     public void move(float dx, float dy) {
         x += dx;
         y += dy;
-        collisionBox.setPosition(x,y);
+        hitbox.setPosition(x,y);
     }
     
     @Override
     public Rectangle getCollisionBox() {
-        return collisionBox;
+        return hitbox;
     }
 
     @Override
@@ -139,4 +209,9 @@ public class PlayerModel implements Entity {
     public float getWidth() {
         return width;
     }
+    
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
+
 }

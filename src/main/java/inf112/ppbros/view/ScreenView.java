@@ -45,7 +45,9 @@ public class ScreenView implements Screen {
 
     private final int TILE_SIZE = TileConfig.TILE_SIZE;
     private int yPos;
-    private PlatformGrid platformGridObject1, platformGridObject2;
+    private PlatformGrid basePlatform;
+    private PlatformGrid platformGridObject1;
+    private PlatformGrid platformGridObject2;
     private Texture mapTexture, platformTexture, platformRustyTexture, debuggingTexture;
     
     private PlayerModel player;
@@ -63,7 +65,7 @@ public class ScreenView implements Screen {
         this.playerController = new PlayerController(model, this);
     
         // Sets player start position
-        gameModel.makePlayer(0, 0);
+        gameModel.makePlayer(0, 50);
     }
     
     @Override
@@ -180,6 +182,23 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         animationTime += delta;
 
+        drawPlayer();
+        
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
+        stage.draw();
+        playerController.update(delta);
+        gameModel.updatePlayer();
+
+        // drawHitboxes(); //debugging
+        // drawPlayerHitbox(); //debugging
+
+
+        if (gameModel.checkOutOfBounds()) {
+            System.out.println("Player is out of bounds!");
+        }
+    }
+    
+    private void drawPlayer() {
         isAttacking = playerController.isAttacking();
         boolean isMoving = playerController.isMoving();
         boolean facesLeft = playerController.facesLeft();
@@ -301,6 +320,7 @@ public class ScreenView implements Screen {
         }
         batch.end();
     }
+
     
     @Override
     public void resize(int width, int height) {

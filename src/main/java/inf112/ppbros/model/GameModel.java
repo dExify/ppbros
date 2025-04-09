@@ -34,8 +34,9 @@ public class GameModel extends Game {
     private final long cooldownTimeMs = 1000; // 1 second, can be changed
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
-    private ArrayList<Rectangle> platformHitboxes;
-    private ArrayList<Rectangle> enemyHitboxes;
+    private PlatformGrid basePlatform;
+    private ArrayList<Rectangle> hitboxes;
+    private EnemyModel enemy; // PLACEHOLDER
     
     public GameModel() {
         this.setScreen(new StartMenuView(this));
@@ -251,4 +252,11 @@ public class GameModel extends Game {
     public ArrayList<Rectangle> getPlatformHitboxes() {
         return platformHitboxes;
     }
+    public void jump() {
+        player.jump();
+    }
+    public void updatePlayer() {
+        player.update(Gdx.graphics.getDeltaTime(), hitboxes);
+    }
+    
 }
