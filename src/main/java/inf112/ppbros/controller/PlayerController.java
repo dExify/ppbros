@@ -70,14 +70,6 @@ public class PlayerController extends InputAdapter {
             gameModel.movePlayer(-deltaTime, 0);
             facesLeft = true;
         }
-        // if (keysPressed.contains(Input.Keys.W)) {
-        //     // gameModel.movePlayerUp(deltaTime);
-        //     gameModel.movePlayer(0, deltaTime);
-        // }
-        // if (keysPressed.contains(Input.Keys.S)) {
-        //     // gameModel.movePlayerDown(deltaTime);
-        //     gameModel.movePlayer(0, -deltaTime);
-        // }
         if (keysPressed.contains(Input.Keys.SPACE)) {
             gameModel.jump();
         }

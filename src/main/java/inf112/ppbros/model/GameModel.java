@@ -2,21 +2,17 @@ package inf112.ppbros.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
-import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.model.Entity.EnemyModel;
-import inf112.ppbros.model.Entity.EntityType;
 import inf112.ppbros.model.Entity.PlayerModel;
 import inf112.ppbros.model.Entity.RandomEnemyMaker;
 import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.PlatformGridMaker;
-import inf112.ppbros.model.Platform.TileConfig;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
 
@@ -28,8 +24,6 @@ public class GameModel extends Game {
     private Timer timer;
     private CameraYPos timerTask;
     private PlatformGridMaker platformGridMaker;
-    private PlatformGrid platformGrid;
-    private PlatformGrid basePlatform;
     private ArrayList<Rectangle> hitboxes;
     private EnemyModel enemy; // PLACEHOLDER
     
@@ -41,7 +35,7 @@ public class GameModel extends Game {
         enemies = new ArrayList<>();
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
-        this.hitboxes = new ArrayList<Rectangle>(); // PLACEHOLDER
+        this.hitboxes = new ArrayList<>(); // PLACEHOLDER
     }
 
     public PlayerModel getPlayer() {
@@ -127,6 +121,7 @@ public class GameModel extends Game {
      * @return PlatformGrid
      */
     public PlatformGrid getNextPlatformGrid() {
+        PlatformGrid platformGrid;
         platformGrid = platformGridMaker.getNextPlatformGrid();
         for (int i = 0; i < 5; i++) {
             updateEnemies(platformGrid);
@@ -165,11 +160,12 @@ public class GameModel extends Game {
         timerTask.cancel();
     }
 
+    @Override
     public void dispose() {
         timer.cancel();
     }
 
-    public ArrayList<Rectangle> getHitboxes() {
+    public List<Rectangle> getHitboxes() {
         return hitboxes;
     }
     public void jump() {
