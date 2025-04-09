@@ -46,7 +46,7 @@ public class ScreenView implements Screen {
     private final int TILE_SIZE = TileConfig.TILE_SIZE;
     private int yPos;
     private PlatformGrid platformGridObject1, platformGridObject2;
-    private Texture mapTexture, platformTexture, platformRustyTexture, debuggingTexture;
+    private Texture mapTexture, platformTexture, platformBlackTexture, barrelTexture, debuggingTexture, skullsTexture;
     
     private PlayerModel player;
     private TextureRegion playerTextureRight, playerTextureLeft;
@@ -92,8 +92,9 @@ public class ScreenView implements Screen {
 
         // Initiate the platform texture and platformGrid object
         batch = new SpriteBatch();
-        platformTexture = new Texture(Gdx.files.internal("GraystoneBrickTile80.png"));
-        platformRustyTexture = new Texture(Gdx.files.internal("RustyGraystoneBrickTile80.png"));
+        platformTexture = new Texture(Gdx.files.internal("Platforms/GraystoneBrickTileWithOutline80.png"));
+        skullsTexture = new Texture(Gdx.files.internal("Platforms/Skulls.png"));
+        barrelTexture = new Texture(Gdx.files.internal("Platforms/Barrel.png"));
         debuggingTexture = new Texture(Gdx.files.internal("Red_X.png"));
         mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
         platformGridObject1 = gameModel.getNextPlatformGrid(); 
@@ -152,7 +153,7 @@ public class ScreenView implements Screen {
     public void render(float delta) {
         batch.setProjectionMatrix(camera.combined);
 
-        drawBackground(); //Should only run once? -- batch.draw(mapTexture, 0, 0, 1920, 4800);
+        drawBackground();
         
         drawPlatformGrid(platformGridObject1);
         drawPlatformGrid(platformGridObject2);
@@ -284,18 +285,25 @@ public class ScreenView implements Screen {
         batch.begin();
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
-                if (grid[x][y] == 0) { //The most effective approach?
-                    continue;
-                } else if (grid[x][y] == 1) {
-                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
-                    batch.draw(platformTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
-                } else if (grid[x][y] == 2) {
-                    Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
-                    batch.draw(platformRustyTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
-                } else if (grid[x][y] == -1) {
-                    //Placeholder for red X
-                } else { //Here we can choose what type of tiles to draw based on the integer in the 2D array
-                    continue;
+                Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
+                switch(grid[x][y]) {
+                    case 1:
+                        batch.draw(platformTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                        break;
+                    case 2:
+                        batch.draw(platformBlackTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                        break;
+                    case 5:
+                        batch.draw(skullsTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                        break;
+                    case 7:
+                        batch.draw(barrelTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+                        break;
+                    case -1:
+                        //Placeholder X
+                        break;
+                    default:
+                        continue;
                 }
             }
         }

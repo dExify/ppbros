@@ -22,10 +22,10 @@ public class PlatformGrid {
     private int yPos;
 
     public PlatformGrid(PlatformMaker maker, int iteration) {
-        this.platformMaker = maker;
-        this.occupiedCoordinates = new HashSet<>();
-        this.hitboxes = new ArrayList<>();
-        this.yPos = iteration * platformGridHeight;
+        platformMaker = maker;
+        occupiedCoordinates = new HashSet<>();
+        hitboxes = new ArrayList<>();
+        yPos = iteration * platformGridHeight;
     }
 
     /**
@@ -41,18 +41,21 @@ public class PlatformGrid {
     }
 
     /**
-     * Returns a simple array of rectangles representing the hitboxes of the platforms
-     * @return Rectangle[]
+     * Returns an arraylist of rectangles representing the hitboxes of the platforms
+     * @return ArrayList<Rectangle>
      */
     public ArrayList<Rectangle> getHitboxes() {
         return hitboxes;
     }
 
+    /** 
+     * Gets a random spawn position and updates the int[][] with the correct tile types
+     * @param platformCount int
+     */
     public void buildGrid(int platformCount) {
         for (int i = 0; i < platformCount; i++) {
             Coordinate start = getPlatformStart();
             if (start == null) {
-                // System.out.println("Fant ingen plass for plattform nr. " + i); Debugging
                 continue;
             }
             Platform platform = platformMaker.getNext();
@@ -68,11 +71,11 @@ public class PlatformGrid {
     }
 
     /**
-     * Updates the tileGrid 2D array with the correct tile type
-     * @param tileType
-     * @param platformStart
-     * @param x
-     * @param y
+     * Sets the passed tile type in the int[][] array at a given coordinate.
+     * @param tileType int
+     * @param platformStart coordinate
+     * @param x int
+     * @param y int
      */
     private void insertTile(int tileType, Coordinate platformStart, int x, int y) { //Todo: Update this method so that it is affected by yPos
         int gridX = platformStart.x() + x;
@@ -84,7 +87,7 @@ public class PlatformGrid {
     }
 
     /**
-     * Generates a random coordinate on a vacant part of the grid and within the bounds of the grid
+     * Generates a random start coordinate on a vacant part of the grid and within the bounds of the grid
      * @return Coordinate
      */
     private Coordinate getPlatformStart() {
@@ -92,20 +95,25 @@ public class PlatformGrid {
         Random random = new Random();
         Coordinate coordinate = null;
         Coordinate startCoordinate = null;
+        int platformHeight = platformMaker.getPlatformHeight();
+        int platformWidth = platformMaker.getPlatformWidth();
         int randomX;
         int randomY;
         int checks = 0;
+        int xMargin = 1; //Do not change this variable yet, this will cause the program to crash
+        int yMargin = 1; //Do not change this variable yet, this will cause the program to crash
         while (occupiedPosition && checks < 10) {
             int vacantPosCount = 0;
-            randomX = random.nextInt(GRID_WIDTH - 3);
-            randomY = random.nextInt(GRID_HEIGHT - 2);
+            randomX = 1 + random.nextInt(GRID_WIDTH - platformWidth); //-1
+            randomY = 1 + random.nextInt(GRID_HEIGHT - platformHeight); //-1
             startCoordinate = new Coordinate(randomX, randomY);
             outerLoop:
-            for (int y = randomY; y < randomY + 5; y++) {
-                for (int x = randomX - 1; x < randomX + 5; x++) {
+            for (int y = randomY - yMargin; y < randomY + platformHeight + yMargin; y++) {
+                for (int x = randomX - xMargin; x < randomX + platformWidth + xMargin; x++) {
                     coordinate = new Coordinate(x, y);
                     if (!occupiedCoordinates.contains(coordinate)) {
                         vacantPosCount += 1;
+                        System.out.println(vacantPosCount);
                     } else {
                         break outerLoop;
                     }
