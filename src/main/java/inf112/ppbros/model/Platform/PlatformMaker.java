@@ -1,96 +1,91 @@
 package inf112.ppbros.model.Platform;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PlatformMaker {
-    Random random;
+    private Random random;
+    private final int platformWidth;
+    private final int platformHeight;
+    private List<int[][]> patterns;
 
     public PlatformMaker() {
         random = new Random();
+        platformWidth = 4;
+        platformHeight = 3;
+        patterns = new ArrayList<>();
+        addDefaultPatterns();
+        // patterns.add(new int[][] {
+        //     { 1, 1, 1, 1 },
+        //     { 1, 0, 0, 1 },
+        //     { 1, 1, 1, 1 },
+        // });
     }
 
-    /**
-     * Returns a new platform
-     * @return Platform
-     */
+    private void addDefaultPatterns() {
+        patterns.add(new int[][] {
+            { 1, 0, 0, 0 },
+            { 1, 5, 0, 1 },
+            { 1, 1, 1, 0 },
+        });
+        patterns.add(new int[][] {
+            { 0, 0, 0, 0 },
+            { 7, 0, 0, 0 },
+            { 1, 1, 1, 1 },
+        });
+        patterns.add(new int[][] {
+            { 1, 0, 0, 0 },
+            { 0, 0, 5, 0 },
+            { 0, 1, 1, 1 },
+        });
+        patterns.add(new int[][] {
+            { 0, 0, 0, 7 },
+            { 7, 5, 0, 1 },
+            { 1, 1, 0, 0 },
+        });
+        patterns.add(new int[][] {
+            { 0, 0, 0, 0 },
+            { 1, 1, 7, 0 },
+            { 0, 0, 1, 1 },
+        });
+        patterns.add(new int[][] {
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 1, 1 },
+        });
+        patterns.add(new int[][] {
+            { 0, 0, 0, 0 },
+            { 0, 5, 0, 0 },
+            { 1, 1, 1, 0 },
+        });
+    }
+
+    public void addPattern(int[][] pattern) {
+        patterns.add(pattern);
+    }
+
+    public void removePattern(int[][] pattern) {
+        if (patterns.contains(pattern)) {
+            patterns.remove(pattern);
+        } else {
+            throw new Error("This pattern does not exist");
+        }
+    }
+
     public Platform getNext() {
-        int randomInt = random.nextInt(8);
-        // System.out.println(randomInt); // Debugging
-        Platform platform = newPlatform(randomInt);
-        return platform;
+        if (patterns.isEmpty()) {
+            throw new IllegalStateException("No patterns available.");
+        }
+        int index = random.nextInt(patterns.size());
+        return new Platform(patterns.get(index));
     }
 
-    /**
-     * Returns a new Platform object based on a random integer
-     * @param randInt
-     * @return Platform
-     */
-    private Platform newPlatform(int randInt) { //Should have methods to add different types of patterns
-        int[][] pattern;
-    
-        // switch (randInt) { 
-        //     case 1:
-        //         pattern = new int[][] {
-        //             { 0, 0, 1, 1},
-        //             { 0, 0, 0, 0},
-        //             { 1, 1, 0, 0},
-        //         };
-        //         break;  
-        //     case 2:
-        //         pattern = new int[][] {
-        //             { 1, 1, 0, 0},
-        //             { 0, 0, 0, 0},
-        //             { 0, 0, 1, 1},
-        //         };
-        //         break;
-        //     case 3:
-        //         pattern = new int[][] {
-        //             { 0, 0, 0, 0},
-        //             { 1, 1, 0, 0},
-        //             { 0, 0, 1, 1},
-        //         };
-        //         break;
-        //     case 4:
-        //         pattern = new int[][] {
-        //             { 0, 0, 0, 0},
-        //             { 1, 1, 1, 1},
-        //             { 0, 0, 0, 0},
-        //         };
-        //         break;
-        //     case 5:
-        //         pattern = new int[][] {
-        //             { 1, 1, 1, 1},
-        //             { 0, 0, 1, 0},
-        //             { 0, 0, 0, 0},
-        //         };
-        //         break;
-        //     case 6:
-        //         pattern = new int[][] {
-        //             { 0, 1, 1, 1},
-        //             { 1, 1, 0, 0},
-        //             { 1, 0, 0, 0},
-        //         };
-        //         break;
-        //     case 7:
-        //         pattern = new int[][] {
-        //             { 1, 1, 1, 0},
-        //             { 0, 0, 1, 1},
-        //             { 0, 0, 0, 1},
-        //         };
-        //         break;
-        //     default:
-        //         pattern = new int[][] {
-        //             { 1, 1, 1, 1},
-        //             { 0, 0, 0, 0},
-        //             { 0, 0, 0, 0},
-        //         };
-        // } 
-            pattern = new int[][] { // debugging
-                { 1, 0, 0, 0},
-                { 0, 1, 0, 0},
-                { 0, 0, 1, 1}
-            };
-        return new Platform(pattern);
+    public int getPlatformWidth() {
+        return platformWidth;
     }
 
+    public int getPlatformHeight() {
+        return platformHeight;
+    }
 }
