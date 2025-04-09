@@ -159,8 +159,8 @@ public class ScreenView implements Screen {
         }
 
         // gameModel.stopTimer();
-        //camera.position.y = gameModel.getCameraYCoordinate();
-        //camera.update();
+        camera.position.y = gameModel.getCameraYCoordinate();
+        camera.update();
 
         // Health
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
