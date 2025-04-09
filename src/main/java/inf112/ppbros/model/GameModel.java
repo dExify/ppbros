@@ -29,6 +29,7 @@ public class GameModel extends Game {
     private CameraYPos timerTask;
     private PlatformGridMaker platformGridMaker;
     private PlatformGrid platformGrid;
+    private PlatformGrid basePlatform;
     private ArrayList<Rectangle> hitboxes;
     private EnemyModel enemy; // PLACEHOLDER
     
@@ -171,4 +172,11 @@ public class GameModel extends Game {
     public ArrayList<Rectangle> getHitboxes() {
         return hitboxes;
     }
+    public void jump() {
+        player.jump();
+    }
+    public void updatePlayer() {
+        player.update(Gdx.graphics.getDeltaTime(), hitboxes);
+    }
+    
 }
