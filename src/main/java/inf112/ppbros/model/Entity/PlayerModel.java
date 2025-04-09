@@ -104,7 +104,7 @@ public class PlayerModel implements Entity {
         // Check for collisions
         isOnGround = false;
         for (Rectangle platform : platformHitboxes) {
-            if (hitbox.overlaps(platform)) {
+            if ((hitbox.overlaps(platform)) && (platform.y < hitbox.y)) {
                 // Snap the player on top of platform
                 y = platform.y + platform.height;
                 velocityY = 0;

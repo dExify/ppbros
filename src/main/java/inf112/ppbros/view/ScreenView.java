@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -19,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 
-import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
@@ -29,30 +26,35 @@ import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.TileConfig;
 
 public class ScreenView implements Screen {
+
     private GameModel gameModel;
     private PlayerController playerController;
-    
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private Stage stage;
-    private Skin skin;
-    private final int TILE_SIZE = TileConfig.TILE_SIZE;
+    private static final int TILE_SIZE = TileConfig.TILE_SIZE;
     private int yPos;
-    private PlatformGrid basePlatform;
     private PlatformGrid platformGridObject1;
     private PlatformGrid platformGridObject2;
-    private Texture mapTexture, platformTexture, platformRustyTexture, debuggingTexture;
+    private Texture mapTexture;
+    private Texture  platformTexture;
+    private Texture  platformRustyTexture;
+    private Texture  debuggingTexture;
     
     private PlayerModel player;
-    private TextureRegion playerTextureRight, playerTextureLeft;
-    private Animation<TextureRegion> playerRunAnimR, playerRunAnimL, playerAttackAnimR, playerAttackAnimL;
-    private boolean isAttacking;
+    private TextureRegion playerTextureRight;
+    private TextureRegion  playerTextureLeft;
+    private Animation<TextureRegion> playerRunAnimR;
+    private Animation<TextureRegion>  playerRunAnimL;
+    private Animation<TextureRegion>  playerAttackAnimR;
+    private Animation<TextureRegion>  playerAttackAnimL;
+    
     private TextureRegion currentFrame;
     private float animationTime = 0;
 
-    private Texture enemyTexture, resizedEnemyTexture;
+    private Texture resizedEnemyTexture;
     private List<EnemyModel> enemies;
     
     public ScreenView(GameModel model) {
@@ -65,6 +67,8 @@ public class ScreenView implements Screen {
     
     @Override
     public void show() {
+        Skin skin;
+        Texture enemyTexture;
         // Make UI overlay
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
@@ -192,6 +196,7 @@ public class ScreenView implements Screen {
     }
     
     private void drawPlayer() {
+        boolean isAttacking;
         isAttacking = playerController.isAttacking();
         boolean isMoving = playerController.isMoving();
         boolean facesLeft = playerController.facesLeft();
