@@ -166,7 +166,7 @@ public class ScreenView implements Screen {
         drawPlatformGrid(platformGridObject1);
         drawPlatformGrid(platformGridObject2);
 
-        if (platformGridObject1.getYPos() < camera.position.y - 3 * TileConfig.platformGridHeightInPixels/2) {
+        if (platformGridObject1.getYPos() < camera.position.y - (double) 3 * TileConfig.platformGridHeightInPixels/2) {
             platformGridObject1 = platformGridObject2;
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
@@ -294,7 +294,7 @@ public class ScreenView implements Screen {
         batch.begin();
         batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
         // batch.setColor(0F, 0F, 0F, 1F); //Set brightness to 0% (debugging)
-        double backgroundHeight = (double) Gdx.graphics.getWidth() * 2.5;
+        double backgroundHeight = Gdx.graphics.getWidth() * 2.5;
         batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.setColor(1F, 1F, 1F, 1F);
