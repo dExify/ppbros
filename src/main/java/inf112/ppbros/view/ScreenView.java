@@ -355,16 +355,19 @@ public class ScreenView implements Screen {
   
   @Override
   public void pause() {
+    // Not implemented
     
   }
   
   @Override
   public void resume() {
+    // Not implemented
     
   }
   
   @Override
   public void hide() {
+    // Not implemented
     
   }
   

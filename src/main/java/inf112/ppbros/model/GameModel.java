@@ -27,7 +27,7 @@ public class GameModel extends Game {
   private int cameraPos;
   private Timer timer;
   private CameraYPos timerTask;
-  private static long lastExecution = 0;
+  private long lastExecution = 0;
   private PlatformGridMaker platformGridMaker;
   private List<Rectangle> platformHitboxes;
   private List<Rectangle> enemyHitboxes;

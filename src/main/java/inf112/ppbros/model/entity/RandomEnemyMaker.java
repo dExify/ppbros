@@ -35,7 +35,6 @@ public class RandomEnemyMaker {
   */
   private Coordinate getValidSpawnPos(PlatformGrid grid) {
     int[][] platformGrid = grid.returnGrid();
-    Random random = new Random();
     Coordinate coordinate;
     
     // Loop until a valid spawn coordinate is found
