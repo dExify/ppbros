@@ -155,4 +155,13 @@ public class PlatformMaker {
     public int getPlatformHeight() {
         return platformHeight;
     }
+
+    public Platform getBasePlatform(int width) {
+        int[][] pattern = new int[1][width];
+        for (int i = 0; i < width; i++) {
+            pattern[0][i] = 1; // or another tile type
+        }
+        return new Platform(pattern);
+    }
+
 }
