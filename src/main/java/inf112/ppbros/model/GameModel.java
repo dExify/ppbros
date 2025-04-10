@@ -36,6 +36,9 @@ public class GameModel extends Game {
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
         this.hitboxes = new ArrayList<>(); // PLACEHOLDER
+        
+        // Sets player start position
+        makePlayer(0, 50);
     }
 
     public PlayerModel getPlayer() {

@@ -52,7 +52,12 @@ public class PlatformGrid {
     
     public void buildGrid(int platformCount) {
         // Add base platform at the bottom (e.g., y = 0)
-        Platform basePlatform = platformMaker.getBasePlatform(GRID_WIDTH);
+        Platform basePlatform;
+        if (yPos == 0) {
+            basePlatform = platformMaker.getBasePlatform(GRID_WIDTH);
+        } else {
+            basePlatform = platformMaker.getNext();
+        }
         Coordinate baseStart = new Coordinate(0, 0); // left-bottom corner
         
         int[][] basePattern = basePlatform.getPlatform();

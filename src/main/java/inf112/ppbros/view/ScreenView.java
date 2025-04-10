@@ -60,9 +60,7 @@ public class ScreenView implements Screen {
     public ScreenView(GameModel model) {
         this.gameModel = model;
         this.playerController = new PlayerController(model, this);
-    
-        // Sets player start position
-        gameModel.makePlayer(0, 50);
+
     }
     
     @Override
@@ -163,8 +161,8 @@ public class ScreenView implements Screen {
         }
 
         // gameModel.stopTimer();
-        camera.position.y = gameModel.getCameraYCoordinate();
-        camera.update();
+        //camera.position.y = gameModel.getCameraYCoordinate();
+        //camera.update();
 
         // Health
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
@@ -189,9 +187,8 @@ public class ScreenView implements Screen {
         // drawHitboxes(); //debugging
         // drawPlayerHitbox(); //debugging
 
-
         if (gameModel.checkOutOfBounds()) {
-            System.out.println("Player is out of bounds!");
+            //System.out.println("Player is out of bounds!");
         }
     }
     

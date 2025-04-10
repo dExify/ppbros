@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import inf112.ppbros.model.Platform.TileConfig;
+
 public class PlayerModel implements Entity {
     private float x, y; // player position
     private int health;
@@ -15,7 +17,7 @@ public class PlayerModel implements Entity {
     private float height;
     private float velocityY = 0;
     private final float GRAVITY = -20f;
-    private final float MAX_FALL_SPEED = -150f;
+    private final float MAX_FALL_SPEED = -550f;
     private final float JUMP_VELOCITY = 700f;
 
     private boolean isOnGround = false;
@@ -88,7 +90,7 @@ public class PlayerModel implements Entity {
         return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
     }
 
-        public void update(float deltaTime, List<Rectangle> platformHitboxes) {
+    public void update(float deltaTime, List<Rectangle> platformHitboxes) {
         // Apply gravity
         if (!isOnGround) {
             velocityY += GRAVITY;
@@ -104,7 +106,7 @@ public class PlayerModel implements Entity {
         // Check for collisions
         isOnGround = false;
         for (Rectangle platform : platformHitboxes) {
-            if ((hitbox.overlaps(platform)) && (platform.y < hitbox.y)) {
+            if (collidesWith(platform)) {
                 // Snap the player on top of platform
                 y = platform.y + platform.height;
                 velocityY = 0;
