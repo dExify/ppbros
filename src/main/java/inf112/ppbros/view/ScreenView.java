@@ -57,6 +57,8 @@ public class ScreenView implements Screen {
 
     private Texture enemyTexture, resizedEnemyTexture;
     private List<EnemyModel> enemies;
+
+    private boolean drawInfiniteBackground;
     
     public ScreenView(GameModel model) {
         this.gameModel = model;
@@ -147,12 +149,19 @@ public class ScreenView implements Screen {
         }
         
         gameModel.startTimer();
+
+        drawInfiniteBackground = false;
     }
     
     @Override
     public void render(float delta) {
         batch.setProjectionMatrix(camera.combined);
 
+        // if (drawInfiniteBackground) {
+        //     drawInfiniteBackground();
+        // } else {
+        //     drawBackground();
+        // }
         drawBackground();
         
         drawPlatformGrid(platformGridObject1);
@@ -211,7 +220,7 @@ public class ScreenView implements Screen {
         // drawEnemiesHitbox(); //debugging
 
         if (gameModel.checkOutOfBounds()) {
-            System.out.println("Player is out of bounds!");
+            // System.out.println("Player is out of bounds!");
         }
     }
     
@@ -262,8 +271,7 @@ public class ScreenView implements Screen {
         batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
         batch.end();
     }
-    
-    
+
     private void drawBackground() {
         batch.begin();
         batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
@@ -273,7 +281,15 @@ public class ScreenView implements Screen {
         batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.setColor(1F, 1F, 1F, 1F);
         batch.end();
+        // System.out.println(backgroundHeight + "   " + (camera.position.y - 3 * TileConfig.platformGridHeightInPixels/2));
+        // if (backgroundHeight < camera.position.y + 1 * TileConfig.platformGridHeightInPixels/2) {
+        //     drawInfiniteBackground = true;
+        // }
     }
+
+    // private void drawInfiniteBackground() {
+    //     System.out.println("Draw infinite background");
+    // }
     
     /**
     * Renders the platform grid

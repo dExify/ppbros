@@ -227,7 +227,7 @@ public class GameModel extends Game {
      * Start timer with fixed rate execution
      */
     public void startTimer() {
-        timer.scheduleAtFixedRate(timerTask, 0, 13);
+        timer.scheduleAtFixedRate(timerTask, 0, 15);
     }
 
     /**
