@@ -193,6 +193,7 @@ public class ScreenView implements Screen {
     drawPlayerAttack();
     
     // temp for texture
+    gameModel.updateEnemiesPos(delta);
     drawEnemies();
     
     playerController.update(delta);

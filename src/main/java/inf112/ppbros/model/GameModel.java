@@ -257,5 +257,11 @@ public class GameModel extends Game {
     platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));
     player.update(Gdx.graphics.getDeltaTime(), platformHitboxes);
   }
+
+  public void updateEnemiesPos(float deltaTime) {
+    for (EnemyModel enemy : enemies) {
+      enemy.updateMovement(player, enemyHitboxes, deltaTime);
+    }
+  }
   
 }
