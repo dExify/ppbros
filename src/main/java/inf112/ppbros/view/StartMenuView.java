@@ -59,7 +59,9 @@ public class StartMenuView implements Screen {
   }
   
   @Override
-  public void show() {}
+  public void show() {
+    // Not implemented
+  }
   
   @Override
   public void render(float delta) {
