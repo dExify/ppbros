@@ -121,7 +121,6 @@ public class PlatformGrid {
                     coordinate = new Coordinate(x, y);
                     if (!occupiedCoordinates.contains(coordinate)) {
                         vacantPosCount += 1;
-                        System.out.println(vacantPosCount);
                     } else {
                         break outerLoop;
                     }
