@@ -10,17 +10,17 @@ public class RandomEnemyMaker {
   
   private Random random;
   private PlatformGrid grid;
-
+  
   public RandomEnemyMaker() {
     this.random = new Random();
     // this.hitboxes = new ArrayList<>();
   }
-
+  
   /**
-   * Returns a new enemy, in a valid position on the platform grid
-   * @param grid the platform grid to check for valid spawn coordinates
-   * @return EnemyModel
-   */
+  * Returns a new enemy, in a valid position on the platform grid
+  * @param grid the platform grid to check for valid spawn coordinates
+  * @return EnemyModel
+  */
   public EnemyModel getNext(PlatformGrid grid) {
     this.grid = grid;
     Coordinate spawnPos = getValidSpawnPos(grid); // get a valid spawn position for the enemy
@@ -28,11 +28,11 @@ public class RandomEnemyMaker {
     return new EnemyModel(spawnPos, (grid.getYPos()/TileConfig.PLATFORM_GRIDHEIGHT_PIXELS)*TileConfig.GRID_HEIGHT);
     // TODO: GOSH DARN FIX THE Y POSITION CALCUALATION, IT CANT BE CALCULATED AS IS
   }
-
+  
   /**
-   * Finds a valid spawn coordinate for the enemy in the platform grid
-   * @param grid the platform grid to check for valid spawn coordinates
-   */
+  * Finds a valid spawn coordinate for the enemy in the platform grid
+  * @param grid the platform grid to check for valid spawn coordinates
+  */
   private Coordinate getValidSpawnPos(PlatformGrid grid) {
     int[][] platformGrid = grid.returnGrid();
     Random random = new Random();
@@ -53,24 +53,24 @@ public class RandomEnemyMaker {
       }
     }
   }
-
-
+  
+  
   // This is not currently needed because of singular enemytype, but adding so it is easier to include different types at a later date
   // private EnemyModel newRandomEnemy() {
   //   int randInt = random.nextInt(1);
   //   EntityType type;
   //   Coordinate spawnPos = getValidSpawnPos(grid); // get a valid spawn position for the enemy
-    
+  
   //   switch (randInt) {
   //     case 0:
   //       type = EntityType.ENEMY;
   //       break;
-    
+  
   //     default:
   //       type = EntityType.ENEMY;
   //       break;
   //   }
-
+  
   //   return new EnemyModel(spawnPos);
   // }
   
