@@ -160,9 +160,9 @@ public class ScreenView implements Screen {
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
 
-        // gameModel.stopTimer();
-        //camera.position.y = gameModel.getCameraYCoordinate();
-        //camera.update();
+        //gameModel.stopTimer();
+        camera.position.y = gameModel.getCameraYCoordinate();
+        camera.update();
 
         // Health
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
@@ -184,8 +184,8 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         gameModel.updatePlayer();
 
-        // drawHitboxes(); //debugging
-        // drawPlayerHitbox(); //debugging
+        drawHitboxes(); //debugging
+        drawPlayerHitbox(); //debugging
 
         if (gameModel.checkOutOfBounds()) {
             //System.out.println("Player is out of bounds!");

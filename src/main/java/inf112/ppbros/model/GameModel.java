@@ -1,6 +1,7 @@
 package inf112.ppbros.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
 
@@ -38,7 +39,7 @@ public class GameModel extends Game {
         this.hitboxes = new ArrayList<>(); // PLACEHOLDER
         
         // Sets player start position
-        makePlayer(0, 50);
+        makePlayer(0, 150);
     }
 
     public PlayerModel getPlayer() {
@@ -156,7 +157,7 @@ public class GameModel extends Game {
     }
 
     public void startTimer() {
-        timer.scheduleAtFixedRate(timerTask, 0, 13);
+        timer.scheduleAtFixedRate(timerTask, 0, 25);
     }
 
     public void stopTimer() {
@@ -175,6 +176,7 @@ public class GameModel extends Game {
         player.jump();
     }
     public void updatePlayer() {
+        hitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));
         player.update(Gdx.graphics.getDeltaTime(), hitboxes);
     }
     
