@@ -113,42 +113,52 @@ public class PlayerModel implements Entity {
                 float playerTop = y + height;
                 float platformTop = platform.y + platform.height;
                 float platformBottom = platform.y;
-    
-                // Falling: landing on platform
-                if (velocityY <= 0 && playerBottom >= platformTop - 5) {
-                    float distance = playerBottom - platformTop;
-                    if (distance < bestDistance) {
-                        bestDistance = distance;
-                        bestCollision = platform;
-                    }
-                }
-    
-                // Jumping: hitting head on platform
-                else if (velocityY > 0 && playerTop <= platformBottom + 5) {
-                    float distance = platformBottom - playerTop;
-                    if (distance < bestDistance) {
-                        bestDistance = distance;
-                        bestCollision = platform;
-                    }
-                }
-            }
-        }
-    
-        if (bestCollision != null) {
-            float platformTop = bestCollision.y + bestCollision.height;
-            float platformBottom = bestCollision.y;
-    
-            if (velocityY <= 0) { // Landing
+
+
                 y = platformTop;
                 isOnGround = true;
-            } else { // Hitting ceiling
-                y = platformBottom - height;
+                velocityY = 0;
+                hitbox.setPosition(x, y);
             }
-    
-            velocityY = 0;
-            hitbox.setPosition(x, y);
+            // OLD IMPLEMENTATION, NEW BUGGY IMPLEMENTATION BELOW
         }
+
+                // // Falling: landing on platform
+                // if (velocityY <= 0 && playerBottom >= platformTop - 5) {
+                //     float distance = playerBottom - platformTop;
+                //     if (distance < bestDistance) {
+                //         bestDistance = distance;
+                //         bestCollision = platform;
+                //     }
+                // }
+    
+                // // Jumping: hitting head on platform
+                // else if (velocityY > 0 && playerTop <= platformBottom + 5) {
+                //     float distance = platformBottom - playerTop;
+                //     if (distance < bestDistance) {
+                //         bestDistance = distance;
+                //         bestCollision = platform;
+        //             }
+        //         }
+        //     }
+        // }
+    
+        // if (bestCollision != null) {
+        //     float platformTop = bestCollision.y + bestCollision.height;
+        //     float platformBottom = bestCollision.y;
+    
+        //     if (velocityY <= 0) { // Landing
+        //         y = platformTop;
+        //         isOnGround = true;
+        //     } else { // Hitting ceiling
+        //         y = platformBottom - height;
+        //     }
+    
+        //     velocityY = 0;
+        //     hitbox.setPosition(x, y);
+        // }
     }
+
     
 
     
