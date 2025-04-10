@@ -157,7 +157,7 @@ public class GameModel extends Game {
     }
 
     public void startTimer() {
-        timer.scheduleAtFixedRate(timerTask, 0, 13);
+        timer.scheduleAtFixedRate(timerTask, 0, 15);
     }
 
     public void stopTimer() {
