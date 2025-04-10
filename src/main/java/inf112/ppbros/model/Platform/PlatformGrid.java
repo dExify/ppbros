@@ -100,8 +100,9 @@ public class PlatformGrid {
         int randomX;
         int randomY;
         int checks = 0;
-        int xMargin = 1; //Do not change this variable yet, this will cause the program to crash
-        int yMargin = 1; //Do not change this variable yet, this will cause the program to crash
+        int xMargin = 1;
+        int yMargin = 1;
+        int expectedVacantPosCount = (platformHeight + yMargin * 2) * (platformWidth + xMargin * 2);
         while (occupiedPosition && checks < 10) {
             int vacantPosCount = 0;
             randomX = 1 + random.nextInt(GRID_WIDTH - platformWidth); //-1
@@ -113,13 +114,12 @@ public class PlatformGrid {
                     coordinate = new Coordinate(x, y);
                     if (!occupiedCoordinates.contains(coordinate)) {
                         vacantPosCount += 1;
-                        System.out.println(vacantPosCount);
                     } else {
                         break outerLoop;
                     }
                 }
             }
-            if (vacantPosCount == 30) {
+            if (vacantPosCount == expectedVacantPosCount) {
                 occupiedPosition = false;
             }
             checks += 1;
