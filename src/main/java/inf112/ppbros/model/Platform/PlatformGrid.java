@@ -27,6 +27,7 @@ public class PlatformGrid {
         occupiedCoordinates = new HashSet<>();
         hitboxes = new ArrayList<>();
         yPos = iteration * platformGridHeight;
+        this.random = new Random();
     }
     
     /**
@@ -133,7 +134,6 @@ public class PlatformGrid {
             randomX = 1 + random.nextInt(GRID_WIDTH - platformWidth); //-1
             randomY = 1 + random.nextInt(GRID_HEIGHT - platformHeight); //-1
             startCoordinate = new Coordinate(randomX, randomY);
-            outerLoop:
             for (int y = randomY - yMargin; y < randomY + platformHeight + yMargin; y++) {
                 for (int x = randomX - xMargin; x < randomX + platformWidth + xMargin; x++) {
                     coordinate = new Coordinate(x, y);
