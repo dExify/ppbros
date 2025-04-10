@@ -1,10 +1,10 @@
-package inf112.ppbros.model.entityTemp;
+package inf112.ppbros.model.entity;
 
 import java.util.Random;
 
 import inf112.ppbros.model.Coordinate;
-import inf112.ppbros.model.platformTemp.PlatformGrid;
-import inf112.ppbros.model.platformTemp.TileConfig;
+import inf112.ppbros.model.platform.PlatformGrid;
+import inf112.ppbros.model.platform.TileConfig;
 
 public class RandomEnemyMaker {
   

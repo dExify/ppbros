@@ -1,4 +1,4 @@
-package inf112.ppbros.model.platformTemp;
+package inf112.ppbros.model.platform;
 
 import java.util.ArrayList;
 import java.util.HashSet;

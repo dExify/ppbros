@@ -20,10 +20,10 @@ import com.badlogic.gdx.utils.Array;
 import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
-import inf112.ppbros.model.entityTemp.EnemyModel;
-import inf112.ppbros.model.entityTemp.PlayerModel;
-import inf112.ppbros.model.platformTemp.PlatformGrid;
-import inf112.ppbros.model.platformTemp.TileConfig;
+import inf112.ppbros.model.entity.EnemyModel;
+import inf112.ppbros.model.entity.PlayerModel;
+import inf112.ppbros.model.platform.PlatformGrid;
+import inf112.ppbros.model.platform.TileConfig;
 
 public class ScreenView implements Screen {
   

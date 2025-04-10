@@ -1,4 +1,4 @@
-package inf112.ppbros.model.entityTemp;
+package inf112.ppbros.model.entity;
 
 import java.util.Comparator;
 import java.util.List;
