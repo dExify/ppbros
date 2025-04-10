@@ -40,7 +40,6 @@ public class ScreenView implements Screen {
     private Table scoreTable;
     private Table healthTable;
 
-    private final int TILE_SIZE = TileConfig.TILE_SIZE;
     private static final int TILE_SIZE = TileConfig.TILE_SIZE;
     private int yPos;
     private PlatformGrid platformGridObject1;
@@ -187,7 +186,7 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         animationTime += delta;
 
-        drawPlayer();
+        drawPlayer(delta);
         
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
@@ -202,7 +201,7 @@ public class ScreenView implements Screen {
         }
     }
     
-    private void drawPlayer() {
+    private void drawPlayer(float delta) {
         boolean isAttacking;
         isAttacking = playerController.isAttacking();
         boolean isMoving = playerController.isMoving();
@@ -238,11 +237,6 @@ public class ScreenView implements Screen {
         }
     }
     
-    private void drawPlayer() {
-        batch.begin();
-        batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
-        batch.end();
-    }
 
     private void drawHitboxes() {
         batch.begin();

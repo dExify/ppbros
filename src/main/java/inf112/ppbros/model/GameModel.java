@@ -15,6 +15,7 @@ import inf112.ppbros.model.Entity.PlayerModel;
 import inf112.ppbros.model.Entity.RandomEnemyMaker;
 import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.PlatformGridMaker;
+import inf112.ppbros.model.Platform.TileConfig;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
 import inf112.ppbros.view.TilePositionInPixels;
@@ -30,8 +31,9 @@ public class GameModel extends Game {
     private static long lastExecution = 0;
     private final long cooldownTimeMs = 1000; // 1 second, can be changed
     private PlatformGridMaker platformGridMaker;
-    private ArrayList<Rectangle> hitboxes;
-    private EnemyModel enemy; // PLACEHOLDER
+    private List<Rectangle> platformHitboxes;
+    private List<Rectangle> enemyHitboxes;
+    private final int TILE_SIZE = TileConfig.TILE_SIZE;
     
     public GameModel() {
         this.setScreen(new StartMenuView(this));
@@ -42,8 +44,11 @@ public class GameModel extends Game {
         enemies = new ArrayList<>();
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
-        this.platformHitboxes = new ArrayList<Rectangle>();
-        this.enemyHitboxes = new ArrayList<Rectangle>();
+        this.platformHitboxes = new ArrayList<>();
+        this.enemyHitboxes = new ArrayList<>();
+        
+        // Sets player start position
+        makePlayer(0, 150);
     }
 
     @Override
@@ -55,12 +60,6 @@ public class GameModel extends Game {
      * Returns player
      * @return player
      */
-        this.hitboxes = new ArrayList<>(); // PLACEHOLDER
-        
-        // Sets player start position
-        makePlayer(0, 150);
-    }
-
     public PlayerModel getPlayer() {
         return player;
     }
@@ -176,7 +175,7 @@ public class GameModel extends Game {
      * Checks if player collides with an array containing collision boxes as rectangles
      * @return true if player collides with a rectangle, false if they don't
      */
-    private boolean collisionCheck(ArrayList<Rectangle> collisionBox) {
+    private boolean collisionCheck(List<Rectangle> collisionBox) {
         for (Rectangle rec : collisionBox) {
             if (player.collidesWith(rec)) {
                 return true;
@@ -209,7 +208,7 @@ public class GameModel extends Game {
     private void updateEnemies(PlatformGrid platformGrid) {
         EnemyModel newEnemy = randomEnemyMaker.getNext(platformGrid);
         // Convert enemy positions from tiles to pixels 
-        Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TileConfig.TILE_SIZE);
+        Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TILE_SIZE);
         // Update and add collisionbox to a list of all enemy collision boxes 
         newEnemy.updateCollisionBox(enemyPosInPixels.x(), enemyPosInPixels.y());
         enemyHitboxes.add(newEnemy.getCollisionBox());
@@ -248,15 +247,15 @@ public class GameModel extends Game {
         timer.cancel();
     }
 
-    public List<Rectangle> getHitboxes() {
-        return hitboxes;
+    public List<Rectangle> getPlatformHitboxes() {
+        return platformHitboxes;
     }
     public void jump() {
         player.jump();
     }
     public void updatePlayer() {
-        hitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));
-        player.update(Gdx.graphics.getDeltaTime(), hitboxes);
+        platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));
+        player.update(Gdx.graphics.getDeltaTime(), platformHitboxes);
     }
     
 }

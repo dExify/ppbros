@@ -41,14 +41,6 @@ public class PlayerModel implements Entity {
         this.hitbox = new Rectangle(x, y, width, height);
     }
     
-    /**
-     * Checks to see if player collides with another collision rectangle
-     * @param rectangle collision box to check if player collides with
-     * @return true or false based on if they collide or not
-     */
-    public boolean collidesWith(Rectangle rectangle) {
-        return collisionBox.overlaps(rectangle);
-    }
 
     /**
      * Checks if player can attack given enemy
@@ -94,23 +86,6 @@ public class PlayerModel implements Entity {
     */
     public boolean collidesWith(Rectangle rectangle) {
         return hitbox.overlaps(rectangle);
-    }
-    
-    /**
-    * Checks if player can attack given enemy
-    * @param enemy enemy to attack
-    * @return true if they can attack, false if they do not meet requirements
-    */
-    public boolean canAttack(Entity enemy) {
-        if (!(enemy instanceof EnemyModel)) return false;
-        Rectangle enemyBox = ((EnemyModel) enemy).getCollisionBox();
-        
-        float horizontalDistance = Math.abs(enemyBox.x - x);
-        float verticalDistance = Math.abs(enemyBox.y - y);
-        
-        boolean isNotBelow = y >= enemyBox.y;
-        
-        return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
     }
     
     public void update(float deltaTime, List<Rectangle> platformHitboxes) {
