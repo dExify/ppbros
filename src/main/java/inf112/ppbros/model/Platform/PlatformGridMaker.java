@@ -1,7 +1,7 @@
 package inf112.ppbros.model.platform;
 
 public class PlatformGridMaker {
-    private PlatformGrid platformGridObject;
+    
     private PlatformMaker platformMaker;
     private int iteration;
 
@@ -15,7 +15,7 @@ public class PlatformGridMaker {
      * @return
      */
     public PlatformGrid getNextPlatformGrid() {
-        platformGridObject = new PlatformGrid(platformMaker, iteration);
+        PlatformGrid platformGridObject = new PlatformGrid(platformMaker, iteration);
         platformGridObject.buildGrid(25);
         iteration += 1;
         return platformGridObject;

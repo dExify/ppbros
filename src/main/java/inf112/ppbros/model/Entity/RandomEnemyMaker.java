@@ -1,9 +1,6 @@
 package inf112.ppbros.model.entity;
 
-import java.util.ArrayList;
 import java.util.Random;
-
-import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.platform.PlatformGrid;
@@ -28,8 +25,7 @@ public class RandomEnemyMaker {
     this.grid = grid;
     Coordinate spawnPos = getValidSpawnPos(grid); // get a valid spawn position for the enemy
     // EnemyModel enemy = newRandomEnemy();
-    EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos()/TileConfig.platformGridHeightInPixels)*TileConfig.GRID_HEIGHT);
-    return enemy;
+    return new EnemyModel(spawnPos, (grid.getYPos()/TileConfig.PLATFORM_GRIDHEIGHT_PIXELS)*TileConfig.GRID_HEIGHT);
     // TODO: GOSH DARN FIX THE Y POSITION CALCUALATION, IT CANT BE CALCULATED AS IS
   }
 

@@ -34,16 +34,20 @@ public class ScreenView implements Screen {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private Stage stage;
-    private Skin skin;
     private Label scoreLabel;
     private Label healthLabel;
-    private Table scoreTable;
-    private Table healthTable;
+    
 
     private static final int TILE_SIZE = TileConfig.TILE_SIZE;
     private int yPos;
-    private PlatformGrid platformGridObject1, platformGridObject2;
-    private Texture mapTexture, platformTexture, platformBlackTexture, barrelTexture, debuggingTexture, skullsTexture;
+    private PlatformGrid platformGridObject1;
+    private PlatformGrid platformGridObject2;
+    private Texture mapTexture;
+    private Texture platformTexture;
+    private Texture platformBlackTexture;
+    private Texture barrelTexture;
+    private Texture debuggingTexture;
+    private Texture skullsTexture;
     
     private PlayerModel player;
     private TextureRegion playerTextureRight;
@@ -69,6 +73,8 @@ public class ScreenView implements Screen {
     
     @Override
     public void show() {
+        Table healthTable;
+        Table scoreTable;
         Skin skin;
         Texture enemyTexture;
         // Make UI overlay
@@ -169,7 +175,7 @@ public class ScreenView implements Screen {
         drawPlatformGrid(platformGridObject1);
         drawPlatformGrid(platformGridObject2);
 
-        if (platformGridObject1.getYPos() < camera.position.y - (double) 3 * TileConfig.platformGridHeightInPixels/2) {
+        if (platformGridObject1.getYPos() < camera.position.y - (double) 3 * TileConfig.PLATFORM_GRIDHEIGHT_PIXELS/2) {
             platformGridObject1 = platformGridObject2;
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }

@@ -2,7 +2,6 @@ package inf112.ppbros.model;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 
@@ -29,11 +28,12 @@ public class GameModel extends Game {
     private Timer timer;
     private CameraYPos timerTask;
     private static long lastExecution = 0;
-    private final long cooldownTimeMs = 1000; // 1 second, can be changed
     private PlatformGridMaker platformGridMaker;
     private List<Rectangle> platformHitboxes;
     private List<Rectangle> enemyHitboxes;
-    private final int TILE_SIZE = TileConfig.TILE_SIZE;
+
+    private static final long COOLDOWNTIME = 1000; // 1 second, can be changed
+    private static final int TILESIZE = TileConfig.TILE_SIZE;
     
     public GameModel() {
         this.setScreen(new StartMenuView(this));
@@ -148,7 +148,7 @@ public class GameModel extends Game {
      */
     public void playerIsHit() {
         long now = System.currentTimeMillis();
-        if (now - lastExecution >= cooldownTimeMs){
+        if (now - lastExecution >= COOLDOWNTIME){
             lastExecution = now;
             player.takeDamage(10); // change to getAttackdmg() but once we have added mutiple enemy types? 
             System.out.println("Player is hit, -10 hp!");
@@ -208,7 +208,7 @@ public class GameModel extends Game {
     private void updateEnemies(PlatformGrid platformGrid) {
         EnemyModel newEnemy = randomEnemyMaker.getNext(platformGrid);
         // Convert enemy positions from tiles to pixels 
-        Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TILE_SIZE);
+        Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TILESIZE);
         // Update and add collisionbox to a list of all enemy collision boxes 
         newEnemy.updateCollisionBox(enemyPosInPixels.x(), enemyPosInPixels.y());
         enemyHitboxes.add(newEnemy.getCollisionBox());

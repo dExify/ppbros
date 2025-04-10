@@ -10,7 +10,8 @@ public class EnemyModel implements Entity {
     private final float speed;
     private final float attackRange;
     private final int attackDmg;
-    private float width, height;
+    private float width;
+    private float height;
     private Rectangle collisionBox;
 
     /**
@@ -20,7 +21,7 @@ public class EnemyModel implements Entity {
      */
     public EnemyModel(Coordinate startPos, int yPos) {
         this.x = startPos.x();
-        this.y = startPos.y() + yPos;
+        this.y = startPos.y() + (float) yPos;
         this.health = 100;
         this.speed = 50.0f;
         this.width = 0;

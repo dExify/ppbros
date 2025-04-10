@@ -2,6 +2,7 @@ package inf112.ppbros.model.platform;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -13,7 +14,7 @@ public class PlatformGrid {
     private static final int GRID_WIDTH = TileConfig.GRID_WIDTH;
     private static final int GRID_HEIGHT = TileConfig.GRID_HEIGHT;
     private static final int TILE_SIZE = TileConfig.TILE_SIZE;
-    private static final int platformGridHeight = TileConfig.platformGridHeightInPixels;;
+    private static final int PLATFORM_GRIDHEIGHT_PIXELS = TileConfig.PLATFORM_GRIDHEIGHT_PIXELS;
     
     private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
     private ArrayList<Rectangle> hitboxes;
@@ -26,7 +27,7 @@ public class PlatformGrid {
         platformMaker = maker;
         occupiedCoordinates = new HashSet<>();
         hitboxes = new ArrayList<>();
-        yPos = iteration * platformGridHeight;
+        yPos = iteration * PLATFORM_GRIDHEIGHT_PIXELS;
         this.random = new Random();
     }
     
@@ -50,7 +51,7 @@ public class PlatformGrid {
      * Returns an arraylist of rectangles representing the hitboxes of the platforms
      * @return ArrayList<Rectangle>
      */
-    public ArrayList<Rectangle> getHitboxes() {
+    public List<Rectangle> getHitboxes() {
         return hitboxes;
     }
 
@@ -152,7 +153,7 @@ public class PlatformGrid {
         if (checks < 10) {
             return startCoordinate;
         } else {
-            return startCoordinate = null;
+            return null;
         }
     }
     

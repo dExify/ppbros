@@ -6,17 +6,17 @@ import com.badlogic.gdx.Gdx;
 
 public class CameraYPos extends TimerTask {
 
-    private volatile int cameraYPos;
+    private int cameraPosY;
 
     public CameraYPos() {
-        cameraYPos = Gdx.graphics.getHeight()/2;
+        cameraPosY = Gdx.graphics.getHeight()/2;
     }
     @Override
     public void run() {
-        cameraYPos += 1;
+        cameraPosY++;
     }
 
     public int getCameraPos() {
-        return cameraYPos;
+        return cameraPosY;
     }
 }

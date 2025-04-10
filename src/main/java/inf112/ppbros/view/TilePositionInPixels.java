@@ -3,6 +3,9 @@ package inf112.ppbros.view;
 import inf112.ppbros.model.Coordinate;
 
 public class TilePositionInPixels {
+    
+    private TilePositionInPixels() {}
+
     /**
      * Converts the tile position to pixel position and returns the coordinate
      * @param x

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 
 public class TextureUtils {
 
+    private TextureUtils() {}
+
     public static Texture resizeTexture(Texture originalTexture, int width, int height) {
         // Make sure the texture is prepared (fully loaded into memory)
         originalTexture.getTextureData().prepare();  // Prepare the texture data
