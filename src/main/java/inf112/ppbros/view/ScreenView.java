@@ -194,8 +194,8 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         gameModel.updatePlayer();
 
-        // drawHitboxes(); //debugging
-        // drawPlayerHitbox(); //debugging
+        drawHitboxes(); //debugging
+        drawPlayerHitbox(); //debugging
 
         if (gameModel.checkOutOfBounds()) {
             //System.out.println("Player is out of bounds!");
