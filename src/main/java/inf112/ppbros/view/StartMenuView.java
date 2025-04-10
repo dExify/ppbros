@@ -72,11 +72,17 @@ public class StartMenuView implements Screen {
   }
   
   @Override
-  public void pause() {}
+  public void pause() {
+    // Not implemented
+  }
   @Override
-  public void resume() {}
+  public void resume() {
+    // Not implemented
+  }
   @Override
-  public void hide() {}
+  public void hide() {
+    // Not implemented
+  }
   @Override
   public void dispose() { stage.dispose(); skin.dispose(); }
 }
