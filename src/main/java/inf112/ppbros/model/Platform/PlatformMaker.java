@@ -11,65 +11,112 @@ public class PlatformMaker {
     private List<int[][]> patterns;
 
     public PlatformMaker() {
-        random = new Random();
-        platformWidth = 4;
+        platformWidth = 5;
         platformHeight = 3;
         patterns = new ArrayList<>();
+        random = new Random();
         addDefaultPatterns();
         // patterns.add(new int[][] {
-        //     { 1, 1, 1, 1 },
-        //     { 1, 0, 0, 1 },
-        //     { 1, 1, 1, 1 },
+        //     { 1, 1, 1, 1, 1 },
+        //     { 1, 0, 0, 0, 1 },
+        //     { 1, 1, 1, 1, 1 },
         // });
+        // patterns.add(new int[][] {
+        //         { 1, 1, 1, 1 },
+        //         { 1, 0, 0, 1 },
+        //         { 1, 1, 1, 1 },
+        //     });
     }
 
     private void addDefaultPatterns() {
         patterns.add(new int[][] {
-            { 1, 0, 0, 0 },
-            { 1, 5, 0, 1 },
-            { 1, 1, 1, 0 },
+            { 0, 0, 0, 0, 0 },
+            { 1, 5, 0, 1, 1 },
+            { 1, 1, 1, 0, 0 },
         });
         patterns.add(new int[][] {
-            { 0, 0, 0, 0 },
-            { 7, 0, 0, 0 },
-            { 1, 1, 1, 1 },
+            { 0, 0, 0, 0, 0 },
+            { 7, 0, 0, 1, 1 },
+            { 1, 1, 1, 0, 0 },
         });
         patterns.add(new int[][] {
-            { 1, 0, 0, 0 },
-            { 0, 0, 5, 0 },
-            { 0, 1, 1, 1 },
+            { 1, 0, 0, 0, 0 },
+            { 0, 0, 5, 0, 0 },
+            { 0, 1, 1, 1, 0 },
         });
         patterns.add(new int[][] {
-            { 0, 0, 0, 7 },
-            { 7, 5, 0, 1 },
-            { 1, 1, 0, 0 },
+            { 0, 0, 0, 7, 0 },
+            { 7, 5, 0, 1, 1 },
+            { 1, 1, 0, 0, 0 },
         });
         patterns.add(new int[][] {
-            { 0, 0, 0, 0 },
-            { 1, 1, 7, 0 },
-            { 0, 0, 1, 1 },
+            { 0, 0, 0, 0, 0 },
+            { 1, 1, 7, 0, 0 },
+            { 0, 0, 1, 1, 1 },
         });
         patterns.add(new int[][] {
-            { 0, 0, 0, 0 },
-            { 0, 0, 0, 0 },
-            { 0, 0, 1, 1 },
+            { 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0 },
+            { 0, 0, 1, 1, 1 },
         });
         patterns.add(new int[][] {
-            { 0, 0, 0, 0 },
-            { 0, 5, 0, 0 },
-            { 1, 1, 1, 0 },
+            { 0, 0, 0, 0, 0 },
+            { 0, 5, 0, 0, 7 },
+            { 1, 1, 1, 1, 1 },
         });
     }
 
+    // private void addDefaultPatterns() {
+    //     patterns.add(new int[][] {
+    //         { 1, 0, 0, 0 },
+    //         { 1, 5, 0, 1 },
+    //         { 1, 1, 1, 0 },
+    //     });
+    //     patterns.add(new int[][] {
+    //         { 0, 0, 0, 0 },
+    //         { 7, 0, 0, 0 },
+    //         { 1, 1, 1, 1 },
+    //     });
+    //     patterns.add(new int[][] {
+    //         { 1, 0, 0, 0 },
+    //         { 0, 0, 5, 0 },
+    //         { 0, 1, 1, 1 },
+    //     });
+    //     patterns.add(new int[][] {
+    //         { 0, 0, 0, 7 },
+    //         { 7, 5, 0, 1 },
+    //         { 1, 1, 0, 0 },
+    //     });
+    //     patterns.add(new int[][] {
+    //         { 0, 0, 0, 0 },
+    //         { 1, 1, 7, 0 },
+    //         { 0, 0, 1, 1 },
+    //     });
+    //     patterns.add(new int[][] {
+    //         { 0, 0, 0, 0 },
+    //         { 0, 0, 0, 0 },
+    //         { 0, 0, 1, 1 },
+    //     });
+    //     patterns.add(new int[][] {
+    //         { 0, 0, 0, 0 },
+    //         { 0, 5, 0, 0 },
+    //         { 1, 1, 1, 0 },
+    //     });
+    // }
+
     public void addPattern(int[][] pattern) {
-        patterns.add(pattern);
+        if (pattern.length == platformWidth && pattern[0].length == platformHeight) {
+            patterns.add(pattern);
+        } else {
+            throw new IllegalStateException("No patterns available.");
+        }
     }
 
     public void removePattern(int[][] pattern) {
         if (patterns.contains(pattern)) {
             patterns.remove(pattern);
         } else {
-            throw new Error("This pattern does not exist");
+            throw new IllegalStateException("This pattern does not exist.");
         }
     }
 
