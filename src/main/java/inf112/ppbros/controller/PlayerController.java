@@ -37,9 +37,10 @@ public class PlayerController extends InputAdapter {
             case Input.Keys.F:
             isAttacking = !isAttacking;
             // When F is pressed, checks to see if player can attack
-            if (gameModel.canPlayerAttack()) {
+            if (gameModel.attackableEnemy() != null) {
+                gameModel.playerAttacksEnemy(gameModel.attackableEnemy());
                 System.out.println("Hit registered!");
-                //gameModel.playerAttacksEnemy(); // FUNKER IKKE
+                System.out.println("Enemy health: "+ gameModel.attackableEnemy().getHealth());
             } else {
                 System.out.println("No hit");
             }
