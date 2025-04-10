@@ -75,7 +75,8 @@ public class PlatformGrid {
     }
 
     /**
-     * Sets the passed tile type into the int[][] array at a given coordinate.
+     * Sets the passed tile type into the int[][] array at a given coordinate. 
+     * Updates the hitboxes only with platform tiles, not decorative assets.
      * @param tileType int
      * @param platformStart coordinate
      * @param x int
@@ -85,9 +86,11 @@ public class PlatformGrid {
         int gridX = platformStart.x() + x;
         int gridY = platformStart.y() + y;
         tileGrid[gridX][gridY] = tileType;
-        updateOccupiedCoordinates(gridX, gridY);
-        Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
-        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
+        if (tileType == 1) {
+            updateOccupiedCoordinates(gridX, gridY);
+            Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
+            hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
+        }
     }
 
     /**
