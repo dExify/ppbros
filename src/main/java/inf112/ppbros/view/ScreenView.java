@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -19,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 
-import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
@@ -29,9 +26,9 @@ import inf112.ppbros.model.Platform.PlatformGrid;
 import inf112.ppbros.model.Platform.TileConfig;
 
 public class ScreenView implements Screen {
+
     private GameModel gameModel;
     private PlayerController playerController;
-    
     private ShapeRenderer shapeRenderer;
     private Rectangle screenRect;
     private OrthographicCamera camera;
@@ -43,19 +40,23 @@ public class ScreenView implements Screen {
     private Table scoreTable;
     private Table healthTable;
 
-    private final int TILE_SIZE = TileConfig.TILE_SIZE;
+    private static final int TILE_SIZE = TileConfig.TILE_SIZE;
     private int yPos;
     private PlatformGrid platformGridObject1, platformGridObject2;
     private Texture mapTexture, platformTexture, platformBlackTexture, barrelTexture, debuggingTexture, skullsTexture;
     
     private PlayerModel player;
-    private TextureRegion playerTextureRight, playerTextureLeft;
-    private Animation<TextureRegion> playerRunAnimR, playerRunAnimL, playerAttackAnimR, playerAttackAnimL;
-    private boolean isAttacking;
+    private TextureRegion playerTextureRight;
+    private TextureRegion  playerTextureLeft;
+    private Animation<TextureRegion> playerRunAnimR;
+    private Animation<TextureRegion>  playerRunAnimL;
+    private Animation<TextureRegion>  playerAttackAnimR;
+    private Animation<TextureRegion>  playerAttackAnimL;
+    
     private TextureRegion currentFrame;
     private float animationTime = 0;
 
-    private Texture enemyTexture, resizedEnemyTexture;
+    private Texture resizedEnemyTexture;
     private List<EnemyModel> enemies;
 
     private boolean drawInfiniteBackground;
@@ -63,13 +64,14 @@ public class ScreenView implements Screen {
     public ScreenView(GameModel model) {
         this.gameModel = model;
         this.playerController = new PlayerController(model, this);
-    
-        // Sets player start position
-        gameModel.makePlayer(0, 0);
+
     }
     
     @Override
     public void show() {
+        Skin skin;
+        Texture enemyTexture;
+        // Make UI overlay
         stage = new Stage();
         // Make UI overlay for score and health bar
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
@@ -167,7 +169,7 @@ public class ScreenView implements Screen {
         drawPlatformGrid(platformGridObject1);
         drawPlatformGrid(platformGridObject2);
 
-        if (platformGridObject1.getYPos() < camera.position.y - 3 * TileConfig.platformGridHeightInPixels/2) {
+        if (platformGridObject1.getYPos() < camera.position.y - (double) 3 * TileConfig.platformGridHeightInPixels/2) {
             platformGridObject1 = platformGridObject2;
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
@@ -190,6 +192,23 @@ public class ScreenView implements Screen {
         playerController.update(delta);
         animationTime += delta;
 
+        drawPlayer(delta);
+        
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
+        stage.draw();
+        playerController.update(delta);
+        gameModel.updatePlayer();
+
+        drawHitboxes(); //debugging
+        drawPlayerHitbox(); //debugging
+
+        if (gameModel.checkOutOfBounds()) {
+            //System.out.println("Player is out of bounds!");
+        }
+    }
+    
+    private void drawPlayer(float delta) {
+        boolean isAttacking;
         isAttacking = playerController.isAttacking();
         boolean isMoving = playerController.isMoving();
         boolean facesLeft = playerController.facesLeft();
@@ -224,11 +243,6 @@ public class ScreenView implements Screen {
         }
     }
     
-    private void drawPlayer() {
-        batch.begin();
-        batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
-        batch.end();
-    }
 
     private void drawHitboxes() {
         batch.begin();
@@ -276,7 +290,7 @@ public class ScreenView implements Screen {
         batch.begin();
         batch.setColor(0.7F, 0.7F, 0.7F, 1F); //Set brightness to 70%
         // batch.setColor(0F, 0F, 0F, 1F); //Set brightness to 0% (debugging)
-        double backgroundHeight = (double) Gdx.graphics.getWidth() * 2.5;
+        double backgroundHeight = Gdx.graphics.getWidth() * 2.5;
         batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
         batch.setColor(1F, 1F, 1F, 1F);
@@ -325,6 +339,7 @@ public class ScreenView implements Screen {
         }
         batch.end();
     }
+
     
     @Override
     public void resize(int width, int height) {
