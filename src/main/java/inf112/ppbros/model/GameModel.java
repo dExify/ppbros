@@ -24,6 +24,7 @@ import inf112.ppbros.view.TilePositionInPixels;
 
 public class GameModel extends Game {
     private PlayerModel player;
+    private int score;
     private List<EnemyModel> enemies;
     private RandomEnemyMaker randomEnemyMaker;
     private int cameraPos;
@@ -38,6 +39,7 @@ public class GameModel extends Game {
     
     public GameModel() {
         this.setScreen(new StartMenuView(this));
+        this.score = 0;
         this.cameraPos = 0;
         this.platformGridMaker = new PlatformGridMaker();
         randomEnemyMaker = new RandomEnemyMaker();
@@ -70,6 +72,21 @@ public class GameModel extends Game {
     }
 
     /**
+     * Returns player score
+     * @return score
+     */
+    public int getScore(){
+        return score;
+    }
+
+    /**
+     * Adds 1 point to score
+     */
+    public void addToScore(){
+        score ++;
+    }
+
+    /**
      * Creates an instance of player with start values
      * @param startX start x value
      * @param startY start y value
@@ -78,7 +95,10 @@ public class GameModel extends Game {
         this.player = new PlayerModel(startX, startY);
     }
 
-    /** Moves player based on its speed 
+    /** Moves player based on its speed.
+     * Checks for collision with platforms and enemies.
+     * Collision with platforms puts the player back to previous position.
+     * Collision with enemies makes player take damage
      * @param deltaX horizontal movement
      * @param deltaY vertical movement
     */
@@ -115,7 +135,7 @@ public class GameModel extends Game {
     public void playerAttacksEnemy(EnemyModel enemy) {
         enemy.takeDamage(player.getAttackDmg());
         if (enemy.getHealth() == 0) {
-            // TODO: update score/kill count
+            addToScore();
         }
         
     }

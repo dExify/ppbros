@@ -38,6 +38,11 @@ public class ScreenView implements Screen {
     private SpriteBatch batch;
     private Stage stage;
     private Skin skin;
+    private Label scoreLabel;
+    private Label healthLabel;
+    private Table scoreTable;
+    private Table healthTable;
+
     private final int TILE_SIZE = TileConfig.TILE_SIZE;
     private int yPos;
     private PlatformGrid platformGridObject1, platformGridObject2;
@@ -63,24 +68,21 @@ public class ScreenView implements Screen {
     
     @Override
     public void show() {
-        // Make UI overlay
         stage = new Stage();
+        // Make UI overlay for score and health bar
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
-        
-        Table healthTable = new Table();
-        Table scoreTable = new Table();
+        scoreTable = new Table();
+        healthTable = new Table();
+        scoreLabel = new Label("", skin);
+        healthLabel = new Label("", skin);
         healthTable.top().left();
         scoreTable.top().right();
         scoreTable.setFillParent(true);
         healthTable.setFillParent(true);
-        stage.addActor(healthTable);
-        stage.addActor(scoreTable);
-        
-        Label scoreLabel = new Label("Score: 0", skin);
-        Label healthLabel = new Label("Health: 100", skin);
-        
         scoreTable.add(scoreLabel).pad(10);
         healthTable.add(healthLabel).pad(10);
+        stage.addActor(scoreTable);
+        stage.addActor(healthTable);
         
         // Initiate a camera and shaperenderer
         shapeRenderer = new ShapeRenderer();
@@ -160,14 +162,15 @@ public class ScreenView implements Screen {
             platformGridObject2 = gameModel.getNextPlatformGrid();
         }
 
+        // update score and health bar
+        scoreLabel.setText("Score: " + gameModel.getScore());
+        healthLabel.setText("Health: " + player.getHealth());
+
+        // camera movement
         gameModel.stopTimer();
         camera.position.y = gameModel.getCameraYCoordinate();
         camera.update();
-
-        // Health
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
-        stage.draw();
-        
+     
         // draw player and update controller for input
         drawPlayerAttack();
         
@@ -180,7 +183,6 @@ public class ScreenView implements Screen {
         isAttacking = playerController.isAttacking();
         boolean isMoving = playerController.isMoving();
         boolean facesLeft = playerController.facesLeft();
-
 
         if (isAttacking) { 
             currentFrame = facesLeft ? playerAttackAnimL.getKeyFrame(animationTime) : playerAttackAnimR.getKeyFrame(animationTime);
@@ -196,9 +198,11 @@ public class ScreenView implements Screen {
         batch.begin();
         batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
         batch.end();
-        
+
+        // initialize fps
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
+
         playerController.update(delta);
 
         // drawHitboxes(); //debugging
