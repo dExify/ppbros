@@ -243,6 +243,7 @@ public class GameModel extends Game {
     /**
      * Terminate timer
      */
+    @Override
     public void dispose() {
         timer.cancel();
     }
