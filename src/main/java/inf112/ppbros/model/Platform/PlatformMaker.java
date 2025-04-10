@@ -93,4 +93,13 @@ public class PlatformMaker {
         return new Platform(pattern);
     }
 
+    public Platform getBasePlatform(int width) {
+        int[][] pattern = new int[1][width];
+        for (int i = 0; i < width; i++) {
+            pattern[0][i] = 1; // or another tile type
+        }
+        return new Platform(pattern);
+    }
+    
+
 }

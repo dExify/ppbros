@@ -1,18 +1,16 @@
 package inf112.ppbros.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
-import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.model.Entity.EnemyModel;
-import inf112.ppbros.model.Entity.EntityType;
 import inf112.ppbros.model.Entity.PlayerModel;
 import inf112.ppbros.model.Entity.RandomEnemyMaker;
 import inf112.ppbros.model.Platform.PlatformGrid;
@@ -33,9 +31,9 @@ public class GameModel extends Game {
     private static long lastExecution = 0;
     private final long cooldownTimeMs = 1000; // 1 second, can be changed
     private PlatformGridMaker platformGridMaker;
-    private PlatformGrid platformGrid;
-    private ArrayList<Rectangle> platformHitboxes;
-    private ArrayList<Rectangle> enemyHitboxes;
+    private List<Rectangle> platformHitboxes;
+    private List<Rectangle> enemyHitboxes;
+    private final int TILE_SIZE = TileConfig.TILE_SIZE;
     
     public GameModel() {
         this.setScreen(new StartMenuView(this));
@@ -46,8 +44,11 @@ public class GameModel extends Game {
         enemies = new ArrayList<>();
         this.timer = new Timer();
         this.timerTask = new CameraYPos();
-        this.platformHitboxes = new ArrayList<Rectangle>();
-        this.enemyHitboxes = new ArrayList<Rectangle>();
+        this.platformHitboxes = new ArrayList<>();
+        this.enemyHitboxes = new ArrayList<>();
+        
+        // Sets player start position
+        makePlayer(0, 150);
     }
 
     @Override
@@ -174,7 +175,7 @@ public class GameModel extends Game {
      * Checks if player collides with an array containing collision boxes as rectangles
      * @return true if player collides with a rectangle, false if they don't
      */
-    private boolean collisionCheck(ArrayList<Rectangle> collisionBox) {
+    private boolean collisionCheck(List<Rectangle> collisionBox) {
         for (Rectangle rec : collisionBox) {
             if (player.collidesWith(rec)) {
                 return true;
@@ -188,6 +189,7 @@ public class GameModel extends Game {
      * @return PlatformGrid with enemies
      */
     public PlatformGrid getNextPlatformGrid() {
+        PlatformGrid platformGrid;
         platformGrid = platformGridMaker.getNextPlatformGrid();
         for (int i = 0; i < 5; i++) {
             updateEnemies(platformGrid);
@@ -206,7 +208,7 @@ public class GameModel extends Game {
     private void updateEnemies(PlatformGrid platformGrid) {
         EnemyModel newEnemy = randomEnemyMaker.getNext(platformGrid);
         // Convert enemy positions from tiles to pixels 
-        Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TileConfig.TILE_SIZE);
+        Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TILE_SIZE);
         // Update and add collisionbox to a list of all enemy collision boxes 
         newEnemy.updateCollisionBox(enemyPosInPixels.x(), enemyPosInPixels.y());
         enemyHitboxes.add(newEnemy.getCollisionBox());
@@ -227,7 +229,7 @@ public class GameModel extends Game {
      * Start timer with fixed rate execution
      */
     public void startTimer() {
-        timer.scheduleAtFixedRate(timerTask, 0, 13);
+        timer.scheduleAtFixedRate(timerTask, 0, 25);
     }
 
     /**
@@ -240,15 +242,20 @@ public class GameModel extends Game {
     /**
      * Terminate timer
      */
+    @Override
     public void dispose() {
         timer.cancel();
     }
 
-    /**
-     * Get platform hitboxes
-     * @return platform hitboxes as an ArrayList containing Rectangles
-     */
-    public ArrayList<Rectangle> getPlatformHitboxes() {
+    public List<Rectangle> getPlatformHitboxes() {
         return platformHitboxes;
     }
+    public void jump() {
+        player.jump();
+    }
+    public void updatePlayer() {
+        platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));
+        player.update(Gdx.graphics.getDeltaTime(), platformHitboxes);
+    }
+    
 }
