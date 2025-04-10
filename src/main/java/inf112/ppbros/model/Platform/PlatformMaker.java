@@ -104,14 +104,22 @@ public class PlatformMaker {
     //     });
     // }
 
+    /**
+     * Adds the passed platform to the list of possible platforms
+     * @param pattern int[][]
+     */
     public void addPattern(int[][] pattern) {
         if (pattern.length == platformWidth && pattern[0].length == platformHeight) {
             patterns.add(pattern);
         } else {
-            throw new IllegalStateException("No patterns available.");
+            throw new IllegalStateException("Platform is not of the right length");
         }
     }
 
+    /**
+     * Removes the passed platform from the list of possible platforms
+     * @param pattern int[][]
+     */
     public void removePattern(int[][] pattern) {
         if (patterns.contains(pattern)) {
             patterns.remove(pattern);
@@ -120,6 +128,10 @@ public class PlatformMaker {
         }
     }
 
+    /**
+     * Returns a random platform from the list of possible platforms
+     * @return Platform
+     */
     public Platform getNext() {
         if (patterns.isEmpty()) {
             throw new IllegalStateException("No patterns available.");
@@ -128,10 +140,18 @@ public class PlatformMaker {
         return new Platform(patterns.get(index));
     }
 
+    /**
+     * Returns platform width
+     * @return int
+     */
     public int getPlatformWidth() {
         return platformWidth;
     }
 
+    /**
+     * Returns platform height
+     * @return int
+     */
     public int getPlatformHeight() {
         return platformHeight;
     }

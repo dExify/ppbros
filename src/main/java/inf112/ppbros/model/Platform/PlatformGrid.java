@@ -36,6 +36,10 @@ public class PlatformGrid {
         return tileGrid;
     }
 
+    /**
+     * Returns the the vertical position above the last platform
+     * @return int
+     */
     public int getYPos() {
         return yPos;
     }
@@ -71,7 +75,7 @@ public class PlatformGrid {
     }
 
     /**
-     * Sets the passed tile type in the int[][] array at a given coordinate.
+     * Sets the passed tile type into the int[][] array at a given coordinate.
      * @param tileType int
      * @param platformStart coordinate
      * @param x int
@@ -132,7 +136,7 @@ public class PlatformGrid {
     }
 
     /**
-     * Updates the occupiedCoordinates hashSet
+     * Updates the occupiedCoordinates hashSet with occupied coordinates
      * @param x
      * @param y
      */
