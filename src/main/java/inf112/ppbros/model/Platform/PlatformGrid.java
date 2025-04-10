@@ -23,11 +23,10 @@ public class PlatformGrid {
     private Random random;
     
     public PlatformGrid(PlatformMaker maker, int iteration) {
-        this.platformMaker = maker;
-        this.occupiedCoordinates = new HashSet<>();
-        this.hitboxes = new ArrayList<>();
-        this.yPos = iteration * platformGridHeight;
-        this.random = new Random();
+        platformMaker = maker;
+        occupiedCoordinates = new HashSet<>();
+        hitboxes = new ArrayList<>();
+        yPos = iteration * platformGridHeight;
     }
     
     /**
@@ -37,19 +36,27 @@ public class PlatformGrid {
     public int[][] returnGrid() {
         return tileGrid;
     }
-    
+
+    /**
+     * Returns the the vertical position above the last platform
+     * @return int
+     */
     public int getYPos() {
         return yPos;
     }
     
     /**
-    * Returns a simple array of rectangles representing the hitboxes of the platforms
-    * @return Rectangle[]
-    */
+     * Returns an arraylist of rectangles representing the hitboxes of the platforms
+     * @return ArrayList<Rectangle>
+     */
     public ArrayList<Rectangle> getHitboxes() {
         return hitboxes;
     }
-    
+
+    /** 
+     * Gets a random spawn position and updates the int[][] with the correct tile types
+     * @param platformCount int
+     */
     public void buildGrid(int platformCount) {
         // Add base platform at the bottom (e.g., y = 0)
         Platform basePlatform;
@@ -72,7 +79,6 @@ public class PlatformGrid {
         for (int i = 0; i < platformCount; i++) {
             Coordinate start = getPlatformStart();
             if (start == null) {
-                // System.out.println("Fant ingen plass for plattform nr. " + i); Debugging
                 continue;
             }
             Platform platform = platformMaker.getNext();
@@ -80,7 +86,7 @@ public class PlatformGrid {
             for (int y = 0; y < pattern.length; y++) {
                 for (int x = 0; x < pattern[y].length; x++) {
                     if (pattern[y][x] != 0) {
-                        insertTile(pattern[y][x], start, x, y);
+                        insertTile(pattern[y][x], start, x, pattern.length - 1 - y);
                     }
                 }   
             }
@@ -88,39 +94,48 @@ public class PlatformGrid {
     }
     
     /**
-    * Updates the tileGrid 2D array with the correct tile type
-    * @param tileType
-    * @param platformStart
-    * @param x
-    * @param y
-    */
+     * Sets the passed tile type into the int[][] array at a given coordinate. 
+     * Updates the hitboxes only with platform tiles, not decorative assets.
+     * @param tileType int
+     * @param platformStart coordinate
+     * @param x int
+     * @param y int
+     */
     private void insertTile(int tileType, Coordinate platformStart, int x, int y) { //Todo: Update this method so that it is affected by yPos
         int gridX = platformStart.x() + x;
         int gridY = platformStart.y() + y;
         tileGrid[gridX][gridY] = tileType;
-        updateOccupiedCoordinates(gridX, gridY);
-        Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
-        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
+        if (tileType == 1) {
+            updateOccupiedCoordinates(gridX, gridY);
+            Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
+            hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
+        }
     }
     
     /**
-    * Generates a random coordinate on a vacant part of the grid and within the bounds of the grid
-    * @return Coordinate
-    */
+     * Generates a random start coordinate on a vacant part of the grid and within the bounds of the grid
+     * @return Coordinate
+     */
     private Coordinate getPlatformStart() {
         boolean occupiedPosition = true;
         Coordinate coordinate = null;
         Coordinate startCoordinate = null;
+        int platformHeight = platformMaker.getPlatformHeight();
+        int platformWidth = platformMaker.getPlatformWidth();
         int randomX;
         int randomY;
         int checks = 0;
+        int xMargin = 1;
+        int yMargin = 1;
+        int expectedVacantPosCount = (platformHeight + yMargin * 2) * (platformWidth + xMargin * 2);
         while (occupiedPosition && checks < 10) {
             int vacantPosCount = 0;
-            randomX = random.nextInt(GRID_WIDTH - 3);
-            randomY = random.nextInt(GRID_HEIGHT - 2);
+            randomX = 1 + random.nextInt(GRID_WIDTH - platformWidth); //-1
+            randomY = 1 + random.nextInt(GRID_HEIGHT - platformHeight); //-1
             startCoordinate = new Coordinate(randomX, randomY);
-            for (int y = randomY; y < randomY + 5; y++) {
-                for (int x = randomX - 1; x < randomX + 5; x++) {
+            outerLoop:
+            for (int y = randomY - yMargin; y < randomY + platformHeight + yMargin; y++) {
+                for (int x = randomX - xMargin; x < randomX + platformWidth + xMargin; x++) {
                     coordinate = new Coordinate(x, y);
                     if (!occupiedCoordinates.contains(coordinate)) {
                         vacantPosCount += 1;
@@ -129,7 +144,7 @@ public class PlatformGrid {
                     }
                 }
             }
-            if (vacantPosCount == 30) {
+            if (vacantPosCount == expectedVacantPosCount) {
                 occupiedPosition = false;
             }
             checks += 1;
@@ -144,26 +159,12 @@ public class PlatformGrid {
     
     
     /**
-    * Updates the occupiedCoordinates hashSet
-    * @param x
-    * @param y
-    */
+     * Updates the occupiedCoordinates hashSet with occupied coordinates
+     * @param x
+     * @param y
+     */
     private void updateOccupiedCoordinates(int x, int y) {
         occupiedCoordinates.add(new Coordinate(x, y));
     }
-    
-    /**
-    * Prints a text representation of the array
-    */
-    public void printArray() { // debugging
-        System.out.println("Platform grid upside down :");
-        for (int y = 0; y < tileGrid[0].length; y++) {
-            for (int x = 0; x < tileGrid.length; x++) {
-                System.out.print(tileGrid[x][y] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-    
+
 }
