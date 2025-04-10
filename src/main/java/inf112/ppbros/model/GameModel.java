@@ -54,6 +54,12 @@ public class GameModel extends Game {
      * Returns player
      * @return player
      */
+        this.hitboxes = new ArrayList<>(); // PLACEHOLDER
+        
+        // Sets player start position
+        makePlayer(0, 50);
+    }
+
     public PlayerModel getPlayer() {
         return player;
     }
