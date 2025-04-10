@@ -1,14 +1,14 @@
-package inf112.ppbros.model.Entity;
+package inf112.ppbros.model.entity;
 
 import java.util.Comparator;
 import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import inf112.ppbros.model.Platform.TileConfig;
 
 public class PlayerModel implements Entity {
-    private float x, y; // player position
+    private float x;
+    private float y;
     private int health;
     private final float speed; // remove final if player can change speed
     private final float attackRange;

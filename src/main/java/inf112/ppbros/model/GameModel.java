@@ -10,12 +10,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
-import inf112.ppbros.model.Entity.EnemyModel;
-import inf112.ppbros.model.Entity.PlayerModel;
-import inf112.ppbros.model.Entity.RandomEnemyMaker;
-import inf112.ppbros.model.Platform.PlatformGrid;
-import inf112.ppbros.model.Platform.PlatformGridMaker;
-import inf112.ppbros.model.Platform.TileConfig;
+import inf112.ppbros.model.entity.EnemyModel;
+import inf112.ppbros.model.entity.PlayerModel;
+import inf112.ppbros.model.entity.RandomEnemyMaker;
+import inf112.ppbros.model.platform.PlatformGrid;
+import inf112.ppbros.model.platform.PlatformGridMaker;
+import inf112.ppbros.model.platform.TileConfig;
 import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
 import inf112.ppbros.view.TilePositionInPixels;

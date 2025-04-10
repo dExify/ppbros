@@ -1,4 +1,4 @@
-package inf112.ppbros.model.Entity;
+package inf112.ppbros.model.entity;
 
 import com.badlogic.gdx.math.Rectangle;
 

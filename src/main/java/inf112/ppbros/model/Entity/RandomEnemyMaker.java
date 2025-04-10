@@ -1,4 +1,4 @@
-package inf112.ppbros.model.Entity;
+package inf112.ppbros.model.entity;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -6,8 +6,8 @@ import java.util.Random;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.model.Coordinate;
-import inf112.ppbros.model.Platform.PlatformGrid;
-import inf112.ppbros.model.Platform.TileConfig;
+import inf112.ppbros.model.platform.PlatformGrid;
+import inf112.ppbros.model.platform.TileConfig;
 
 public class RandomEnemyMaker {
   
