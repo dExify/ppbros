@@ -30,7 +30,9 @@ bin
 .settings
 
 # VSCode
+.vscode/*
 .vscode
+
 
 # OS stuff
 .DS_Store
