@@ -1,4 +1,4 @@
-package inf112.ppbros.model.platform;
+package inf112.ppbros.model.platformTemp;
 
 public class PlatformGridMaker {
   
