@@ -1,8 +1,14 @@
 package inf112.ppbros.model.entity;
 
+import java.util.List;
+import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.ppbros.model.Coordinate;
+import inf112.ppbros.model.platform.TileConfig;
 
 public class EnemyModel implements Entity {
   private float x, y;
@@ -12,12 +18,16 @@ public class EnemyModel implements Entity {
   private final int attackDmg;
   private float width;
   private float height;
+  private float moveSpeed = 50.0f; // Default move speed
   private Rectangle collisionBox;
+  // Regarding movement:
+  private boolean movingLeft = true; // Start moving left by default
+  private boolean movingRight = false;
   
   /**
   * An enemy model contains the attributes and functions for enemies in the game
-  * @param startX start x position for enemy
-  * @param startY start y position for enemy
+   * @param startPos start x and y position for enemy
+   * @param yPos start grid-iteration for enemy
   */
   public EnemyModel(Coordinate startPos, int yPos) {
     this.x = startPos.x();
@@ -59,6 +69,14 @@ public class EnemyModel implements Entity {
     y += dy;
     collisionBox.setPosition(x, y);
   }
+
+  public void setX(float x) {
+    this.x = x;
+  }
+
+  public void setY(float y) {
+      this.y = y;
+  }
   
   @Override
   public void setSize(float width, float height) {
@@ -70,6 +88,117 @@ public class EnemyModel implements Entity {
   // if platforms has patterns with elevation we should make method to check for collision
   // and check if they can go up or down (e.g. depending on if there is a platform instance x amount of height below)
   
+  /**
+   * Updates the enemy's movement based on platform and player position.
+   * @param player The player model to path towards.
+   * @param hitboxes The list of hitboxes to check for collisions.
+   * @param deltaTime The time since the last frame.
+   */
+  public void updateMovement(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
+    if ((player.getY() >= this.y - TileConfig.TILE_SIZE * 2) && (player.getY() <= this.y + TileConfig.TILE_SIZE * 2)) {
+        pathTowardsPlayer(player, hitboxes, deltaTime); // Start chasing the player
+    } else {
+      patrolPlatform(player, hitboxes, deltaTime); // Start patroling the platform
+    }
+  }
+
+  /**
+   * Patrols the platform by moving left or right and jumping/falling if needed.
+   */
+  private void patrolPlatform(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
+    this.moveSpeed = 50.0f;
+    moveEnemy(player, hitboxes, deltaTime);
+  }
+
+  /**
+   * Paths towards the player by moving horizontally (and jumping/falling if needed.)
+   * @param player The player model to path towards.
+   */
+  private void pathTowardsPlayer(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
+    this.moveSpeed = 75.0f; // Increase speed when chasing player
+    if (player.getX() < x) {
+      if (movingLeft) {
+        moveEnemy(player, hitboxes, deltaTime);
+      } else {
+        changeDirection();
+        moveEnemy(player, hitboxes, deltaTime);
+      }
+    } else {
+      if (movingRight) {
+        moveEnemy(player, hitboxes, deltaTime);
+      } else {
+        changeDirection();
+        moveEnemy(player, hitboxes, deltaTime);
+      }
+    }
+  }
+
+  /**
+   * Moves the enemy left or right based on its current direction.
+   * If there's a gap below, it changes direction.
+   * If there's a platform collision, it reverts the immediate movement, it changes direction.
+   * @param player
+   * @param hitboxes
+   * @param deltaTime
+   */
+  private void moveEnemy(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
+    float prevX = x;
+    float prevY = y;
+
+    int direction = movingLeft ? -1 : 1;
+
+    // Check for gaps
+    if (!hasTileBelow(hitboxes)) {
+      changeDirection();
+      return; // Stop movement if there's a gap
+    }
+
+    // Move the enemy
+    move(direction * moveSpeed * deltaTime, 0);
+
+    if (platformCollision(hitboxes)) {
+      x = prevX;
+      y = prevY;
+      changeDirection();
+      System.out.println("Collision detected, changing direction.");
+    }
+  }
+
+  // Check if there is a tile in the direction the enemy is moving
+  private boolean hasTileInDirection(List<Rectangle> hitboxes) {
+    float checkX = movingLeft ? x - width : x + width;
+    float checkY = y;
+    Rectangle checkBox = new Rectangle(checkX, checkY, width, height);
+    for (Rectangle rec : hitboxes) {
+        if (checkBox.overlaps(rec)) {
+          return true;
+        }
+    }
+    return false;
+  }
+
+  // Check if there is a tile below the enemy in the direction it is moving
+  private boolean hasTileBelow(List<Rectangle> hitboxes) {
+    float checkX = movingLeft ? x - width / 2 : x + width / 2;
+    float checkY = y - height;
+    Rectangle checkBox = new Rectangle(checkX, checkY, width, height / 2); // Adjust height for better accuracy
+    for (Rectangle rec : hitboxes) {
+        if (checkBox.overlaps(rec)) {
+          return true;
+        }
+    }
+    return false;
+  }
+
+  private boolean platformCollision(List<Rectangle> hitboxes) {
+    for (Rectangle rec : hitboxes) {
+      if (collisionBox.overlaps(rec)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public EntityType getType() {
     return EntityType.ENEMY;
@@ -118,6 +247,16 @@ public class EnemyModel implements Entity {
   @Override
   public int getAttackDmg() {
     return attackDmg;
+  }
+
+  public void changeDirection() {
+    if (movingLeft) {
+        movingLeft = false;
+        movingRight = true;
+    } else {
+        movingLeft = true;
+        movingRight = false;
+    }
   }
   
 }
