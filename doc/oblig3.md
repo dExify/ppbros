@@ -64,6 +64,16 @@ Kravene til MVP er som følger:
 * Gi spiller poeng for å bekjempe fiender/monstre.
 * Spiller kan dø ved kontakt med fiender, eller ved å falle utfor skjermen/verden
 * Start-skjerm UI ved oppstart / game over
+
+Justerte krav til MVP:
+* Vise en bakgrunn
+* Vise enkle platformer på bakgrunn
+* Vise spiller på skjerm
+* Flytte spiller i forskjellige retninger basert på input fra tastatur
+* Spiller interagerer med terrenget
+* Vise fiender
+* Spiller kan interagere med fiender
+* UI som kan starte spillet
  
 ## Brukerhistorier
 Som en spiller trenger jeg en spillverden for å kunne spille.
@@ -94,6 +104,19 @@ Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 - Akseptansekriterie: Fienden må ha en AI som beveger seg og reagerer på spilleren.
 - Arbeidsoppgave: Implementere AI-styrt bevegelse og angrepsmønstre.
 
+Brukerhistorier for krav å jobbe med videre:
+
+Som en spiller trenger jeg å kunne samle Powerups for å få midlertidige fordeler i spillet.
+- Akseptansekriterie: Powerups må dukke opp i spillverdenen, spiller må kunne plukke den opp og når aktivert endres det måten spiller spiller på.
+- Arbeidsoppgave: Implementere forskjellige Powerups, lage system for spawning av de, lage visuell og/eller lydmessig feedback når en plukkes opp og implementere nedtelling og deaktivering av powerup effekten.
+
+Som en spiller trenger jeg en Game Over-skjerm når jeg taper
+- Akseptansekriterie: Skjermen må vises ved tap og ha alternativer for restart og hovedmeny.
+- Arbeidsoppgave: Implementer Game Over UI og koble det til spillets sluttbetingelser.
+
+Som en spiller vil jeg oppleve animasjoner, lydeffekter og visuelle effekter, som skal hjelpe med å se registrerte hits, hopp og liknende.
+- Akseptansekriterie: Når viktige hendelser skjer (f.eks. skade, hopp, PowerUps), skal passende animasjon, lyd eller visuell effekt spilles av.
+- Arbeidsoppgave: Legg til animasjoner, lydeffekter og/eller visuelle effekter til sentrale spillhendelser.
 
 ## Prosjektrapport
 
@@ -127,7 +150,6 @@ Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 2. 
 3. Lage en tydelig prioriteringsliste og rekkefølge for videre utvikling, slik at vi unngår overlapp og ineffektiv arbeid.
 
-
 ## Krav og Spesifikasjon 
 ### Krav vi har prioritert, våres progressjon og om oppfylling av MVP
 - Vi har hovedsaklig prioritert MVP da vi enda ikke hadde oppfylt alle kravene satt for vår MVP. Hver av oss har fokusert på forskjellige implementasjoner og hjulpet hverandre på møtene. Vi prioriterte å få på plass bakgrunn og platformer da dette ville sette et godt grunnlag for spillet. Likevel var det mulig å eksperimentere med diverse logikk og visning for spiller på siden. Så fort platformer og spiller kunne tegnes og beveges ønsket vi å håndtere kollisjon mellom dem, på den måten lager vi et interaksjonerbart miljø. Det var også tid for mindre prioriterende aspekter for spillet som forside, lydeffekter og animasjon. Disse var lengre nede på prioritetlista da de vil ikke ha noe direkte å si for om spillet er spillbart og spillprogressjon. Som skrevet i MVP'en var fiende en prioritet, og er noe vi hadde ønsket var implementert tidligere da mye av logikken for spillet trengs fiender. 
@@ -137,7 +159,7 @@ Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 Gravitasjon og hopp: Spiller kan foreløpig hoppe gjennom platformer, ønskes å endres på.
 Fiende oppførsel: Fiende går nå til venstre og høyre der de blir spawnet og forblir på samme nivå/høyde. Vi ønsker å legge til logikk som lar fiende gå opp og ned på platformene som har trappetrinn i sitt mønster.
 
-- Fremover har vi tenkt å forbedre og fikse på mange av funksjonalitene vi allerede har, som fiende AI, gravitasjon, og platform generasjon/spawning. Når spillet vårt fungeres mer slik vi ønsker, har vi tenkt å legge til noe som likner power-ups og en game over skjerm for når spiller ikke lengre har liv. Vi har logikken til det, derfor kommer vi til å legge til muligheten for spiller å miste liv når de går utfor skjermen. 
+- Fremover har vi tenkt å forbedre og fikse på mange av funksjonalitene vi allerede har, som fiende AI, gravitasjon, og platform generasjon/spawning. Når spillet vårt fungeres mer slik vi ønsker, har vi tenkt å legge til noe som likner power-ups og en game over skjerm for når spiller ikke lengre har liv. Vi kommer til å legge til muligheten for at spiller kan miste liv når de går utfor skjermen, logikken er allerede klar.
 Vi ønsker også å legge til flere animasjoner, lydeffekter og/eller visuelle effekter for både spiller og fiende, og å justere og forbedre animasjon til spiller. Ellers blir det viktig å skrive tester og forbedre kodestil, oversiktlighet, og javadocs. I starten var våres idé å ha forskjellige type fiender, to spillere, og muligheten til å kjempe "bosses" i en arena (statisk kamera med ny bakgrunn). Implementasjon for disse blir mer nedprioritet og er avhengig av tid igjen. Brukerhistorier er lagt til.
 
 ### Justeringer av MVP
