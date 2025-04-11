@@ -97,7 +97,7 @@ Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 
 ## Prosjektrapport
 * Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?
-- Har ikke hatt noen store problemer med roller. Vi har alle hovedsakelig vært utviklere, hvor vi alle fikk en bi-rolle ga en liten ekstraoppgave.  
+- Har ikke hatt noen store problemer med roller. Vi har alle hovedsakelig vært utviklere, hvor vi alle fikk en bi-rolle ga en liten ekstraoppgave. 
 
 * Trenger dere andre roller? Skriv ned noen linjer om hva de ulike rollene faktisk innebærer for dere.
 - Kundekontakt har ikke hatt så mye kontakt med kunder, så vært en litt symbolsk rolle for Åse. Ole som gitansvarlig har gjort mesteparten av mergerequests osv i starten, men lengre inn i prosjektet har har dette ansvaret blitt litt mer spredt over alle medlemmene. Luka fikk assets av en kompis, så passet bra. 
@@ -109,10 +109,10 @@ Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 - Majoriteten av gruppen har hatt ganske god kommunikasjon og fremgang. Det har vært få uenigheter angående koden og hvordan forskjellige ting skal løses, da vi som oftest har delegert ansvaret for en løsning til en enkelt utvikler. Ved møter hvor vi skal merge løsninger inn til main, har vi hatt konstruktive diskusjoner om løsningene og eventuelle problemer ved merge.
 
 * Hvordan fungerer kommunikasjonen for dere?
-- 
+- Vi har for det meste hatt god kommunikasjon. Vi har hovedsakelig brukt discord og en snapchat gruppe til å kommunisere med hverandre
 
 * Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
-- 
+- I etterkant burde vi nok vært litt strengere med hverandre om forventinger av arbeid fra møte til møte. Det har vært litt skjevfordeling av commits mellom hverandre. Vi har heller ikke hatt noe tydelig løp for hva som skal lages først og i hvilken rekkefølge, men dette kommer litt av at vi ikke har noe særlig erfaring med spillutvikling og utvikling i grupper fra før av.
 
 Under vurdering vil det vektlegges at alle bidrar til kodebasen. Hvis det er stor forskjell i hvem som committer, må dere legge ved en kort forklaring for hvorfor det er sånn. Husk å committe alt. (Også designfiler)
 - 
