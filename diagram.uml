@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/christiansollid/Documents/DTEK/6_V25/INF112/sample-group/src</OriginalElement>
+  <nodes>
+    <node x="-1027.501752854549" y="404.97940077931844">inf112.ppbros.model.platform.TileConfig</node>
+    <node x="-705.3835736824644" y="1235.550772771251">inf112.ppbros.model.entity.PlayerModel</node>
+    <node x="-847.9683927740983" y="379.47940077931844">inf112.ppbros.model.CameraYPos</node>
+    <node x="-594.585275354365" y="706.2264034677256">inf112.ppbros.controller.AudioController</node>
+    <node x="-1102.3835736824644" y="1845.5496471147183">inf112.ppbros.model.entity.RandomEnemyMaker</node>
+    <node x="714.1312029761856" y="439.61404590075415">inf112.ppbros.app.Main</node>
+    <node x="-959.9645655869929" y="584.1874046644725">inf112.ppbros.model.platform.PlatformGridMaker</node>
+    <node x="-1032.501752854549" y="488.0781973049395">inf112.ppbros.model.platform.Platform</node>
+    <node x="137.3336070001743" y="689.8676914930144">inf112.ppbros.view.ScreenView</node>
+    <node x="-1020.3835736824644" y="1090.048037372498">inf112.ppbros.model.entity.EntityType</node>
+    <node x="446.24464947387037" y="439.61404590075415">inf112.ppbros.app.PowerPipesBros</node>
+    <node x="-959.1640286998447" y="733.3577574786328">inf112.ppbros.model.Coordinate</node>
+    <node x="-1291.1582102754599" y="1034.1414785427871">inf112.ppbros.model.entity.Entity</node>
+    <node x="-263.4596896129872" y="432.8676914930144">inf112.ppbros.model.GameModel</node>
+    <node x="137.3336070001743" y="439.61404590075415">inf112.ppbros.view.StartMenuView</node>
+    <node x="-1323.3438558196208" y="186.78180772807627">inf112.ppbros.view.TilePositionInPixels</node>
+    <node x="-959.1640286998447" y="854.1769938305606">inf112.ppbros.view.TextureUtils</node>
+    <node x="-1048.3835736824644" y="1235.550772771251">inf112.ppbros.model.entity.EnemyModel</node>
+    <node x="-594.585275354365" y="470.0056592130219">inf112.ppbros.controller.PlayerController</node>
+    <node x="-1380.1582102754599" y="597.1769938305606">inf112.ppbros.model.platform.PlatformGrid</node>
+    <node x="-1323.3438558196208" y="297.97940077931844">inf112.ppbros.model.platform.PlatformMaker</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="inf112.ppbros.model.entity.EnemyModel" target="inf112.ppbros.model.entity.Entity" relationship="REALIZATION">
+      <point x="-135.00037933766998" y="-4.17066552927281E-4" />
+      <point x="-988.0" y="1517.5503557046982" />
+      <point x="-988.0" y="1205.141" />
+      <point x="98.50021027545995" y="-4.785427870501735E-4" />
+    </edge>
+    <edge source="inf112.ppbros.model.entity.PlayerModel" target="inf112.ppbros.model.entity.Entity" relationship="REALIZATION">
+      <point x="-6.259836438477919" y="-333.0" />
+      <point x="-577.6434101209423" y="1190.141" />
+      <point x="98.5" y="-15.00047854278705" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.3617746707963312" showDependencies="false" x="-416.6601266919231" y="1105.9954953580695" />
+  <SelectedNodes>
+    <node>inf112.ppbros.model.platform.PlatformGridMaker</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
