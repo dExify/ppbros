@@ -96,50 +96,49 @@ Som en fiende trenger jeg å kunne styre meg selv for å utfordre spilleren.
 
 
 ## Prosjektrapport
-* Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamlead eller kundekontakt?
-- Har ikke hatt noen store problemer med roller. Vi har alle hovedsakelig vært utviklere, hvor vi alle fikk en bi-rolle ga en liten ekstraoppgave. 
 
-* Trenger dere andre roller? Skriv ned noen linjer om hva de ulike rollene faktisk innebærer for dere.
-- Kundekontakt har ikke hatt så mye kontakt med kunder, så vært en litt symbolsk rolle for Åse. Ole som gitansvarlig har gjort mesteparten av mergerequests osv i starten, men lengre inn i prosjektet har har dette ansvaret blitt litt mer spredt over alle medlemmene. Luka fikk assets av en kompis, så passet bra. 
+### Roller i teamet og hvordan de fungerer
+- Alle medlemmene i gruppa har i hovedsak fungert som utviklere. I tillegg har vi hatt noen biroller med mindre ansvar som ble fordelt etter behov.  
+- Åse har hatt rollen som kundekontakt, men det har vært lite faktisk kundekontakt i prosjektet, så rollen har vært mer symbolsk.  
+- Ole var i starten ansvarlig for merge requests som git-ansvarlig, men dette ansvaret ble etter hvert spredt mer ut på hele teamet.  
+- Luka fikk tilgang til assets via en bekjent, så han fikk naturlig ansvar for grafiske ressurser.  
+- Vi ser ikke behov for å endre teamlead eller kundekontakt nå, men kan vurdere å tydeliggjøre ansvar for merge/versjonskontroll i neste sprint.
 
-* Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på?
-- I ettertid så ville vi lagd en litt mindre krevende MVP. MVP som opprinnelig ble laget reflekterte mer et komplett spill, i motsetning til noe som burde fungere mer som en prototype. Vi startet med et trello-brett for å organisere oppgaver, men dette ble fort lagt vekk dersom vi som oftest satt fysisk sammen og jobbet med spillet. Når vi satt sammen ble det naturlig å parprogrammere på forskjellige problemer/oppgaver vi ga hverandre, og vi oppfylte dermed kanban-metodikken vi planla til en viss grad. Referatene fra møtene våres gir et mye bedre innblikk i hva som har blitt gjort enn trello.
+### Vurdering av teamdynamikk og metodevalg
+- Gruppens kommunikasjon og samarbeid har generelt fungert godt. Vi har hatt få uenigheter, og ansvarsfordelingen har skjedd naturlig ved at oppgaver ble delegert til enkeltpersoner som tok eierskap.  
+- Ved merge til `main` har vi hatt gode diskusjoner for å kvalitetssikre løsningene.  
+- Vi startet med Trello for oppgaveorganisering, men gikk bort fra det fordi vi oftest jobbet fysisk sammen. Dette gjorde det lettere å parprogrammere og løse problemer underveis, som ga oss en mer uformell, men fungerende kanban-stil.  
+- Møtereferatene våre har vært nyttige for å dokumentere fremgang.  
+- I ettertid ser vi at MVP-en vår burde vært enklere og tydeligere definert som en prototype. Vi tok utgangspunkt i en mer komplett spillversjon, noe som gjorde scope og arbeidsmengde større enn planlagt.
 
-* Hvordan er gruppedynamikken? Er det uenigheter som bør løses?
-- Majoriteten av gruppen har hatt ganske god kommunikasjon og fremgang. Det har vært få uenigheter angående koden og hvordan forskjellige ting skal løses, da vi som oftest har delegert ansvaret for en løsning til en enkelt utvikler. Ved møter hvor vi skal merge løsninger inn til main, har vi hatt konstruktive diskusjoner om løsningene og eventuelle problemer ved merge.
+### Kommunikasjon og samarbeidsverktøy
+- Kommunikasjonen har foregått primært via Discord og Snapchat.  
+- Det har fungert effektivt for raske oppdateringer og koordinering.  
+- For dokumentasjon og deling av fremgang, har vi brukt Git og delt referat fra møter.
 
-* Hvordan fungerer kommunikasjonen for dere?
-- Vi har for det meste hatt god kommunikasjon. Vi har hovedsakelig brukt discord og en snapchat gruppe til å kommunisere med hverandre
+### Retrospektiv vurdering og forbedringspunkter
+- Vi har oppnådd god fremgang i prosjektet og samarbeidet har vært effektivt. Samtidig ser vi noen forbedringspunkter:  
+  - Vi kunne vært tydeligere med forventninger til arbeid mellom møter.  
+  - Det har vært noe skjevfordeling i commits – dette burde bli mer likt til release
+  - Vi hadde ingen klar rekkefølge eller sprintplan for hva som skulle lages når, noe som kunne gjort det enklere å fordele arbeid jevnere.
 
-* Gjør et kort retrospektiv hvor dere vurderer hva dere har klart til nå, og hva som kan forbedres. Dette skal handle om prosjektstruktur, ikke kode. Dere kan selvsagt diskutere kode, men dette handler ikke om feilretting, men om hvordan man jobber og kommuniserer.
-- I etterkant burde vi nok vært litt strengere med hverandre om forventinger av arbeid fra møte til møte. Det har vært litt skjevfordeling av commits mellom hverandre. Vi har heller ikke hatt noe tydelig løp for hva som skal lages først og i hvilken rekkefølge, men dette kommer litt av at vi ikke har noe særlig erfaring med spillutvikling og utvikling i grupper fra før av.
+### Forbedringspunkter for neste sprint
+1. Definere klarere oppgaveansvar og forventninger mellom møter for å sikre jevn arbeidsfordeling.  
+2. 
+3. Lage en tydelig prioriteringsliste og rekkefølge for videre utvikling, slik at vi unngår overlapp og ineffektiv arbeid.
 
-Under vurdering vil det vektlegges at alle bidrar til kodebasen. Hvis det er stor forskjell i hvem som committer, må dere legge ved en kort forklaring for hvorfor det er sånn. Husk å committe alt. (Også designfiler)
-- 
 
-Bli enige om maks tre forbedringspunkter fra retrospektivet, som skal følges opp under neste sprint.
-- 
+## Krav og Spesifikasjon 
+### Krav vi har prioritert, våres progressjon og om oppfylling av MVP
+- Vi har hovedsaklig prioritert MVP da vi enda ikke hadde oppfylt alle kravene satt for vår MVP. Hver av oss har fokusert på forskjellige implementasjoner og hjulpet hverandre på møtene. Vi prioriterte å få på plass bakgrunn og platformer da dette ville sette et godt grunnlag for spillet. Likevel var det mulig å eksperimentere med diverse logikk og visning for spiller på siden. Så fort platformer og spiller kunne tegnes og beveges ønsket vi å håndtere kollisjon mellom dem, på den måten lager vi et interaksjonerbart miljø. Det var også tid for mindre prioriterende aspekter for spillet som forside, lydeffekter og animasjon. Disse var lengre nede på prioritetlista da de vil ikke ha noe direkte å si for om spillet er spillbart og spillprogressjon. Som skrevet i MVP'en var fiende en prioritet, og er noe vi hadde ønsket var implementert tidligere da mye av logikken for spillet trengs fiender. 
 
-## Krav og spesifikasjon
-Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang. Er dere kommet forbi MVP? Forklar hvordan dere prioriterer ny funksjonalitet.
-- 
-For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. Husk at akseptansekriterier ofte skrives mer eller mindre som tester
-- 
+### Prioritering av oppgaver fremover
+- Diverse bugs finnes med gravitasjon og kollisjon logikken når spiller hopper, hvordan fiender oppfører seg på platformer. Disse bugsene vil bli våres høyest prioritet å fikse. 
+Gravitasjon og hopp: Spiller kan foreløpig hoppe gjennom platformer, ønskes å endres på.
+Fiende oppførsel: Fiende går nå til venstre og høyre der de blir spawnet og forblir på samme nivå/høyde. Vi ønsker å legge til logikk som lar fiende gå opp og ned på platformene som har trappetrinn i sitt mønster.
 
-Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også.
-- 
+- Fremover har vi tenkt å forbedre og fikse på mange av funksjonalitene vi allerede har, som fiende AI, gravitasjon, og platform generasjon/spawning. Når spillet vårt fungeres mer slik vi ønsker, har vi tenkt å legge til noe som likner power-ups og en game over skjerm for når spiller ikke lengre har liv. Vi har logikken til det, derfor kommer vi til å legge til muligheten for spiller å miste liv når de går utfor skjermen. 
+Vi ønsker også å legge til flere animasjoner, lydeffekter og/eller visuelle effekter for både spiller og fiende, og å justere og forbedre animasjon til spiller. Ellers blir det viktig å skrive tester og forbedre kodestil, oversiktlighet, og javadocs. I starten var våres idé å ha forskjellige type fiender, to spillere, og muligheten til å kjempe "bosses" i en arena (statisk kamera med ny bakgrunn). Implementasjon for disse blir mer nedprioritet og er avhengig av tid igjen. Brukerhistorier er lagt til.
 
-Forklar kort hvordan dere har prioritert oppgavene fremover
-- 
-
-Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
-- 
-
-Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
-- 
-
-Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
-- Gravity funker som forventet, men kollisjon med platformer er litt uforutsigbar. I gjeldene versjon er det 2 varianter av kollisjonssjekk. Den delen som er kommentert ut er "bedre", men den registrerer ikke alltid når spilleren er under eller over en platform i tide (kollisjon funker ved å iterere gjennom alle platformer, og sjekke om spiller overlapper. Hvis det er mismatch i når spiller overlapper, og for-løkken sjekker en annen platform enn gjeldende, kan spiller klippe gjennom). Den enklere varianten som er i bruk har ikke dette problemet, men den tillater at spilleren kan klippe gjennom platformer over seg.
-
-Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
-- 
+### Justeringer av MVP
+- MVP'en vi lagde var mer omfattende og tidskrevende enn det vi trodde og vi tenker det er mulig å forkorte den mens den alikevel vil bli ansett som en MVP. Justert MVP er skrevet under forrige MVP og er forkortet ved å ha fjernet noen krav for logikk implementasjon og forenklet visuelle krav.
