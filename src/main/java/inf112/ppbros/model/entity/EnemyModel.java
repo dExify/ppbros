@@ -160,7 +160,7 @@ public class EnemyModel implements Entity {
       x = prevX;
       y = prevY;
       changeDirection();
-      System.out.println("Collision detected, changing direction.");
+      // System.out.println("Collision detected, changing direction.");
     }
   }
 

@@ -48,7 +48,10 @@ public class ScreenView implements Screen {
   private Texture barrelTexture;
   private Texture debuggingTexture;
   private Texture skullsTexture;
-  
+  private Texture sewer1;
+  private Texture sewer2;
+  private Texture sewer3;
+
   private PlayerModel player;
   private TextureRegion playerTextureRight;
   private TextureRegion  playerTextureLeft;
@@ -112,6 +115,9 @@ public class ScreenView implements Screen {
     barrelTexture = new Texture(Gdx.files.internal("Platforms/Barrel.png"));
     debuggingTexture = new Texture(Gdx.files.internal("Red_X.png"));
     mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
+    sewer1 = new Texture(Gdx.files.internal("sewer_1.png"));
+    sewer2 = new Texture(Gdx.files.internal("sewer_2.png"));
+    sewer3 = new Texture(Gdx.files.internal("sewer_3.png"));
     platformGridObject1 = gameModel.getNextPlatformGrid(); 
     platformGridObject2 = gameModel.getNextPlatformGrid();
     this.yPos = 0;
@@ -193,11 +199,9 @@ public class ScreenView implements Screen {
   public void render(float delta) {
     batch.setProjectionMatrix(camera.combined);
     
-    // if (drawInfiniteBackground) {
-    //     drawInfiniteBackground();
-    // } else {
-    //     drawBackground();
-    // }
+    if (drawInfiniteBackground) {
+      drawInfiniteBackground();
+    } 
     drawBackground();
     
     drawPlatformGrid(platformGridObject1);
@@ -256,7 +260,6 @@ public class ScreenView implements Screen {
     
     if (isAttacking) { 
       currentFrame = facesLeft ? playerAttackAnimL.getKeyFrame(animationTime) : playerAttackAnimR.getKeyFrame(animationTime);
-      
       
     } else if (!isMoving) { // Draws only first frame is character is standing still
       currentFrame = facesLeft ? playerTextureLeft : playerTextureRight;
@@ -338,16 +341,24 @@ public class ScreenView implements Screen {
     batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
     batch.setColor(1F, 1F, 1F, 1F);
     batch.end();
-    // System.out.println(backgroundHeight + "   " + (camera.position.y - 3 * TileConfig.platformGridHeightInPixels/2));
-    // if (backgroundHeight < camera.position.y + 1 * TileConfig.platformGridHeightInPixels/2) {
-    //     drawInfiniteBackground = true;
-    // }
+    if (backgroundHeight < camera.position.y + Gdx.graphics.getHeight() / 2) {
+      drawInfiniteBackground = true;
+    }
   }
   
-  // private void drawInfiniteBackground() {
-  //     System.out.println("Draw infinite background");
-  // }
-  
+  private void drawInfiniteBackground() {
+    // double backgroundHeight = Gdx.graphics.getWidth() * 0.56;
+    double backgroundHeight = TileConfig.PLATFORM_GRIDHEIGHT_PIXELS; 
+    Texture bg1 = sewer1;
+    Texture bg2 = sewer2;
+    batch.begin();
+    batch.setColor(0.7F, 0.7F, 0.7F, 1F);
+    batch.draw(bg1, 0, platformGridObject1.getYPos(), Gdx.graphics.getWidth(), (int) backgroundHeight);
+    batch.draw(bg2, 0, platformGridObject2.getYPos(), Gdx.graphics.getWidth(), (int) backgroundHeight);
+    batch.setColor(1F, 1F, 1F, 1F);
+    batch.end();
+  }
+
   /**
   * Renders the platform grid
   * @param platformGrid
