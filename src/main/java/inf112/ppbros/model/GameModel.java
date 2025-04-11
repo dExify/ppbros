@@ -23,6 +23,7 @@ public class GameModel extends Game {
   private PlayerModel player;
   private int score;
   private List<EnemyModel> enemies;
+  private int enemyAmount = 5; // Number of enemies to spawn on each platform grid
   private RandomEnemyMaker randomEnemyMaker;
   private int cameraPos;
   private Timer timer;
@@ -191,7 +192,7 @@ public class GameModel extends Game {
   public PlatformGrid getNextPlatformGrid() {
     PlatformGrid platformGrid;
     platformGrid = platformGridMaker.getNextPlatformGrid();
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < enemyAmount; i++) {
       updateEnemies(platformGrid);
     }
     platformHitboxes.addAll(platformGrid.getHitboxes());
@@ -211,6 +212,8 @@ public class GameModel extends Game {
     Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TILESIZE);
     // Update and add collisionbox to a list of all enemy collision boxes 
     newEnemy.updateCollisionBox(enemyPosInPixels.x(), enemyPosInPixels.y());
+    newEnemy.setX(enemyPosInPixels.x());
+    newEnemy.setY(enemyPosInPixels.y());
     enemyHitboxes.add(newEnemy.getCollisionBox());
     
     enemies.add(newEnemy);
@@ -258,9 +261,16 @@ public class GameModel extends Game {
     player.update(Gdx.graphics.getDeltaTime(), platformHitboxes);
   }
 
+  /**
+   * * Updates the enemies' positions based on the player's position and the platform hitboxes.
+   * This method is called every frame to ensure that the enemies move towards the player, and move correctly.
+   * @param deltaTime The time since the last frame, used to update the enemies' positions.
+   * This is used to ensure that the enemies move at a consistent speed, regardless of the frame rate.
+   */
   public void updateEnemiesPos(float deltaTime) {
+    float delta = deltaTime;
     for (EnemyModel enemy : enemies) {
-      enemy.updateMovement(player, enemyHitboxes, deltaTime);
+      enemy.updateMovement(player, platformHitboxes, delta);
     }
   }
   

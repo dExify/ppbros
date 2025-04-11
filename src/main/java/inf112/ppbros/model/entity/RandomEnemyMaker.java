@@ -24,9 +24,7 @@ public class RandomEnemyMaker {
   public EnemyModel getNext(PlatformGrid grid) {
     this.grid = grid;
     Coordinate spawnPos = getValidSpawnPos(grid); // get a valid spawn position for the enemy
-    // EnemyModel enemy = newRandomEnemy();
     return new EnemyModel(spawnPos, (grid.getYPos()/TileConfig.PLATFORM_GRIDHEIGHT_PIXELS)*TileConfig.GRID_HEIGHT);
-    // TODO: GOSH DARN FIX THE Y POSITION CALCUALATION, IT CANT BE CALCULATED AS IS
   }
   
   /**

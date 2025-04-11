@@ -56,12 +56,17 @@ public class ScreenView implements Screen {
   private Animation<TextureRegion>  playerRunAnimL;
   private Animation<TextureRegion>  playerAttackAnimR;
   private Animation<TextureRegion>  playerAttackAnimL;
+
   
   private TextureRegion currentFrame;
   private float animationTime = 0;
   
   private Texture resizedEnemyTexture;
   private List<EnemyModel> enemies;
+  private TextureRegion enemyTextureRight;
+  private TextureRegion  enemyTextureLeft;
+  private Animation<TextureRegion> enemyIdleAnimR;
+  private Animation<TextureRegion>  enemyIdleAnimL;
   
   private boolean drawInfiniteBackground;
   
@@ -147,11 +152,34 @@ public class ScreenView implements Screen {
     
     player.setSize(playerTextureRight.getRegionWidth()/3, playerTextureRight.getRegionHeight()/3);
     
+
+    // Make Textures for enemy
+    // enemyTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/enemy_R.png")));
+    // enemyTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/player_L.png")));
+    
+    // Array<TextureRegion> enemyIdleFramesR = new Array<>();
+    // for (int i = 1; i <= 4; i++) { // 4 animation frames
+    //   enemyIdleFramesR.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + i + "_R.png"))));
+    // }
+    
+    // Array<TextureRegion> enemyIdleFramesL = new Array<>();
+    // for (int i = 1; i <= 4; i++) { // 4 animation frames
+    //   enemyIdleFramesL.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + i + "_L.png"))));
+    // }
+
+    // enemyIdleAnimR = new Animation<>(0.5f, enemyIdleFramesR, Animation.PlayMode.LOOP);
+    // enemyIdleAnimL = new Animation<>(0.1f, enemyIdleFramesL, Animation.PlayMode.LOOP);
+
+    // currentFrame = enemyTextureLeft;
+    // for (EnemyModel enemy : enemies) {
+      //   enemy.setSize(enemyTextureLeft.getRegionWidth()/3, enemyTextureRight.getRegionHeight()/3);
+      // }
+      
     // Temp solution to test texture
     enemyTexture = new Texture(Gdx.files.internal("slime_test.png"));
     this.resizedEnemyTexture = TextureUtils.resizeTexture(enemyTexture, enemyTexture.getWidth()/3, enemyTexture.getHeight()/3);
-    enemies = gameModel.getEnemies();
     // Set size for enemies based on enemy texture
+    enemies = gameModel.getEnemies();
     for (EnemyModel enemy : enemies) {
       enemy.setSize(resizedEnemyTexture.getWidth(),resizedEnemyTexture.getHeight());
     }
@@ -191,10 +219,16 @@ public class ScreenView implements Screen {
     
     // draw player and update controller for input
     drawPlayerAttack();
+
+    enemies = gameModel.getEnemies();
+    // Set size for enemies based on enemy texture
+    for (EnemyModel enemy : enemies) {
+      enemy.setSize(resizedEnemyTexture.getWidth(),resizedEnemyTexture.getHeight());
+    }
     
     // temp for texture
-    gameModel.updateEnemiesPos(delta);
     drawEnemies();
+    gameModel.updateEnemiesPos(delta);
     
     playerController.update(delta);
     animationTime += delta;
@@ -270,8 +304,10 @@ public class ScreenView implements Screen {
     enemies = gameModel.getEnemies();
     batch.begin();
     for (EnemyModel enemy : enemies) {
-      Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)enemy.getX(), (int)enemy.getY(), TILE_SIZE);
-      batch.draw(resizedEnemyTexture, enemyPosInPixels.x(), enemyPosInPixels.y(), resizedEnemyTexture.getWidth(), resizedEnemyTexture.getHeight());
+      // Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)enemy.getX(), (int)enemy.getY(), TILE_SIZE);
+      // batch.draw(resizedEnemyTexture, enemyPosInPixels.x(), enemyPosInPixels.y(), resizedEnemyTexture.getWidth(), resizedEnemyTexture.getHeight());
+      batch.draw(resizedEnemyTexture, enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
+
     }
     batch.end();
   }
@@ -280,7 +316,7 @@ public class ScreenView implements Screen {
     enemies = gameModel.getEnemies();
     batch.begin();
     for (EnemyModel enemy : enemies){
-      batch.draw(debuggingTexture, enemy.getCollisionBox().getX(), enemy.getCollisionBox().getY(), enemy.getWidth(), enemy.getHeight());
+      batch.draw(debuggingTexture, enemy.getCollisionBox().getX(), enemy.getCollisionBox().getY(), enemy.getCollisionBox().getWidth(), enemy.getCollisionBox().getHeight());
       // System.out.println("Enemy at: " + enemy.getCollisionBox().getX() + ", " + enemy.getCollisionBox().getY());
       // System.out.println("Size: " + enemy.getCollisionBox().getWidth() + "x" + enemy.getCollisionBox().getHeight());
     }
