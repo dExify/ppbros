@@ -255,6 +255,7 @@ public class GameModel extends Game {
   }
   public void jump() {
     player.jump();
+    
   }
   public void updatePlayer() {
     platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));

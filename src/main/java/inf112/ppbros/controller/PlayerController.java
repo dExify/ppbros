@@ -28,6 +28,7 @@ public class PlayerController extends InputAdapter {
     this.gameView = gameView;
     Gdx.input.setInputProcessor(this);
     this.audioController = new AudioController();
+    audioController.playBackgroundMusic(true);
   }
   
   @Override
@@ -77,6 +78,7 @@ public class PlayerController extends InputAdapter {
     }
     if (keysPressed.contains(Input.Keys.SPACE)) {
       gameModel.jump();
+      audioController.playSoundEffect("jump");
     }
     if (keysPressed.contains(Input.Keys.F) && isAttacking()) {
       audioController.playSoundEffect("attack");
