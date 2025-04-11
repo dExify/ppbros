@@ -144,10 +144,12 @@ Som en spiller vil jeg oppleve animasjoner, lydeffekter og visuelle effekter, so
   - Vi kunne vært tydeligere med forventninger til arbeid mellom møter.  
   - Det har vært noe skjevfordeling i commits – dette burde bli mer likt til release
   - Vi hadde ingen klar rekkefølge eller sprintplan for hva som skulle lages når, noe som kunne gjort det enklere å fordele arbeid jevnere.
+  - Vi har ofte overestimert hvor mye tid nye implementasjoner tar, som har ført til at vi dedikerer for mye tid til en spesifikk oppgave, 
+  - og dermed gjør at vi bruker tiden veldig ineffektivt
 
 ### Forbedringspunkter for neste sprint
 1. Definere klarere oppgaveansvar og forventninger mellom møter for å sikre jevn arbeidsfordeling.  
-2. 
+2. Forbedre tidsestimering og ressursfordeling ved implementering av nye oppgaver, for å sikre en mer realistisk vurdering av tidsbruk
 3. Lage en tydelig prioriteringsliste og rekkefølge for videre utvikling, slik at vi unngår overlapp og ineffektiv arbeid.
 
 ## Krav og Spesifikasjon 
