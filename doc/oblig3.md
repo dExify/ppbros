@@ -137,7 +137,9 @@ Har dere gjort justeringer på kravene som er med i MVP? Forklar i så fall hvor
 
 Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
 - 
+
 Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs).
-- 
+- Gravity funker som forventet, men kollisjon med platformer er litt uforutsigbar. I gjeldene versjon er det 2 varianter av kollisjonssjekk. Den delen som er kommentert ut er "bedre", men den registrerer ikke alltid når spilleren er under eller over en platform i tide (kollisjon funker ved å iterere gjennom alle platformer, og sjekke om spiller overlapper. Hvis det er mismatch i når spiller overlapper, og for-løkken sjekker en annen platform enn gjeldende, kan spiller klippe gjennom). Den enklere varianten som er i bruk har ikke dette problemet, men den tillater at spilleren kan klippe gjennom platformer over seg.
+
 Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
 - 
