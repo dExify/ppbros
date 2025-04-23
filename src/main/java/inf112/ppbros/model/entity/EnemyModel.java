@@ -249,6 +249,10 @@ public class EnemyModel implements Entity {
     return attackDmg;
   }
 
+  public boolean facesLeft() {
+    return movingLeft;
+  }
+
   public void changeDirection() {
     if (movingLeft) {
         movingLeft = false;
