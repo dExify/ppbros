@@ -15,7 +15,6 @@ public class PlayerModel implements Entity {
   private final float speed; // remove final if player can change speed
   private final float attackRange;
   private final int attackDmg;
-  private final AudioController audioController;
   private Rectangle hitbox;
   private float width;
   private float height;
@@ -42,7 +41,6 @@ public class PlayerModel implements Entity {
     this.width = 0;
     this.height = 0;
     this.hitbox = new Rectangle(x, y, width, height);
-    this.audioController = new AudioController();
   }
   
   
