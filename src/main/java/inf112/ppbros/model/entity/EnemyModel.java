@@ -289,7 +289,7 @@ public class EnemyModel implements Entity {
     }
     Array<TextureRegion> runFramesLeft = new Array<>();
     for (int i = 0; i <= 9; i++) {
-      runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/patrol/jump_0" + i + ".png"))));
+      runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/patrol/jump_0" + i + "l.png"))));
     }
     enemyRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
     enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
