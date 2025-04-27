@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 
+import inf112.ppbros.app.PowerPipesBros;
 import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.GameModel;
@@ -197,6 +198,12 @@ public class ScreenView implements Screen {
   
   @Override
   public void render(float delta) {
+    // check if player is at 0 health, initiate game over screen if they are 
+    if (player.getHealth() <= 0) {
+        ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new GameOverScreen(gameModel));
+        return; // exits render() call
+    }
+
     batch.setProjectionMatrix(camera.combined);
     
     if (drawInfiniteBackground) {
