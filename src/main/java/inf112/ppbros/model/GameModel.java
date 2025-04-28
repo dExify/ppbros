@@ -20,6 +20,7 @@ import inf112.ppbros.view.StartMenuView;
 import inf112.ppbros.view.TilePositionInPixels;
 
 public class GameModel extends Game {
+  private boolean createView;
   private PlayerModel player;
   private int score;
   private List<EnemyModel> enemies;
@@ -36,8 +37,12 @@ public class GameModel extends Game {
   private static final long COOLDOWNTIME = 1000; // 1 second, can be changed
   private static final int TILESIZE = TileConfig.TILE_SIZE;
   
-  public GameModel() {
-    this.setScreen(new StartMenuView(this));
+  public GameModel(boolean createsView) {
+    this.createView = createsView;
+    if (createView) {
+      this.setScreen(new StartMenuView(this));
+    }
+    
     this.score = 0;
     this.cameraPos = 0;
     this.platformGridMaker = new PlatformGridMaker();
@@ -253,6 +258,11 @@ public class GameModel extends Game {
   public List<Rectangle> getPlatformHitboxes() {
     return platformHitboxes;
   }
+
+  public List<Rectangle> getEnemyHitboxes() {
+    return enemyHitboxes;
+  }
+  
   public void jump() {
     player.jump();
     
