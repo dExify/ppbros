@@ -4,6 +4,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
 import inf112.ppbros.controller.AudioController;
 
@@ -19,6 +24,18 @@ public class PlayerModel implements Entity {
   private float width;
   private float height;
   private float velocityY = 0;
+  private TextureRegion playerTextureRight;
+  private TextureRegion playerTextureLeft;
+  private Animation<TextureRegion> playerRunAnimR;
+  private Animation<TextureRegion> playerRunAnimL;
+  private Animation<TextureRegion> playerAttackAnimR;
+  private Animation<TextureRegion> playerAttackAnimL;
+  private TextureRegion currentFrame;
+  private boolean facesLeft = false;
+  private boolean isMoving = false;
+  private boolean isAttacking = false;
+  private float animationTime = 0f;
+  
   private final float GRAVITY = -20f;
   private final float MAX_FALL_SPEED = -550f;
   private final float JUMP_VELOCITY = 900f;
@@ -41,6 +58,8 @@ public class PlayerModel implements Entity {
     this.width = 0;
     this.height = 0;
     this.hitbox = new Rectangle(x, y, width, height);
+    this.audioController = new AudioController();
+    loadAnimations();
   }
   
   
@@ -241,5 +260,72 @@ public class PlayerModel implements Entity {
   public Rectangle getHitbox() {
     return hitbox;
   }
+  
+  public void loadAnimations() {
+    playerTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_r.png")));
+    playerTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_l.png")));
+    
+    Array<TextureRegion> runFramesRight = new Array<>();
+    for (int i = 1; i <= 3; i++) {
+      runFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/movement/run_r" + i + ".png"))));
+    }
+    Array<TextureRegion> runFramesLeft = new Array<>();
+    for (int i = 1; i <= 3; i++) {
+      runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/movement/run_l" + i + ".png"))));
+    }
+    Array<TextureRegion> attackFramesRight = new Array<>();
+    for (int i = 1; i <= 4; i++) {
+      attackFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/attack/r" + i + ".png"))));
+    }
+    Array<TextureRegion> attackFramesLeft = new Array<>();
+    for (int i = 1; i <= 4; i++) {
+      attackFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/attack/l" + i + ".png"))));
+    }
+    
+    playerRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
+    playerRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
+    playerAttackAnimR = new Animation<>(0.1f, attackFramesRight, Animation.PlayMode.LOOP);
+    playerAttackAnimL = new Animation<>(0.1f, attackFramesLeft, Animation.PlayMode.LOOP);
+    
+    currentFrame = playerTextureRight;
+    
+    // Adjust player size according to idle texture
+    setSize(playerTextureRight.getRegionWidth() / 3, playerTextureRight.getRegionHeight() / 3);
+  }
+  
+  
+  public void updateAnimation(float delta) {
+    animationTime += delta;
+    
+    if (isAttacking) {
+      currentFrame = facesLeft ? playerAttackAnimL.getKeyFrame(animationTime) : playerAttackAnimR.getKeyFrame(animationTime);
+    } else if (!isMoving) {
+      currentFrame = facesLeft ? playerTextureLeft : playerTextureRight;
+    } else {
+      currentFrame = facesLeft ? playerRunAnimL.getKeyFrame(animationTime) : playerRunAnimR.getKeyFrame(animationTime);
+    }
+  }
+  
+  public void setMoving(boolean moving) {
+    this.isMoving = moving;
+  }
+  
+  public void setAttacking(boolean attacking) {
+    this.isAttacking = attacking;
+  }
+  
+  public void setFacesLeft(boolean facesLeft) {
+    this.facesLeft = facesLeft;
+  }
+  
+  public TextureRegion getCurrentFrame() {
+    return currentFrame;
+  }
+  
+  public boolean facesLeft() {
+    return facesLeft;
+}
+
+  
   
 }

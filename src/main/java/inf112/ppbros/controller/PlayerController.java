@@ -1,103 +1,109 @@
 package inf112.ppbros.controller;
 
 import com.badlogic.gdx.InputAdapter;
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import inf112.ppbros.model.GameModel;
+import inf112.ppbros.model.entity.PlayerModel;
 import inf112.ppbros.view.ScreenView;
 
 import java.util.HashSet;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-
-/** 
-* The controller for Power Pipes Bros characters.
-* This class handles input for any playable characters. 
-*/
+/**
+ * The controller for Power Pipes Bros characters.
+ * This class handles input for any playable characters.
+ */
 public class PlayerController extends InputAdapter {
-  private GameModel gameModel;
-  private ScreenView gameView;
-  private AudioController audioController;
-  private HashSet<Integer> keysPressed = new HashSet<>();
-  private boolean facesLeft = false;
-  private boolean isAttacking = false;
-  
-  
-  public PlayerController(GameModel gameModel, ScreenView gameView) {
-    this.gameModel = gameModel;
-    this.gameView = gameView;
-    Gdx.input.setInputProcessor(this);
-    this.audioController = new AudioController();
-    audioController.playBackgroundMusic(true);
-  }
-  
-  @Override
-  public boolean keyDown(int keycode) {
-    keysPressed.add(keycode); // Track key presses
-    switch (keycode) {
-      case Input.Keys.F:
-      isAttacking = !isAttacking;
-      // When F is pressed, checks to see if player can attack
-      if (gameModel.attackableEnemy() != null) {
-        gameModel.playerAttacksEnemy(gameModel.attackableEnemy());
-        System.out.println("Hit registered!");
-        System.out.println("Enemy health: "+ gameModel.attackableEnemy().getHealth());
-      } else {
-        System.out.println("No hit");
-      }
-      break;
-      // Close program with escape button
-      case Input.Keys.ESCAPE:
-      Gdx.app.exit();
-      break;
-      
-      default:
-      
+    private final GameModel gameModel;
+    private final ScreenView gameView;
+    private final AudioController audioController;
+    private final HashSet<Integer> keysPressed = new HashSet<>();
+    private boolean isAttacking = false;
+
+    public PlayerController(GameModel gameModel, ScreenView gameView) {
+        this.gameModel = gameModel;
+        this.gameView = gameView;
+        Gdx.input.setInputProcessor(this);
+        this.audioController = new AudioController();
+        audioController.playBackgroundMusic(true);
     }
-    return true;
-  }
-  
-  @Override
-  public boolean keyUp(int keycode) {
-    keysPressed.remove(keycode); // Remove released keys
-    return true;
-  }
-  
-  public void update(float deltaTime) {
-    
-    // Check held keys and move player continuously
-    if (keysPressed.contains(Input.Keys.D)) {
-      // gameModel.movePlayerRight(deltaTime);
-      gameModel.movePlayer(deltaTime, 0);
-      facesLeft = false;
+
+    @Override
+    public boolean keyDown(int keycode) {
+        keysPressed.add(keycode);
+        switch (keycode) {
+            case Input.Keys.F:
+                isAttacking = true;
+                // Check attack on F press
+                if (gameModel.attackableEnemy() != null) {
+                    gameModel.playerAttacksEnemy(gameModel.attackableEnemy());
+                    System.out.println("Hit registered!");
+                    System.out.println("Enemy health: " + gameModel.attackableEnemy().getHealth());
+                } else {
+                    System.out.println("No hit");
+                }
+                break;
+            case Input.Keys.ESCAPE:
+                Gdx.app.exit();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
-    if (keysPressed.contains(Input.Keys.A)) {
-      // gameModel.movePlayerLeft(deltaTime);
-      gameModel.movePlayer(-deltaTime, 0);
-      facesLeft = true;
+
+    @Override
+    public boolean keyUp(int keycode) {
+        keysPressed.remove(keycode);
+        if (keycode == Input.Keys.F) {
+            isAttacking = false; // stop attack animation when key released
+        }
+        return true;
     }
-    if (keysPressed.contains(Input.Keys.SPACE)) {
-      gameModel.jump();
-      audioController.playSoundEffect("jump");
+
+    public void update(float deltaTime) {
+        PlayerModel player = gameModel.getPlayer(); // get PlayerModel
+
+        boolean moving = false;
+        boolean facingLeft = player.facesLeft(); // default to current
+
+        if (keysPressed.contains(Input.Keys.D)) {
+            gameModel.movePlayer(deltaTime, 0);
+            moving = true;
+            facingLeft = false;
+        }
+        if (keysPressed.contains(Input.Keys.A)) {
+            gameModel.movePlayer(-deltaTime, 0);
+            moving = true;
+            facingLeft = true;
+        }
+        if (keysPressed.contains(Input.Keys.SPACE)) {
+            gameModel.jump();
+            audioController.playSoundEffect("jump");
+        }
+        if (keysPressed.contains(Input.Keys.F) && isAttacking) {
+            audioController.playSoundEffect("attack");
+        }
+
+        // Update animation states on player model
+        player.setMoving(moving);
+        player.setAttacking(isAttacking);
+        player.setFacesLeft(facingLeft);
     }
-    if (keysPressed.contains(Input.Keys.F) && isAttacking()) {
-      audioController.playSoundEffect("attack");
+
+    public boolean isMoving() {
+        return keysPressed.contains(Input.Keys.D) ||
+               keysPressed.contains(Input.Keys.A) ||
+               keysPressed.contains(Input.Keys.W) ||
+               keysPressed.contains(Input.Keys.S);
     }
-  }
-  
-  public boolean isMoving() {
-    return keysPressed.contains(Input.Keys.D) || 
-    keysPressed.contains(Input.Keys.A) || 
-    keysPressed.contains(Input.Keys.W) || 
-    keysPressed.contains(Input.Keys.S);
-  }
-  
-  public boolean facesLeft() {
-    return facesLeft;
-  }
-  
-  public boolean isAttacking() {
-    return isAttacking;
-  }
-  
+
+    public boolean facesLeft() {
+        return gameModel.getPlayer().facesLeft(); // delegate to model now
+    }
+
+    public boolean isAttacking() {
+        return isAttacking;
+    }
+
 }

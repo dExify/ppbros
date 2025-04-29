@@ -51,25 +51,16 @@ public class ScreenView implements Screen {
   private Texture sewer1;
   private Texture sewer2;
   private Texture sewer3;
-
+  
   private PlayerModel player;
-  private TextureRegion playerTextureRight;
-  private TextureRegion  playerTextureLeft;
-  private Animation<TextureRegion> playerRunAnimR;
-  private Animation<TextureRegion>  playerRunAnimL;
-  private Animation<TextureRegion>  playerAttackAnimR;
-  private Animation<TextureRegion>  playerAttackAnimL;
 
+  
   
   private TextureRegion currentFrame;
   private float animationTime = 0;
   
   private Texture resizedEnemyTexture;
   private List<EnemyModel> enemies;
-  private TextureRegion enemyTextureRight;
-  private TextureRegion  enemyTextureLeft;
-  private Animation<TextureRegion> enemyIdleAnimR;
-  private Animation<TextureRegion>  enemyIdleAnimL;
   
   private boolean drawInfiniteBackground;
   
@@ -84,7 +75,9 @@ public class ScreenView implements Screen {
     Table healthTable;
     Table scoreTable;
     Skin skin;
-    Texture enemyTexture;
+    player = gameModel.getPlayer();
+
+
     // Make UI overlay
     stage = new Stage();
     // Make UI overlay for score and health bar
@@ -122,73 +115,7 @@ public class ScreenView implements Screen {
     platformGridObject2 = gameModel.getNextPlatformGrid();
     this.yPos = 0;
     
-    // Make Textures for player
-    playerTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_r.png")));
-    playerTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_l.png")));
     
-    // Load player animation frames for movement
-    Array<TextureRegion> runFramesRight = new Array<>();
-    for (int i = 1; i <= 3; i++) { // 3 animation frames
-      runFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/movement/run_r" + i + ".png"))));
-    }
-    
-    Array<TextureRegion> runFramesLeft = new Array<>();
-    for (int i = 1; i <= 3; i++) { // 3 animation frames
-      runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/movement/run_l" + i + ".png"))));
-    }
-    // Load player animation frames for attacking
-    Array<TextureRegion> attackFramesRight = new Array<>();
-    for (int i = 1; i <= 4; i++) { // 3 animation frames
-      attackFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/attack/r" + i + ".png"))));
-    }
-    
-    Array<TextureRegion> attackFramesLeft = new Array<>();
-    for (int i = 1; i <= 4; i++) { // 3 animation frames
-      attackFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/player/attack/l" + i + ".png"))));
-    }
-    
-    playerRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
-    playerRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
-    
-    playerAttackAnimR = new Animation<>(0.1f, attackFramesRight, Animation.PlayMode.LOOP);
-    playerAttackAnimL = new Animation<>(0.1f, attackFramesLeft, Animation.PlayMode.LOOP);
-    
-    currentFrame = playerTextureRight;
-    player = gameModel.getPlayer();
-    
-    player.setSize(playerTextureRight.getRegionWidth()/3, playerTextureRight.getRegionHeight()/3);
-    
-
-    // Make Textures for enemy
-    // enemyTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/enemy_R.png")));
-    // enemyTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/player_L.png")));
-    
-    // Array<TextureRegion> enemyIdleFramesR = new Array<>();
-    // for (int i = 1; i <= 4; i++) { // 4 animation frames
-    //   enemyIdleFramesR.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + i + "_R.png"))));
-    // }
-    
-    // Array<TextureRegion> enemyIdleFramesL = new Array<>();
-    // for (int i = 1; i <= 4; i++) { // 4 animation frames
-    //   enemyIdleFramesL.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + i + "_L.png"))));
-    // }
-
-    // enemyIdleAnimR = new Animation<>(0.5f, enemyIdleFramesR, Animation.PlayMode.LOOP);
-    // enemyIdleAnimL = new Animation<>(0.1f, enemyIdleFramesL, Animation.PlayMode.LOOP);
-
-    // currentFrame = enemyTextureLeft;
-    // for (EnemyModel enemy : enemies) {
-      //   enemy.setSize(enemyTextureLeft.getRegionWidth()/3, enemyTextureRight.getRegionHeight()/3);
-      // }
-      
-    // Temp solution to test texture
-    enemyTexture = new Texture(Gdx.files.internal("slime_test.png"));
-    this.resizedEnemyTexture = TextureUtils.resizeTexture(enemyTexture, enemyTexture.getWidth()/3, enemyTexture.getHeight()/3);
-    // Set size for enemies based on enemy texture
-    enemies = gameModel.getEnemies();
-    for (EnemyModel enemy : enemies) {
-      enemy.setSize(resizedEnemyTexture.getWidth(),resizedEnemyTexture.getHeight());
-    }
     
     gameModel.startTimer();
     
@@ -222,16 +149,16 @@ public class ScreenView implements Screen {
     camera.update();
     
     // draw player and update controller for input
-    drawPlayerAttack();
-
+    //drawPlayerAttack();
+    
     enemies = gameModel.getEnemies();
-    // Set size for enemies based on enemy texture
-    for (EnemyModel enemy : enemies) {
-      enemy.setSize(resizedEnemyTexture.getWidth(),resizedEnemyTexture.getHeight());
-    }
+    // // Set size for enemies based on enemy texture
+     for (EnemyModel enemy : enemies) {
+       enemy.setSize(160,110);
+     }
     
     // temp for texture
-    drawEnemies();
+    drawEnemies(delta);
     gameModel.updateEnemiesPos(delta);
     
     playerController.update(delta);
@@ -244,8 +171,8 @@ public class ScreenView implements Screen {
     playerController.update(delta);
     gameModel.updatePlayer();
     
-    //drawHitboxes(); //debugging
-    //drawPlayerHitbox(); //debugging
+    drawHitboxes(); //debugging
+    drawPlayerHitbox(); //debugging
     
     if (gameModel.checkOutOfBounds()) {
       //System.out.println("Player is out of bounds!");
@@ -253,30 +180,18 @@ public class ScreenView implements Screen {
   }
   
   private void drawPlayer(float delta) {
-    boolean isAttacking;
-    isAttacking = playerController.isAttacking();
-    boolean isMoving = playerController.isMoving();
-    boolean facesLeft = playerController.facesLeft();
-    
-    if (isAttacking) { 
-      currentFrame = facesLeft ? playerAttackAnimL.getKeyFrame(animationTime) : playerAttackAnimR.getKeyFrame(animationTime);
-      
-    } else if (!isMoving) { // Draws only first frame is character is standing still
-      currentFrame = facesLeft ? playerTextureLeft : playerTextureRight;
-      
-    } else {
-      currentFrame = facesLeft ? playerRunAnimL.getKeyFrame(animationTime) : playerRunAnimR.getKeyFrame(animationTime);
-    }
+    player.updateAnimation(delta);
     
     batch.begin();
-    batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
+    TextureRegion frame = player.getCurrentFrame();
+    batch.draw(frame, player.getX(), player.getY(), frame.getRegionWidth() / 3, frame.getRegionHeight() / 3);
     batch.end();
     
-    // initialize fps
     stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
     stage.draw();
     
     playerController.update(delta);
+    
     
     // drawHitboxes(); //debugging
     // drawPlayerHitbox(); //debugging
@@ -286,6 +201,7 @@ public class ScreenView implements Screen {
       // System.out.println("Player is out of bounds!");
     }
   }
+  
   
   
   private void drawHitboxes() {
@@ -303,17 +219,20 @@ public class ScreenView implements Screen {
     batch.end();
   }
   
-  private void drawEnemies() {
+  private void drawEnemies(float delta) {
     enemies = gameModel.getEnemies();
     batch.begin();
+    
     for (EnemyModel enemy : enemies) {
-      // Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)enemy.getX(), (int)enemy.getY(), TILE_SIZE);
-      // batch.draw(resizedEnemyTexture, enemyPosInPixels.x(), enemyPosInPixels.y(), resizedEnemyTexture.getWidth(), resizedEnemyTexture.getHeight());
-      batch.draw(resizedEnemyTexture, enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
-
+      enemy.updateAnimation(delta); 
+      TextureRegion frame = enemy.getCurrentFrame();
+      batch.draw(frame, enemy.getX(), enemy.getY(), frame.getRegionWidth() / 3, frame.getRegionHeight() / 3);
     }
+    
     batch.end();
   }
+  
+  
   
   private void drawEnemiesHitbox() {
     enemies = gameModel.getEnemies();
@@ -358,7 +277,7 @@ public class ScreenView implements Screen {
     batch.setColor(1F, 1F, 1F, 1F);
     batch.end();
   }
-
+  
   /**
   * Renders the platform grid
   * @param platformGrid
