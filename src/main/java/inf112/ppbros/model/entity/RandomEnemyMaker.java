@@ -22,11 +22,11 @@ public class RandomEnemyMaker {
   * @return EnemyModel
   */
   public EnemyModel getNext(PlatformGrid grid) {
-    Coordinate spawnPos = grid.getValidSpawnPos(); // get a valid spawn position for the enemy
-    EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos()/TileConfig.PLATFORM_GRIDHEIGHT_PIXELS)*TileConfig.GRID_HEIGHT);
-    enemy.loadAnimations();
+    Coordinate spawnPos = grid.getValidSpawnPos();
+    EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
     return enemy;
   }
+
   
   // This is not currently needed because of singular enemytype, but adding so it is easier to include different types at a later date
   // private EnemyModel newRandomEnemy() {

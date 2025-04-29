@@ -61,6 +61,7 @@ public class GameModel extends Game {
   @Override
   public void create() {
     this.setScreen(new ScreenView(this));
+    EnemyModel.loadAnimations();
   }
   
   /**

@@ -61,7 +61,6 @@ class PlatformGridTest {
         when(platformMakerMock.getPlatformHeight()).thenReturn(2);
 
         platformGrid.buildGrid(1);
-
         boolean hasTile = false;
         for (int x = 0; x < TileConfig.GRID_WIDTH; x++) {
             for (int y = 0; y < TileConfig.GRID_HEIGHT; y++) {

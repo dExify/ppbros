@@ -56,6 +56,7 @@ public class StartMenuView implements Screen {
     table.add(title).padBottom(20).row();
     table.add(startButton).padBottom(10).row();
     table.add(exitButton).padBottom(10).row();
+    
   }
   
   @Override
