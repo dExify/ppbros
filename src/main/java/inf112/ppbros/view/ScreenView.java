@@ -292,12 +292,11 @@ public class ScreenView implements Screen {
   */
   private void drawPlatformGrid(PlatformGrid platformGrid) {
     yPos = platformGrid.getYPos();
-    int[][] grid = platformGrid.returnGrid();
     batch.begin();
-    for (int x = 0; x < grid.length; x++) {
-      for (int y = 0; y < grid[x].length; y++) {
+    for (int x = 0; x < platformGrid.tileGridWidth(); x++) {
+      for (int y = 0; y < platformGrid.tileGridHeight(); y++) {
         Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
-        switch(grid[x][y]) {
+        switch(platformGrid.get(x, y)) {
           case 1:
           batch.draw(platformTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
           break;

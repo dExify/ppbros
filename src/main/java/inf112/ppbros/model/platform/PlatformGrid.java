@@ -30,15 +30,7 @@ public class PlatformGrid {
     yPos = iteration * PLATFORM_GRIDHEIGHT_PIXELS;
     this.random = new Random();
   }
-  
-  /**
-  * Returns the 2D array containing the platform tile positions in a grid
-  * @return int[][]
-  */
-  public int[][] returnGrid() {
-    return tileGrid;
-  }
-  
+
   /**
   * Returns the the vertical position above the last platform
   * @return int
@@ -102,7 +94,7 @@ private void buildPlatform(Coordinate start) {
 * @param start Coordinate starting position of the platform
 */
 private void insertPlatformTiles(int[][] pattern, Coordinate start) {
-  for (int y = 0; y < pattern.length; y++) {
+  for (int y = 0; y < pattern.length; y++) { //riktig rekkefølge
       for (int x = 0; x < pattern[y].length; x++) {
           if (pattern[y][x] != 0) {
               insertTile(pattern[y][x], start, x, pattern.length - 1 - y);
@@ -185,4 +177,46 @@ private boolean isAreaVacant(Coordinate start, int width, int height, int xMargi
     occupiedCoordinates.add(new Coordinate(x, y));
   }
   
+  /**
+  * Finds a valid spawn coordinate for the enemy in the platform grid
+  * @param grid the platform grid to check for valid spawn coordinates
+  */
+  public Coordinate getValidSpawnPos() {
+    Coordinate coordinate;
+    
+    // Loop until a valid spawn coordinate is found
+    // The enemy can only spawn on a platform, so we check if the tile at (x, y) is occupied (1) and the tile below it is not occupied (0)
+    // This ensures that the enemy spawns on top of a platform and not in the air or below it
+    while (true) {
+      int x = random.nextInt(TileConfig.GRID_WIDTH); // random x coordinate for enemy
+      int y = random.nextInt(TileConfig.GRID_HEIGHT - 1) + 1; // random y coordinate for enemy
+      coordinate = new Coordinate(x, y); // random coordinate for enemy
+      if (isFree(x, y) && isOnGround(x, y)) {
+        // TODO: MAKE A CHECK THAT TAKES IN CONSIDERATION OF ENEMY'S SURROUNDING AREA (DON'T LET IT SPAWN WHEN ANOTHER ENEMY IS NEARBY)
+        return coordinate; // returns the valid spawn coordnate for the enemy
+      } else {
+        continue; // if the coordinate is not valid, continue to search for a new one
+      }
+    }
+  }
+
+  private boolean isFree(int x, int y) {
+    return tileGrid[x][y] == 0;
+  }
+
+  private boolean isOnGround(int x, int y) {
+    return tileGrid[x][y-1] != 0;
+  }
+
+  public int tileGridHeight() {
+    return tileGrid[0].length;
+  }
+
+  public int tileGridWidth() {
+    return tileGrid.length;
+  }
+
+  public int get(int x, int y) {
+    return tileGrid[x][y];
+  }
 }
