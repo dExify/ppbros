@@ -32,13 +32,6 @@ class PlatformGridTest {
     }
 
     @Test
-    void testReturnGrid() {
-        int[][] grid = platformGrid.returnGrid();
-        assertEquals(TileConfig.GRID_WIDTH, grid.length);
-        assertEquals(TileConfig.GRID_HEIGHT, grid[0].length);
-    }
-
-    @Test
     void testGetYPos() {
         PlatformGrid grid = new PlatformGrid(platformMakerMock, 2);
         int expectedYPos = 2 * TileConfig.PLATFORM_GRIDHEIGHT_PIXELS;
@@ -68,12 +61,10 @@ class PlatformGridTest {
         when(platformMakerMock.getPlatformHeight()).thenReturn(2);
 
         platformGrid.buildGrid(1);
-
-        int[][] grid = platformGrid.returnGrid();
         boolean hasTile = false;
         for (int x = 0; x < TileConfig.GRID_WIDTH; x++) {
             for (int y = 0; y < TileConfig.GRID_HEIGHT; y++) {
-                if (grid[x][y] == 1) {
+                if (platformGrid.get(x, y) == 1) {
                     hasTile = true;
                     break;
                 }
