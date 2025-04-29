@@ -20,7 +20,6 @@ public class PlayerModel implements Entity {
   private final float speed; // remove final if player can change speed
   private final float attackRange;
   private final int attackDmg;
-  private final AudioController audioController;
   private Rectangle hitbox;
   private float width;
   private float height;
