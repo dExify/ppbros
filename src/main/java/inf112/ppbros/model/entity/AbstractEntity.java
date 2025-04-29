@@ -102,6 +102,10 @@ public abstract class AbstractEntity implements Entity {
             // Optionally: trigger death behavior in subclass
         }
     }
+    
+    public boolean collidesWith(Rectangle rectangle) {
+        return collisionBox.overlaps(rectangle);
+    }
 
     public TextureRegion getCurrentFrame() {
         return currentFrame;

@@ -48,10 +48,6 @@ public class PlayerModel extends AbstractEntity {
         return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
     }
 
-    public boolean collidesWith(Rectangle rectangle) {
-        return collisionBox.overlaps(rectangle);
-    }
-
     public void update(float deltaTime, List<Rectangle> platformHitboxes) {
         platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - this.getY())));
         
