@@ -12,7 +12,7 @@ public abstract class AbstractEntity implements Entity {
     protected float attackRange;
     protected int attackDmg;
     protected Rectangle collisionBox;
-    protected TextureRegion currentFrame;
+    protected static TextureRegion currentFrame;
     protected float animationTime = 0f;
 
     public AbstractEntity() {
@@ -110,8 +110,6 @@ public abstract class AbstractEntity implements Entity {
     public TextureRegion getCurrentFrame() {
         return currentFrame;
     }
-
-    public abstract void loadAnimations();
     
     public void updateAnimation(float delta) {
         animationTime += delta;

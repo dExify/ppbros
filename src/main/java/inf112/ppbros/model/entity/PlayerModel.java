@@ -21,7 +21,6 @@ public class PlayerModel extends AbstractEntity {
     private boolean facesLeft = false;
     private boolean isMoving = false;
     private boolean isAttacking = false;
-    private AudioController audioController;
     private final float GRAVITY = -20f;
     private final float MAX_FALL_SPEED = -550f;
     private final float JUMP_VELOCITY = 900f;

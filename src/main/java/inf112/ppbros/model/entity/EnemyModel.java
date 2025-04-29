@@ -14,8 +14,8 @@ public class EnemyModel extends AbstractEntity {
     private float moveSpeed = 50.0f;
     private boolean movingLeft = true;
     private boolean movingRight = false;
-    private Animation<TextureRegion> enemyRunAnimR;
-    private Animation<TextureRegion> enemyRunAnimL;
+    private static Animation<TextureRegion> enemyRunAnimR;
+    private static Animation<TextureRegion> enemyRunAnimL;
 
     public EnemyModel(Coordinate startPos, int yPos) {
         this.x = startPos.x();
@@ -94,7 +94,7 @@ public class EnemyModel extends AbstractEntity {
         return EntityType.ENEMY;
     }
 
-    public void loadAnimations() {
+    public static void loadAnimations() {
         Array<TextureRegion> runFramesRight = new Array<>();
         Array<TextureRegion> runFramesLeft = new Array<>();
 
@@ -107,8 +107,6 @@ public class EnemyModel extends AbstractEntity {
 
         enemyRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
         enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
-        currentFrame = runFramesRight.first();
-        setSize(currentFrame.getRegionWidth() / 3, currentFrame.getRegionHeight() / 3);
     }
 
     @Override
