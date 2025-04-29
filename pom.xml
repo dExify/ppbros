@@ -122,7 +122,8 @@
             			<!--- ✁✁✁✁✁ SNIPP ✁✁✁✁✁ -->
             			<configuration>
                 		<!-- klasser som ikke skal være med i coverage rapport listes her! -->
-                			<excludes>inf112/variant2/view/View.class</excludes> <!-- en konkret klasse-->
+                			<excludes>inf112/ppbros/app/PowerPipesBros.class</excludes> <!-- en konkret klasse-->
+                			<excludes>inf112/ppbros/app/PlayerController.class</excludes> <!-- en konkret klasse-->
                				<excludes>**/view/*</excludes> <!-- alle klasser i pakker som heter view -->
                 			<excludes>**/view/**</excludes> <!-- alle klasser i pakker som heter view, inkl underpakker -->
             			</configuration>
