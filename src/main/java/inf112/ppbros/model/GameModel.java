@@ -189,6 +189,17 @@ public class GameModel extends Game {
     }
     return false;
   }
+
+  /**
+  * Checks if enemy collides with player
+  * @return true if enemy collides with player, false if they don't
+  */
+  private boolean collisionCheck(EnemyModel enemy) {
+    if (player.collidesWith(enemy.getCollisionBox())) {
+      return true;
+    }
+    return false;
+  }
   
   /**
   * Builds a platform grid and returns the platformGrid object and corresponding enemy on grid
@@ -282,6 +293,10 @@ public class GameModel extends Game {
     float delta = deltaTime;
     for (EnemyModel enemy : enemies) {
       enemy.updateMovement(player, platformHitboxes, delta);
+      // checks for collision with player
+      if (collisionCheck(enemy)){
+        playerIsHit();
+      }
     }
   }
   
