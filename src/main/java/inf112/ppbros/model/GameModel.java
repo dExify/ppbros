@@ -61,7 +61,6 @@ public class GameModel extends Game {
   @Override
   public void create() {
     this.setScreen(new ScreenView(this));
-    EnemyModel.loadAnimations();
   }
   
   /**
@@ -102,6 +101,8 @@ public class GameModel extends Game {
   */
   public void makePlayer(int startX, int startY) {
     this.player = new PlayerModel(startX, startY);
+    EnemyModel.loadAnimations(); 
+    // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
   }
   
   /** Moves player based on its speed.
