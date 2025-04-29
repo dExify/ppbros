@@ -177,7 +177,6 @@ public class EnemyModel implements Entity {
       x = prevX;
       y = prevY;
       changeDirection();
-      // System.out.println("Collision detected, changing direction.");
     }
   }
   
@@ -196,7 +195,7 @@ public class EnemyModel implements Entity {
   
   // Check if there is a tile below the enemy in the direction it is moving
   private boolean hasTileBelow(List<Rectangle> hitboxes) {
-    float checkX = movingLeft ? x - width / 2 : x + width / 2;
+    float checkX = movingLeft ? x - width : x + width;
     float checkY = y - height;
     Rectangle checkBox = new Rectangle(checkX, checkY, width, height / 2); // Adjust height for better accuracy
     for (Rectangle rec : hitboxes) {
@@ -280,17 +279,21 @@ public class EnemyModel implements Entity {
     }
   }
   public void loadAnimations() {
-    // enemyIdleTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/enemy_idle_r.png")));
-    // enemyIdleTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/enemy_idle_l.png")));
     
     Array<TextureRegion> runFramesRight = new Array<>();
-    for (int i = 0; i <= 9; i++) {
-      runFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/patrol/jump_0" + i + "r.png"))));
+    for (int i = 0; i <= 22; i++) {
+        String filename = String.format("idle%02dr.png", i);
+        runFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + filename))));
     }
+    
+    
     Array<TextureRegion> runFramesLeft = new Array<>();
-    for (int i = 0; i <= 9; i++) {
-      runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/patrol/jump_0" + i + "l.png"))));
+    for (int i = 0; i <= 22; i++) {
+        String filename = String.format("idle%02dl.png", i);
+        runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + filename))));
     }
+    
+  
     enemyRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
     enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
     
@@ -305,8 +308,6 @@ public class EnemyModel implements Entity {
   public TextureRegion getCurrentFrame() {
     return currentFrame;
   }
-  
-  
   
   
 }
