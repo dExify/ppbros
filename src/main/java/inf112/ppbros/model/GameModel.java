@@ -196,7 +196,7 @@ public class GameModel extends Game {
   * @return true if enemy collides with player, false if they don't
   */
   private boolean collisionCheck(EnemyModel enemy) {
-    if (player.collidesWith(enemy.getCollisionBox())) {
+    if (enemy.collidesWith(player.getCollisionBox())) {
       return true;
     }
     return false;

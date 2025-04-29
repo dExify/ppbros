@@ -65,7 +65,12 @@ public class EnemyModel implements Entity {
   public void updateCollisionBox(float x, float y) {
     this.collisionBox.setPosition(x, y);
   }
-  
+
+  @Override
+  public boolean collidesWith(Rectangle rectangle) {
+    return collisionBox.overlaps(rectangle);
+  }
+
   @Override
   public void takeDamage(int damage) {
     if (health > damage) {

@@ -99,11 +99,7 @@ public class PlayerModel implements Entity {
     this.hitbox.setSize(width, height);
   }
   
-  /**
-  * Checks to see if player collides with another collision rectangle
-  * @param other collision box to check if player collides with
-  * @return true or false based on if they collide or not
-  */
+  @Override
   public boolean collidesWith(Rectangle rectangle) {
     return hitbox.overlaps(rectangle);
   }
