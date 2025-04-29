@@ -102,6 +102,34 @@
 	</dependencyManagement>
 	<build>
 		<plugins>
+			<plugin>
+    			<groupId>org.jacoco</groupId>
+    			<artifactId>jacoco-maven-plugin</artifactId>
+    			<version>0.8.11</version>
+    			<executions>
+        			<execution>
+            			<id>default-prepare-agent</id>
+            		<goals>
+                		<goal>prepare-agent</goal>
+            		</goals>
+        			</execution>
+        			<execution>
+            			<id>default-report</id>
+            			<phase>test</phase>
+            			<goals>
+                			<goal>report</goal>
+            			</goals>
+            			<!--- ✁✁✁✁✁ SNIPP ✁✁✁✁✁ -->
+            			<configuration>
+                		<!-- klasser som ikke skal være med i coverage rapport listes her! -->
+                			<excludes>inf112/variant2/view/View.class</excludes> <!-- en konkret klasse-->
+               				<excludes>**/view/*</excludes> <!-- alle klasser i pakker som heter view -->
+                			<excludes>**/view/**</excludes> <!-- alle klasser i pakker som heter view, inkl underpakker -->
+            			</configuration>
+            			<!-- ✃✃✃✃✃ SNIPP ✃✃✃✃✃✃ -->
+        			</execution>
+    			</executions>
+			</plugin>
 			<!-- Run app through Maven: "mvn exec:java" -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
