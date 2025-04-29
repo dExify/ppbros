@@ -28,6 +28,13 @@ public interface Entity {
   * @return rectangle collision box of entity
   */
   public Rectangle getCollisionBox();
+
+  /**
+  * Checks to see if entity collides with another collision rectangle
+  * @param Rectangle collision box to check if entity collides with
+  * @return true or false based on if they collide or not
+  */
+  public boolean collidesWith(Rectangle rectangle);
   
   /**
   * Get the x value of character
