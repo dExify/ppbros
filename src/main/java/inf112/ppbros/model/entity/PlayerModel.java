@@ -35,6 +35,7 @@ public class PlayerModel implements Entity {
   private boolean isMoving = false;
   private boolean isAttacking = false;
   private float animationTime = 0f;
+  private AudioController audioController;
   
   private final float GRAVITY = -20f;
   private final float MAX_FALL_SPEED = -550f;
