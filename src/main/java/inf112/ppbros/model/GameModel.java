@@ -41,6 +41,8 @@ public class GameModel extends Game {
     this.createView = createsView;
     if (createView) {
       this.setScreen(new StartMenuView(this));
+      EnemyModel.loadAnimations(); 
+      // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
     }
     
     this.score = 0;
@@ -101,8 +103,6 @@ public class GameModel extends Game {
   */
   public void makePlayer(int startX, int startY) {
     this.player = new PlayerModel(startX, startY);
-    EnemyModel.loadAnimations(); 
-    // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
   }
   
   /** Moves player based on its speed.
