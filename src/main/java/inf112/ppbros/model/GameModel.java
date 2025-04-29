@@ -56,12 +56,12 @@ public class GameModel extends Game {
     
     // Sets player start position
     makePlayer(0, 150);
-    EnemyModel.loadAnimations();
   }
   
   @Override
   public void create() {
     this.setScreen(new ScreenView(this));
+    EnemyModel.loadAnimations();
   }
   
   /**

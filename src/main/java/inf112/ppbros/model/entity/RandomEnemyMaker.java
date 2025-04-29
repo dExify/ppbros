@@ -26,7 +26,7 @@ public class RandomEnemyMaker {
     EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
     return enemy;
   }
-  
+
   
   // This is not currently needed because of singular enemytype, but adding so it is easier to include different types at a later date
   // private EnemyModel newRandomEnemy() {
