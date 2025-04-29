@@ -300,4 +300,7 @@ public class GameModel extends Game {
     }
   }
   
+  public void loadPlayerAnimations() {
+    player.loadAnimations();
+  }
 }

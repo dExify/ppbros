@@ -55,7 +55,6 @@ public class EnemyModel implements Entity {
     this.collisionBox = new Rectangle(x, y, width, height);
     this.attackRange = 0;
     this.attackDmg = 10;
-    loadAnimations();
   }
   
   /**

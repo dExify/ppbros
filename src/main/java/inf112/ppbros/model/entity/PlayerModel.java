@@ -59,8 +59,6 @@ public class PlayerModel implements Entity {
     this.width = 0;
     this.height = 0;
     this.hitbox = new Rectangle(x, y, width, height);
-    this.audioController = new AudioController();
-    loadAnimations();
   }
   
   
@@ -326,6 +324,8 @@ public class PlayerModel implements Entity {
   public boolean facesLeft() {
     return facesLeft;
 }
+
+
 
   
   

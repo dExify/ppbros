@@ -77,6 +77,7 @@ public class ScreenView implements Screen {
     Table scoreTable;
     Skin skin;
     player = gameModel.getPlayer();
+    gameModel.loadPlayerAnimations();
 
 
     // Make UI overlay
