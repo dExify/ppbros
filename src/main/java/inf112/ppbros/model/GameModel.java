@@ -52,6 +52,7 @@ public class GameModel extends Game {
     this.timerTask = new CameraYPos();
     this.platformHitboxes = new ArrayList<>();
     this.enemyHitboxes = new ArrayList<>();
+  
     
     // Sets player start position
     makePlayer(0, 150);
