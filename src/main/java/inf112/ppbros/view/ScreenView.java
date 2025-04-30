@@ -195,7 +195,7 @@ public class ScreenView implements Screen {
     //drawHitboxes(); //debugging
     //drawPlayerHitbox(); //debugging
     
-    if (gameModel.checkOutOfBounds()) {
+    if (gameModel.isOutOfBounds()) {
       //System.out.println("Player is out of bounds!");
     }
   }
@@ -218,7 +218,7 @@ public class ScreenView implements Screen {
     // drawPlayerHitbox(); //debugging
     // drawEnemiesHitbox(); //debugging
     
-    if (gameModel.checkOutOfBounds()) {
+    if (gameModel.isOutOfBounds()) {
       // System.out.println("Player is out of bounds!");
     }
   }
