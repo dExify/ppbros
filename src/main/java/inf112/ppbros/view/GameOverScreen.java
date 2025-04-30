@@ -31,7 +31,6 @@ import inf112.ppbros.model.GameModel;
  * This screen is designed to be shown after the player loses or finishes the game.
  */
 public class GameOverScreen implements Screen {
-    private final GameModel game;
     private final Stage stage;
     private final Skin skin;
     
@@ -39,8 +38,9 @@ public class GameOverScreen implements Screen {
      * Constructs the game over with a title, score count, retry button, and exit button.
      * @param game game that just ended.
      * */
-    public GameOverScreen(GameModel game) {
-        this.game = game; // creates new game logic as creating a new ScreenView does not
+    public GameOverScreen(GameModel gameModel) {
+        final GameModel game = gameModel;
+        //this.game = game; // creates new game logic as creating a new ScreenView does not
         this.stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); 
         Gdx.input.setInputProcessor(stage);
