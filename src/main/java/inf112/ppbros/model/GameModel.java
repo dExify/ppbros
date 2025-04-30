@@ -19,6 +19,15 @@ import inf112.ppbros.view.ScreenView;
 import inf112.ppbros.view.StartMenuView;
 import inf112.ppbros.view.TilePositionInPixels;
 
+/**
+ * The {@code GameModel} class represents the core logic and state of the game.
+ * It manages the player, enemy entities, platform generation, collisions,
+ * score tracking, camera movement, and overall game progression.
+ * <p>
+ * This class also handles initialization of the game view, entity updates,
+ * and timer-based camera control. It is responsible for ensuring gameplay
+ * state updates are handled properly per frame.
+ */
 public class GameModel extends Game {
   private boolean createView;
   private PlayerModel player;
@@ -37,6 +46,11 @@ public class GameModel extends Game {
   private static final long COOLDOWNTIME = 1000; // 1 second, can be changed
   private static final int TILESIZE = TileConfig.TILE_SIZE;
   
+  /**
+   * Constructs the GameModel. Optionally initializes the game view and assets.
+   *
+   * @param createsView Whether to create and show the view immediately.
+   */
   public GameModel(boolean createsView) {
     this.createView = createsView;
     if (createView) {
@@ -66,38 +80,38 @@ public class GameModel extends Game {
   }
   
   /**
-  * Returns player
-  * @return player
+  * Returns the player instance.
+  * @return the player.
   */
   public PlayerModel getPlayer() {
     return player;
   }
   
   /**
-  * Returns enemies as a list.
-  * @return enemies 
+  * Returns the current list of enemies.
+  * @return list of enemies. 
   */
   public List<EnemyModel> getEnemies() {
     return enemies;
   }
   
   /**
-  * Returns player score
-  * @return score
+  * Returns the current score.
+  * @return the score.
   */
   public int getScore(){
     return score;
   }
   
   /**
-  * Adds 1 point to score
+  * Increments the score by 1.
   */
   public void addToScore(){
     score ++;
   }
   
   /**
-  * Creates an instance of player with start values
+  * Creates an instance of player at given start position
   * @param startX start x value
   * @param startY start y value
   */
@@ -105,13 +119,14 @@ public class GameModel extends Game {
     this.player = new PlayerModel(startX, startY);
   }
   
-  /** Moves player based on its speed.
-  * Checks for collision with platforms and enemies.
-  * Collision with platforms puts the player back to previous position.
-  * Collision with enemies makes player take damage
-  * @param deltaX horizontal movement
-  * @param deltaY vertical movement
-  */
+  /**
+   * Moves player based on its speed.
+   * Checks for collision with platforms and enemies.
+   * Collision with platforms puts the player back to previous position.
+   * Collision with enemies makes player take damage
+   * @param deltaX horizontal movement
+   * @param deltaY vertical movement
+   */
   public void movePlayer(float deltaX, float deltaY) {
     float prevX = player.getX();
     float prevY = player.getY();
@@ -126,9 +141,9 @@ public class GameModel extends Game {
   }
   
   /**
-  * Returns enemy player can attack
-  * @return enemy player can attack
-  */
+   * Returns an enemy the player can currently attack
+   * @return attackable enemy or {@code null}
+   */
   public EnemyModel attackableEnemy() {
     for (EnemyModel enemy : enemies){ // if mutiple enemies on same platform, this will not work well
       if (player.canAttack(enemy)) {
@@ -139,9 +154,10 @@ public class GameModel extends Game {
   }
   
   /**
-  * Player attacks enemy and enemy takes damage.
-  * When enemy no longer has more health they die.
-  */
+   * Player attacks enemy and enemy takes damage.
+   * When enemy no longer has more health the score increments by 1.
+   * @param enemy enemy that is hit
+   */
   public void playerAttacksEnemy(EnemyModel enemy) {
     enemy.takeDamage(player.getAttackDmg());
     if (enemy.getHealth() == 0) {
@@ -167,7 +183,7 @@ public class GameModel extends Game {
   
   /**
   * Checks if player is out of bounds left, right and bottom of screeen.
-  * @return true if player is out of bounds, false if they are within bounds
+  * @return {@code true} if player is out of bounds, {@code false} if they are within bounds
   */
   public boolean isOutOfBounds() {
     float playerX = player.getX();
@@ -181,9 +197,10 @@ public class GameModel extends Game {
   }
   
   /**
-  * Checks if player collides with an array containing collision boxes as rectangles
-  * @return true if player collides with a rectangle, false if they don't
-  */
+   * Checks if player collides with an array containing collision boxes as rectangles.
+   * @param collisionBox an array of collision boxes to check collision with
+   * @return {@code true} if player collides with a rectangle, {@code false} if they don't
+   */
   private boolean collisionCheck(List<Rectangle> collisionBox) {
     for (Rectangle rec : collisionBox) {
       if (player.collidesWith(rec)) {
@@ -194,9 +211,10 @@ public class GameModel extends Game {
   }
 
   /**
-  * Checks if enemy collides with player
-  * @return true if enemy collides with player, false if they don't
-  */
+   * Checks if enemy collides with player.
+   * @param enemy enemy to check collision with
+   * @return {@code true} if enemy collides with player, {@code false} if they don't
+   */
   private boolean collisionCheck(EnemyModel enemy) {
     if (enemy.collidesWith(player.getCollisionBox())) {
       return true;
@@ -205,7 +223,7 @@ public class GameModel extends Game {
   }
   
   /**
-  * Builds a platform grid and returns the platformGrid object and corresponding enemy on grid
+  * Builds a platform grid and returns the platformGrid object and corresponding enemy on grid.
   * @return PlatformGrid with enemies
   */
   public PlatformGrid getNextPlatformGrid() {
@@ -240,7 +258,7 @@ public class GameModel extends Game {
   
   /**
   * Returns an integer that represents the x coordiante of the viewport
-  * @return int
+  * @return camera Y coordinate
   */
   public int getCameraYCoordinate() {
     cameraPos = timerTask.getCameraPos();
@@ -261,33 +279,45 @@ public class GameModel extends Game {
     timerTask.cancel();
   }
   
-  /**
-  * Terminate timer
-  */
   @Override
   public void dispose() {
     timer.cancel();
   }
-  
+  /**
+   * Returns a list of all platform collision hitboxes.
+   *
+   * @return list of platform hitboxes
+   */
   public List<Rectangle> getPlatformHitboxes() {
     return platformHitboxes;
   }
 
+  /**
+   * Returns a list of all enemy collision hitboxes.
+   *
+   * @return list of enemy hitboxes
+   */
   public List<Rectangle> getEnemyHitboxes() {
     return enemyHitboxes;
   }
-  
+
+  /**
+   * Triggers the player's jump action.
+   */
   public void jump() {
     player.jump();
-    
   }
+
+  /**
+   * Updates the player’s position and animation state.
+   */
   public void updatePlayer() {
     platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));
     player.update(Gdx.graphics.getDeltaTime(), platformHitboxes);
   }
 
   /**
-   * * Updates the enemies' positions based on the player's position and the platform hitboxes.
+   * Updates the enemies' positions based on the player's position and the platform hitboxes.
    * This method is called every frame to ensure that the enemies move towards the player, and move correctly.
    * @param deltaTime The time since the last frame, used to update the enemies' positions.
    * This is used to ensure that the enemies move at a consistent speed, regardless of the frame rate.
@@ -302,7 +332,10 @@ public class GameModel extends Game {
       }
     }
   }
-  
+
+  /**
+   * Loads animations for the player character.
+   */
   public void loadPlayerAnimations() {
     player.loadAnimations();
   }
