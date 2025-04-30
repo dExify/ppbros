@@ -98,10 +98,7 @@ public class PlayerController extends InputAdapter {
      * @return true or false depending on is player is in movement
      */
     public boolean isMoving() {
-        return keysPressed.contains(Input.Keys.D) ||
-               keysPressed.contains(Input.Keys.A) ||
-               keysPressed.contains(Input.Keys.W) ||
-               keysPressed.contains(Input.Keys.S);
+        return keysPressed.contains(Input.Keys.D) || keysPressed.contains(Input.Keys.A);
     }
 
     /**
