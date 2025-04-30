@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.entity.PlayerModel;
-import inf112.ppbros.view.ScreenView;
 
 import java.util.HashSet;
 
@@ -15,14 +14,12 @@ import java.util.HashSet;
  */
 public class PlayerController extends InputAdapter {
     private final GameModel gameModel;
-    private final ScreenView gameView;
     private final AudioController audioController;
     private final HashSet<Integer> keysPressed = new HashSet<>();
     private boolean isAttacking = false;
 
-    public PlayerController(GameModel gameModel, ScreenView gameView) {
+    public PlayerController(GameModel gameModel) {
         this.gameModel = gameModel;
-        this.gameView = gameView;
         Gdx.input.setInputProcessor(this);
         this.audioController = new AudioController();
         audioController.playBackgroundMusic(true);

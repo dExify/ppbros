@@ -80,7 +80,7 @@ public class ScreenView implements Screen {
    */
   public ScreenView(GameModel model) {
     this.gameModel = model;
-    this.playerController = new PlayerController(model, this);
+    this.playerController = new PlayerController(model);
     
   }
   
@@ -250,7 +250,7 @@ public class ScreenView implements Screen {
     }
     batch.end();
   }
-  
+
   private void drawEnemies(float delta) {
     enemies = gameModel.getEnemies();
     batch.begin();
