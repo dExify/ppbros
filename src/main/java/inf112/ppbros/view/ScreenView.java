@@ -172,6 +172,7 @@ public class ScreenView implements Screen {
     playerController.update(delta);
     animationTime += delta;
     
+    gameModel.checkOutOfBounds();
     drawPlayer(delta);
     
     stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
@@ -181,10 +182,6 @@ public class ScreenView implements Screen {
     
     //drawHitboxes(); //debugging
     //drawPlayerHitbox(); //debugging
-    
-    if (gameModel.checkOutOfBounds()) {
-      //System.out.println("Player is out of bounds!");
-    }
   }
   
   private void drawPlayer(float delta) {
@@ -204,10 +201,6 @@ public class ScreenView implements Screen {
     // drawHitboxes(); //debugging
     // drawPlayerHitbox(); //debugging
     // drawEnemiesHitbox(); //debugging
-    
-    if (gameModel.checkOutOfBounds()) {
-      // System.out.println("Player is out of bounds!");
-    }
   }
   
   

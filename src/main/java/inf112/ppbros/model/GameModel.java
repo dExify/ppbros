@@ -166,18 +166,23 @@ public class GameModel extends Game {
   }
   
   /**
+   * When player is out of bounds they take damage.
+   */
+  public void checkOutOfBounds() {
+    if (isOutOfBounds()) {
+      playerIsHit(); // Alternativly, execute instantly game over screen
+    }
+  }
+
+  /**
   * Checks if player is out of bounds left, right and bottom of screeen.
   * @return true if player is out of bounds, false if they are within bounds
   */
-  public boolean isOutOfBounds() {
+  protected boolean isOutOfBounds() {
     float playerX = player.getX();
     float playerY = player.getY();
     return (playerX + player.getWidth() < 0) || (playerX > Gdx.graphics.getWidth() || 
     playerY + player.getHeight() < getCameraYCoordinate() - Gdx.graphics.getHeight()/2);
-  }
-  
-  public boolean checkOutOfBounds() {
-    return isOutOfBounds();
   }
   
   /**
