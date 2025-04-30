@@ -37,6 +37,7 @@ public class PlayerController extends InputAdapter {
                 // Check attack on F press
                 if (gameModel.attackableEnemy() != null) {
                     gameModel.playerAttacksEnemy(gameModel.attackableEnemy());
+                    audioController.playSoundEffect("enemyAttacked");
                     System.out.println("Hit registered!");
                     System.out.println("Enemy health: " + gameModel.attackableEnemy().getHealth());
                 } else {

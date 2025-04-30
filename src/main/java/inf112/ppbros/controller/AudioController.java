@@ -20,7 +20,10 @@ public class AudioController {
     loadSoundEffect("landing", "audio/jump_landing.mp3");
     loadSoundEffect("attack", "audio/sword_attack.mp3");
     loadSoundEffect("bossfight", "audio/boss_battle.mp3");
-    
+    loadSoundEffect("enemyAttacked", "audio/slime_step_1.mp3");
+    loadSoundEffect("takeDamage","audio/take_damage_sound.mp3");
+    loadSoundEffect("gameOver", "audio/loose_game_sound.mp3");
+    loadSoundEffect("pointAcquired", "audio/point_acquired.mp3");
   }
   
   private void loadBackgroundMusic(String filePath) {
