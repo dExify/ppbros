@@ -60,132 +60,132 @@ public class PlatformGrid {
     return hitboxes;
   }
   
-/**
- * Gets a random spawn position and updates the int[][] with the correct tile types
- * @param platformCount the number of additional platforms to generate
- */
-public void buildGrid(int platformCount) {
-  buildBasePlatform(); // Build base platform at the bottom
+  /**
+   * Gets a random spawn position and updates the int[][] with the correct tile types
+   * @param platformCount the number of additional platforms to generate
+   */
+  public void buildGrid(int platformCount) {
+    buildBasePlatform(); // Build base platform at the bottom
 
-  for (int i = 0; i < platformCount; i++) {
-      Coordinate start = getPlatformStart();
-      if (start != null) {
-          buildPlatform(start);
-      }
-  }
-}
-
-/**
-* Builds the base platform at the bottom (y = 0)
-*/
-private void buildBasePlatform() {
-  Platform basePlatform;
-  if (yPos == 0) {
-      basePlatform = platformMaker.getBasePlatform(GRID_WIDTH);
-  } else {
-      basePlatform = platformMaker.getNext();
-  }
-
-  Coordinate baseStart = new Coordinate(0, 0); // left-bottom corner
-  int[][] basePattern = basePlatform.getPlatform();
-  insertPlatformTiles(basePattern, baseStart);
-}
-
-/**
-* Builds a platform at a given starting coordinate
-* @param start Coordinate
-*/
-private void buildPlatform(Coordinate start) {
-  Platform platform = platformMaker.getNext();
-  int[][] pattern = platform.getPlatform();
-  insertPlatformTiles(pattern, start);
-}
-
-/**
-* Inserts the tiles for a given platform pattern and start coordinate
-* @param pattern int[][] pattern of the platform
-* @param start Coordinate starting position of the platform
-*/
-private void insertPlatformTiles(int[][] pattern, Coordinate start) {
-  for (int y = 0; y < pattern.length; y++) { //riktig rekkefølge
-      for (int x = 0; x < pattern[y].length; x++) {
-          if (pattern[y][x] != 0) {
-              insertTile(pattern[y][x], start, x, pattern.length - 1 - y);
-          }
-      }
-  }
-}
-
-  
-/**
-  * Sets the passed tile type into the int[][] array at a given coordinate. 
-  * Updates the hitboxes only with platform tiles, not decorative assets.
-  * @param tileType the type of tile to insert
-  * @param platformStart the top-left coordinate where the platform starts
-  * @param x the relative x position within the platform pattern
-  * @param y the relative y position within the platform pattern
-  */
-  private void insertTile(int tileType, Coordinate platformStart, int x, int y) { //Todo: Update this method so that it is affected by yPos
-    int gridX = platformStart.x() + x;
-    int gridY = platformStart.y() + y;
-    tileGrid[gridX][gridY] = tileType;
-    if (tileType == 1) {
-      updateOccupiedCoordinates(gridX, gridY);
-      Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
-      hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
+    for (int i = 0; i < platformCount; i++) {
+        Coordinate start = getPlatformStart();
+        if (start != null) {
+            buildPlatform(start);
+        }
     }
   }
-  
-/**
- * Generates a random start coordinate on a vacant part of the grid and within the bounds of the grid
- * @return a valid start coordinate, or null if no suitable area was found
- */
-private Coordinate getPlatformStart() {
-  int platformHeight = platformMaker.getPlatformHeight();
-  int platformWidth = platformMaker.getPlatformWidth();
-  int xMargin = 1;
-  int yMargin = 1;
-  int expectedVacantPosCount = (platformHeight + yMargin * 2) * (platformWidth + xMargin * 2);
 
-  for (int checks = 0; checks < 10; checks++) {
-      int randomX = 1 + random.nextInt(GRID_WIDTH - platformWidth);
-      int randomY = 1 + random.nextInt(GRID_HEIGHT - platformHeight);
-      Coordinate startCoordinate = new Coordinate(randomX, randomY);
+  /**
+  * Builds the base platform at the bottom (y = 0)
+  */
+  private void buildBasePlatform() {
+    Platform basePlatform;
+    if (yPos == 0) {
+        basePlatform = platformMaker.getBasePlatform(GRID_WIDTH);
+    } else {
+        basePlatform = platformMaker.getNext();
+    }
 
-      if (isAreaVacant(startCoordinate, platformWidth, platformHeight, xMargin, yMargin, expectedVacantPosCount)) {
-          return startCoordinate;
-      }
+    Coordinate baseStart = new Coordinate(0, 0); // left-bottom corner
+    int[][] basePattern = basePlatform.getPlatform();
+    insertPlatformTiles(basePattern, baseStart);
   }
 
-  return null;
-}
-
-/**
- * Checks whether the area around the given start coordinate is completely vacant.
- * 
- * @param start         the top-left coordinate of the area
- * @param width         the width of the platform
- * @param height        the height of the platform
- * @param xMargin       margin added on the x-axis
- * @param yMargin       margin added on the y-axis
- * @param expectedCount the number of expected vacant tiles
- * @return  {@code true} if the area is vacant; {@code false} otherwise
- */
-private boolean isAreaVacant(Coordinate start, int width, int height, int xMargin, int yMargin, int expectedCount) {
-  int vacantCount = 0;
-
-  for (int y = start.y() - yMargin; y < start.y() + height + yMargin; y++) {
-      for (int x = start.x() - xMargin; x < start.x() + width + xMargin; x++) {
-          if (!occupiedCoordinates.contains(new Coordinate(x, y))) {
-              vacantCount++;
-          } else {
-              return false;
-          }
-      }
+  /**
+  * Builds a platform at a given starting coordinate
+  * @param start Coordinate
+  */
+  private void buildPlatform(Coordinate start) {
+    Platform platform = platformMaker.getNext();
+    int[][] pattern = platform.getPlatform();
+    insertPlatformTiles(pattern, start);
   }
 
-  return vacantCount == expectedCount;
-}
+  /**
+  * Inserts the tiles for a given platform pattern and start coordinate
+  * @param pattern int[][] pattern of the platform
+  * @param start Coordinate starting position of the platform
+  */
+  private void insertPlatformTiles(int[][] pattern, Coordinate start) {
+    for (int y = 0; y < pattern.length; y++) { //riktig rekkefølge
+        for (int x = 0; x < pattern[y].length; x++) {
+            if (pattern[y][x] != 0) {
+                insertTile(pattern[y][x], start, x, pattern.length - 1 - y);
+            }
+        }
+    }
+  }
+
+    
+  /**
+    * Sets the passed tile type into the int[][] array at a given coordinate. 
+    * Updates the hitboxes only with platform tiles, not decorative assets.
+    * @param tileType the type of tile to insert
+    * @param platformStart the top-left coordinate where the platform starts
+    * @param x the relative x position within the platform pattern
+    * @param y the relative y position within the platform pattern
+    */
+    private void insertTile(int tileType, Coordinate platformStart, int x, int y) { //Todo: Update this method so that it is affected by yPos
+      int gridX = platformStart.x() + x;
+      int gridY = platformStart.y() + y;
+      tileGrid[gridX][gridY] = tileType;
+      if (tileType == 1) {
+        updateOccupiedCoordinates(gridX, gridY);
+        Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
+        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
+      }
+    }
+    
+  /**
+   * Generates a random start coordinate on a vacant part of the grid and within the bounds of the grid
+   * @return a valid start coordinate, or null if no suitable area was found
+   */
+  private Coordinate getPlatformStart() {
+    int platformHeight = platformMaker.getPlatformHeight();
+    int platformWidth = platformMaker.getPlatformWidth();
+    int xMargin = 1;
+    int yMargin = 1;
+    int expectedVacantPosCount = (platformHeight + yMargin * 2) * (platformWidth + xMargin * 2);
+
+    for (int checks = 0; checks < 10; checks++) {
+        int randomX = 1 + random.nextInt(GRID_WIDTH - platformWidth);
+        int randomY = 1 + random.nextInt(GRID_HEIGHT - platformHeight);
+        Coordinate startCoordinate = new Coordinate(randomX, randomY);
+
+        if (isAreaVacant(startCoordinate, platformWidth, platformHeight, xMargin, yMargin, expectedVacantPosCount)) {
+            return startCoordinate;
+        }
+    }
+
+    return null;
+  }
+
+  /**
+   * Checks whether the area around the given start coordinate is completely vacant.
+   * 
+   * @param start         the top-left coordinate of the area
+   * @param width         the width of the platform
+   * @param height        the height of the platform
+   * @param xMargin       margin added on the x-axis
+   * @param yMargin       margin added on the y-axis
+   * @param expectedCount the number of expected vacant tiles
+   * @return  {@code true} if the area is vacant; {@code false} otherwise
+   */
+  private boolean isAreaVacant(Coordinate start, int width, int height, int xMargin, int yMargin, int expectedCount) {
+    int vacantCount = 0;
+
+    for (int y = start.y() - yMargin; y < start.y() + height + yMargin; y++) {
+        for (int x = start.x() - xMargin; x < start.x() + width + xMargin; x++) {
+            if (!occupiedCoordinates.contains(new Coordinate(x, y))) {
+                vacantCount++;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    return vacantCount == expectedCount;
+  }
 
   /**
    * Updates the occupiedCoordinates hashSet with occupied coordinates
