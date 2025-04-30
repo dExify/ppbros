@@ -15,13 +15,21 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.GameModel;
 
-// Start Menu View
+/**
+ * The StartMenuView displays the game's main menu with options to start the game or exit.
+ * It is the initial screen presented to the player on game launch.
+ */
 public class StartMenuView implements Screen {
   @SuppressWarnings("unused")
   private Game game;
   private Stage stage;
   private Skin skin;
   
+  /**
+   * Constructs the start menu with a title, start button, and exit button.
+   * 
+   * @param game The main game application instance used to transition screens.
+   */
   public StartMenuView(Game game) {
     this.game = game;
     stage = new Stage(new ScreenViewport());
