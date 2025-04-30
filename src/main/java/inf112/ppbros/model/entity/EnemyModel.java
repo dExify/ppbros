@@ -10,6 +10,17 @@ import com.badlogic.gdx.utils.Array;
 import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.platform.TileConfig;
 
+/**
+ * Represents an enemy in the game world.
+ * <p>
+ * The {@code EnemyModel} class defines the behavior, movement logic, and animations
+ * of a basic enemy. It handles patrolling behavior when the player is far and pathfinding
+ * behavior when the player is within a certain vertical range. Enemies can also load and
+ * update their animations and change direction when hitting platform edges or obstacles.
+ * <p>
+ * This class extends {@link AbstractEntity}, inheriting shared entity properties
+ * such as position, health, and collision handling.
+ */
 public class EnemyModel extends AbstractEntity {
     private float moveSpeed = 50.0f;
     private boolean movingLeft = true;
@@ -17,6 +28,11 @@ public class EnemyModel extends AbstractEntity {
     private static Animation<TextureRegion> enemyRunAnimR;
     private static Animation<TextureRegion> enemyRunAnimL;
 
+    /**
+     * Creates a new enemy instance at a specified starting position
+     * @param startPos  the initial starting position
+     * @param yPos      the vertical offset to be added to the initial y position
+     */
     public EnemyModel(Coordinate startPos, int yPos) {
         this.x = startPos.x();
         this.y = startPos.y() + yPos;
@@ -29,6 +45,16 @@ public class EnemyModel extends AbstractEntity {
         this.collisionBox = new Rectangle(x, y, width, height);
     }
 
+    /**
+     * Updates the enemy's movement based on the player's position.
+     * <p>
+     * If the player is within vertical range, the enemy will path towards the player.
+     * Otherwise it will continue patrolling the platform moving left and right switching 
+     * direction once at the end of platform or collision detected.
+     * @param player    the player to path towards
+     * @param hitboxes  list of platform hitboxes
+     * @param deltaTime time elapsed since last frame update 
+     */
     public void updateMovement(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
         if ((player.getY() >= this.y - TileConfig.TILE_SIZE * 2) && (player.getY() <= this.y + TileConfig.TILE_SIZE * 2)) {
             pathTowardsPlayer(player, hitboxes, deltaTime);
@@ -89,11 +115,9 @@ public class EnemyModel extends AbstractEntity {
         return false;
     }
 
-    @Override
-    public EntityType getType() {
-        return EntityType.ENEMY;
-    }
-
+    /**
+     * Loads and initializes the enemy's running animation frames.
+     */
     public static void loadAnimations() {
         Array<TextureRegion> runFramesRight = new Array<>();
         Array<TextureRegion> runFramesLeft = new Array<>();
@@ -109,18 +133,32 @@ public class EnemyModel extends AbstractEntity {
         enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
     }
 
+    /**
+     * Reverse the enemy's horizontal movement direction.
+     * <p>
+     * Used when the enemy hits a wall or edge of a platform. 
+     */
+    public void changeDirection() {
+        movingLeft = !movingLeft;
+        movingRight = !movingRight;
+    }
+
+    /**
+     * Checks if enemy is currently facing left.
+     * @return true if the enemy is facing left, false otherwise.
+     */
+    public boolean facesLeft() {
+        return movingLeft;
+    }
+
     @Override
     public void updateAnimation(float delta) {
         animationTime += delta;
         currentFrame = movingLeft ? enemyRunAnimL.getKeyFrame(animationTime) : enemyRunAnimR.getKeyFrame(animationTime);
     }
 
-    public void changeDirection() {
-        movingLeft = !movingLeft;
-        movingRight = !movingRight;
-    }
-
-    public boolean facesLeft() {
-        return movingLeft;
+    @Override
+    public EntityType getType() {
+        return EntityType.ENEMY;
     }
 }

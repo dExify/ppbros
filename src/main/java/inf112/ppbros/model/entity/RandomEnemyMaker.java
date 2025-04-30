@@ -6,6 +6,12 @@ import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.platform.PlatformGrid;
 import inf112.ppbros.model.platform.TileConfig;
 
+/**
+ * A factory class for spawning enemies at random valid positions on a platform grid.
+ * <p>
+ * This utility class interacts with the {@link PlatformGrid} to find valid spawn
+ * locations and creates new {@link EnemyModel} instances accordingly.
+ */
 public class RandomEnemyMaker {
   
   private Random random;
@@ -19,7 +25,7 @@ public class RandomEnemyMaker {
   /**
   * Returns a new enemy, in a valid position on the platform grid
   * @param grid the platform grid to check for valid spawn coordinates
-  * @return EnemyModel
+  * @return enemy of type {@code EnemyModel}
   */
   public EnemyModel getNext(PlatformGrid grid) {
     Coordinate spawnPos = grid.getValidSpawnPos();
