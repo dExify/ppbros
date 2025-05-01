@@ -10,23 +10,22 @@
 ## Concept
 
 ### Game mechanic:
-- Playable character: Two players can control each of their character, one with 'WASD'-keys and one with arrow buttons.
-- Movement: Playable characters can move left/right and jump up.
+- Playable character: Player controls the main character, attacking enemies and gaining points
+- Movement: Playable character can move left/right (A & D) and jump up (Space).
 - Combat: Players can hit enemies to eliminate them.
 
 ### Game world:
 - Platform based: Platforms disappears down in the void as the camera moves up, which forces players to be constantly moving upwards.
-- Dynamic enemies: With new platforms introduces new enemies with various of challenges.
+- Dynamic platforms: The platforms generate with a degree for randomness making traversing the platforms challenging.
 
 ### Goal and progression:
 - Score system: The player earns points by defeating enemies.
-- Levels and bosses: When a player reaches a certain amount of points (kills), they have to kill a boss to move on to next level.
 - Increasing in difficulty: The game becomes progressively more difficult as players accumulate more points.
 - Goal: Stay alive and collect as many points as possible.
 
 ## Runner
 * Compiles with `mvn package`.
-* Runs with `java -jar target/powerpipesbros-1.0-RELEASE.jar`
+* Runs with `java -jar target/powerpipesbros-1.0-RELEASE-fat.jar`
 * Requires Java 21+
 
 ## Credits
