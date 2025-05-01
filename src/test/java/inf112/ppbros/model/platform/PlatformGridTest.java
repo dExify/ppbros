@@ -12,8 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mockutil.GdxTestMock;
+import inf112.ppbros.model.Coordinate;
 
 import java.util.List;
+import java.util.Random;
 
 class PlatformGridTest {
 
@@ -71,5 +73,39 @@ class PlatformGridTest {
             }
         }
         assertTrue(hasTile, "There should be platform tiles after running buildGrid()");
+    }
+
+    @Test
+    void testGetValidEnemySpawnPos() {
+        PlatformMaker mockMaker = mock(PlatformMaker.class);
+        when(mockMaker.getBasePlatform(anyInt())).thenReturn(new Platform(new int[][]{
+            {1, 1, 1, 1, 1}
+        }));
+        when(mockMaker.getNext()).thenReturn(new Platform(new int[][]{
+            {1, 1, 1}
+        }));
+        when(mockMaker.getPlatformHeight()).thenReturn(1);
+        when(mockMaker.getPlatformWidth()).thenReturn(3);
+
+        PlatformGrid platformGrid = new PlatformGrid(mockMaker, 0);
+        platformGrid.buildGrid(1);
+
+        Coordinate spawnPos = platformGrid.getValidEnemySpawnPos();
+
+        int x = spawnPos.x();
+        int y = spawnPos.y();
+
+        assertEquals(0, platformGrid.get(x, y), "Spawn position should be free (0)");
+        assertTrue(platformGrid.get(x, y - 1) != 0, "Tile below spawn position should be occupied (non-zero)");
+    }
+
+    @Test
+    void testTileGridHeight() {
+        assertEquals(platformGrid.tileGridHeight(), TileConfig.GRID_HEIGHT);
+    }
+
+    @Test
+    void testTileGridWidth() {
+        assertEquals(platformGrid.tileGridWidth(), TileConfig.GRID_WIDTH);
     }
 }

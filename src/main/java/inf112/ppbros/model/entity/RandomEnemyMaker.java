@@ -28,7 +28,7 @@ public class RandomEnemyMaker {
   * @return enemy of type {@code EnemyModel}
   */
   public EnemyModel getNext(PlatformGrid grid) {
-    Coordinate spawnPos = grid.getValidSpawnPos();
+    Coordinate spawnPos = grid.getValidEnemySpawnPos();
     EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
     return enemy;
   }
