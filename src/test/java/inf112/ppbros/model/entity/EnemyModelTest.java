@@ -3,37 +3,26 @@ package inf112.ppbros.model.entity;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mockutil.GdxTestMock;
-import inf112.ppbros.controller.PlayerController;
 import inf112.ppbros.model.Coordinate;
-import inf112.ppbros.model.GameModel;
-import inf112.ppbros.model.platform.TileConfig;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
 class EnemyModelTest {
 
   private EnemyModel enemy;
-  // private PlayerModel player;
-  // private GameModel model;
 
   @BeforeEach
   void setUp() {
     Coordinate start = new Coordinate(100, 100);
     enemy = new EnemyModel(start, 0);
 
-    // // Mock Gdx.input
-    // Gdx.input = Mockito.mock(Input.class);
     GdxTestMock.init();
-    // model = new GameModel(false, false);
   }
 
   @Test
