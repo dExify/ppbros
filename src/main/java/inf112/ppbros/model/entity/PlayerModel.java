@@ -136,4 +136,5 @@ public class PlayerModel extends AbstractEntity {
     public boolean facesLeft() {
         return facesLeft;
     }
+
 }
