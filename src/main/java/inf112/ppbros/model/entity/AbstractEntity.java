@@ -6,7 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 public abstract class AbstractEntity implements Entity {
 
     protected float x, y;
-    protected float width, height;
+    protected float width;
+    protected float height;
     protected int health;
     protected float speed;
     protected float attackRange;
