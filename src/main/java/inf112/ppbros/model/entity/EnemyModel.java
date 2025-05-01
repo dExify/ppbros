@@ -27,9 +27,9 @@ public class EnemyModel extends AbstractEntity {
   private float deltaTime;
   private float playerX;
   private float playerY;
-  private TextureRegion slimeTexture;
   private static Animation<TextureRegion> enemyRunAnimR;
   private static Animation<TextureRegion> enemyRunAnimL;
+  private static final float SIZE_RATIO = 3f;
   
   /**
   * Creates a new enemy instance at a specified starting position
@@ -38,7 +38,7 @@ public class EnemyModel extends AbstractEntity {
   */
   public EnemyModel(Coordinate startPos, int yPos) {
     this.x = startPos.x();
-    this.y = startPos.y() + yPos;
+    this.y = startPos.y() + (float) yPos;
     this.health = 100;
     this.speed = 50.0f;
     this.attackRange = 0;
@@ -182,8 +182,9 @@ public class EnemyModel extends AbstractEntity {
   }
   
   public void initViewSize() {
+    TextureRegion slimeTexture;
     slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
-    setSize(slimeTexture.getRegionWidth() / 3, slimeTexture.getRegionHeight() / 3);
+    setSize(slimeTexture.getRegionWidth() / SIZE_RATIO, slimeTexture.getRegionHeight() / SIZE_RATIO);
     
   }
 }

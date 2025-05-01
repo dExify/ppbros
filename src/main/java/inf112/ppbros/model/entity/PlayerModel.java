@@ -1,6 +1,5 @@
 package inf112.ppbros.model.entity;
 
-import java.util.Comparator;
 import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
