@@ -83,7 +83,7 @@ public class ScreenView implements Screen {
     // Make UI overlay
     stage = new Stage();
     // Make UI overlay for score and health bar
-    skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
+    skin = new Skin(Gdx.files.internal("skin/uiskin.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
     scoreTable = new Table();
     healthTable = new Table();
     scoreLabel = new Label("", skin);

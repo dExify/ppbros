@@ -13,3 +13,8 @@
 
 - Attack sound
 * https://opengameart.org/content/3-melee-sounds
+
+- GDX Holo skin
+- - Credits to Daniel Holderbaum.
+* https://git.it-bi.htldornbirn.vol.at/mschwaer/libgdx_diverse/-/tree/5c609168e3eed3cc684a79e6548104fed66f4ce7/android/assets/skin/gdx-holo
+* https://github.com/nooone

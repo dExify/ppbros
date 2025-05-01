@@ -26,7 +26,7 @@ public class StartMenuView implements Screen {
     this.game = game;
     stage = new Stage(new ScreenViewport());
     Gdx.input.setInputProcessor(stage); // Needed to activate usage of buttons
-    skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
+    skin = new Skin(Gdx.files.internal("skin/uiskin.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
     
     Table table = new Table();
     table.setFillParent(true);
