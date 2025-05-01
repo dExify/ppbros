@@ -177,4 +177,9 @@ public class EnemyModel extends AbstractEntity {
     public EntityType getType() {
         return EntityType.ENEMY;
     }
+
+    public void initViewSize() {
+      slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
+      setSize(slimeTexture.getRegionWidth() / 3, slimeTexture.getRegionHeight() / 3);
+    }
 }
