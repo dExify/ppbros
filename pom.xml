@@ -105,7 +105,7 @@
 			<plugin>
     			<groupId>org.jacoco</groupId>
     			<artifactId>jacoco-maven-plugin</artifactId>
-    			<version>0.8.11</version>
+    			<version>0.8.13</version>
     			<executions>
         			<execution>
             			<id>default-prepare-agent</id>
@@ -119,14 +119,14 @@
             			<goals>
                 			<goal>report</goal>
             			</goals>
-            			<!--- ✁✁✁✁✁ SNIPP ✁✁✁✁✁ -->
             			<configuration>
-                		<!-- klasser som ikke skal være med i coverage rapport listes her! -->
-                			<excludes>inf112/ppbros/app/PowerPipesBros.class</excludes> <!-- en konkret klasse-->
-               				<excludes>**/view/*</excludes> <!-- alle klasser i pakker som heter view -->
-                			<excludes>**/view/**</excludes> <!-- alle klasser i pakker som heter view, inkl underpakker -->
+               				<excludes>**/app/*</excludes>
+               				<excludes>**/app/**</excludes> 
+               				<excludes>**/testutils/*</excludes>
+               				<excludes>**/testutils/**</excludes> 
+               				<excludes>**/view/*</excludes>
+                			<excludes>**/view/**</excludes>
             			</configuration>
-            			<!-- ✃✃✃✃✃ SNIPP ✃✃✃✃✃✃ -->
         			</execution>
     			</executions>
 			</plugin>
