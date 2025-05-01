@@ -72,33 +72,48 @@ public class PlayerModel extends AbstractEntity {
      * Updates the player's vertical position and collision state.
      * <p>
      * Applies gravity if the player is not on the ground, and checks for collisions
-     * with nearby platform hitboxes. Adjusts the player's position to align with
-     * the top of platforms when collisions occur.
+     * with nearby platform hitboxes. Adjusts the player's position once collisions
+     * occur to not let player go through platform.
      * @param deltaTime         time elapsed since the last update
      * @param platformHitboxes  list of platform rectangles to check collisions against
      */
     public void update(float deltaTime, List<Rectangle> platformHitboxes) {
-        platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - this.getY())));
-        
-        if (!isOnGround) {
-            velocityY += GRAVITY;
-            velocityY = Math.max(velocityY, MAX_FALL_SPEED);
-        }
-
-        y += velocityY * deltaTime;
-        collisionBox.setPosition(x, y);
+        // Apply gravity
+        velocityY += GRAVITY;
+        velocityY = Math.max(velocityY, MAX_FALL_SPEED);
+    
+        // Predict next Y position
+        float newY = y + velocityY * deltaTime;
+    
+        // Move collision box to predicted position
+        collisionBox.setPosition(x, newY);
         isOnGround = false;
-
+    
         for (Rectangle platform : platformHitboxes) {
             if (collisionBox.overlaps(platform)) {
                 float platformTop = platform.y + platform.height;
-                y = platformTop;
-                isOnGround = true;
-                velocityY = 0;
-                collisionBox.setPosition(x, y);
+                float platformBottom = platform.y;
+    
+                if (velocityY < 0) {
+                    // Falling - landed on platform
+                    newY = platformTop;
+                    velocityY = 0;
+                    isOnGround = true;
+                } else if (velocityY > 0) {
+                    // Jumping - hit bottom of platform
+                    newY = platformBottom - collisionBox.height;
+                    velocityY = 0;
+                }
+    
+                collisionBox.setPosition(x, newY);
+                break; // Stop after resolving one collision
             }
         }
+    
+        // Apply resolved position
+        y = newY;
     }
+
 
     /**
      * Causes the player to jump if they are currently on the ground.
