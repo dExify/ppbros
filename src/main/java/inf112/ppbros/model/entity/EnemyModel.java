@@ -23,7 +23,11 @@ import inf112.ppbros.model.platform.TileConfig;
  */
 public class EnemyModel extends AbstractEntity {
     private boolean movingLeft = true;
-    private boolean movingRight = false;
+    private List<Rectangle> hitboxes;
+    private float deltaTime;
+    private float playerX;
+    private float playerY;
+    private TextureRegion slimeTexture;
     private static Animation<TextureRegion> enemyRunAnimR;
     private static Animation<TextureRegion> enemyRunAnimL;
 
@@ -55,55 +59,65 @@ public class EnemyModel extends AbstractEntity {
      * @param deltaTime time elapsed since last frame update 
      */
     public void updateMovement(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
-        if ((player.getY() >= this.y - TileConfig.TILE_SIZE * 2) && (player.getY() <= this.y + TileConfig.TILE_SIZE * 2) && (player.getX() >= this.x - TileConfig.TILE_SIZE * 3) && (player.getX() <= this.x + TileConfig.TILE_SIZE * 3)) {
-            pathTowardsPlayer(player, hitboxes, deltaTime);
+        this.hitboxes = hitboxes;
+        this.deltaTime = deltaTime;
+        this.playerX = player.getX();
+        this.playerY = player.getY();
+
+        if (playerInRange()) {
+            pathTowardsPlayer(player);
         } else {
-            patrolPlatform(hitboxes, deltaTime);
+            patrolPlatform();
         }
     }
 
-    private void patrolPlatform(List<Rectangle> hitboxes, float deltaTime) {
-        moveEnemy(hitboxes, deltaTime);
+    private boolean playerInRange() {
+        return (playerY >= y - TileConfig.TILE_SIZE * 2) && (playerY <= y + TileConfig.TILE_SIZE * 2) && 
+                (playerX >= x - TileConfig.TILE_SIZE * 3) && (playerX <= x + TileConfig.TILE_SIZE * 3);
     }
 
-    private void pathTowardsPlayer(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
-        if ((player.getX() < x && !movingLeft) || (player.getX() > x && !movingRight)) {
+    private void patrolPlatform() {
+        moveEnemy();
+    }
+
+    private void pathTowardsPlayer(PlayerModel player) {
+        if ((player.getX() < x && !movingLeft) || (player.getX() > x && movingLeft)) {
             changeDirection();
         }
-        moveEnemy(hitboxes, deltaTime);
+        moveEnemy();
     }
 
-    private void moveEnemy(List<Rectangle> hitboxes, float deltaTime) {
+    private void moveEnemy() {
         float prevX = x;
         int direction = movingLeft ? -1 : 1;
 
-        if (!hasTileBelow(hitboxes)) {
+        if (!hasTileBelow()) {
             changeDirection();
             return;
         }
 
         move(direction * speed * deltaTime, 0);
 
-        if (platformCollision(hitboxes)) {
+        if (platformCollision()) {
             x = prevX;
             collisionBox.setPosition(x, y);
             changeDirection();
         }
     }
 
-    private boolean hasTileBelow(List<Rectangle> hitboxes) {
+    private boolean hasTileBelow() {
         float checkX = movingLeft ? x - width : x + width;
         float checkY = y - height;
-        Rectangle checkBox = new Rectangle(checkX, checkY, width, height / 2);
+        Rectangle checkBox = new Rectangle(checkX, checkY, width, height);
         for (Rectangle rec : hitboxes) {
-            if (checkBox.overlaps(rec)) {
+            if (checkBox.overlaps(rec)) {   
                 return true;
             }
         }
         return false;
     }
 
-    private boolean platformCollision(List<Rectangle> hitboxes) {
+    private boolean platformCollision() {
         for (Rectangle rec : hitboxes) {
             if (collisionBox.overlaps(rec)) {
                 return true;
@@ -112,8 +126,14 @@ public class EnemyModel extends AbstractEntity {
         return false;
     }
 
+    @Override
+    public EntityType getType() {
+        return EntityType.ENEMY;
+    }
+
     /**
-     * Loads and initializes the enemy's running animation frames.
+     * Loads the enemy animations from the specified directory.
+     * The animations are loaded into static variables for later use.
      */
     public static void loadAnimations() {
         Array<TextureRegion> runFramesRight = new Array<>();
@@ -127,7 +147,7 @@ public class EnemyModel extends AbstractEntity {
         }
 
         enemyRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
-        enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
+        enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP); 
     }
 
     /**
@@ -137,7 +157,6 @@ public class EnemyModel extends AbstractEntity {
      */
     public void changeDirection() {
         movingLeft = !movingLeft;
-        movingRight = !movingRight;
     }
 
     /**

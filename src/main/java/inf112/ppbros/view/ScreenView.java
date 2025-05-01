@@ -171,10 +171,6 @@ public class ScreenView implements Screen {
     //drawPlayerAttack();
     
     enemies = gameModel.getEnemies();
-    // // Set size for enemies based on enemy texture
-     for (EnemyModel enemy : enemies) {
-       enemy.setSize(160,110);
-     }
     
     // temp for texture
     drawEnemies(delta);
