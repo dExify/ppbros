@@ -194,23 +194,16 @@ public class GameModel extends Game {
     return false;
   }
 
+  /**
+   * Checks if the player is colliding with any spawned enemy
+   * @return true if player collides
+   */
   private boolean collisionWithAnyEnemy() {
     for (EnemyModel e : enemies) {
         if (player.collidesWith(e.getCollisionBox())) return true;
     }
     return false;
 }
-
-  /**
-  * Checks if enemy collides with player
-  * @return true if enemy collides with player, false if they don't
-  */
-  private boolean collisionCheck(EnemyModel enemy) {
-    if (enemy.collidesWith(player.getCollisionBox())) {
-      return true;
-    }
-    return false;
-  }
   
   /**
   * Builds a platform grid and returns the platformGrid object and corresponding enemy on grid
