@@ -224,7 +224,7 @@ public class PlatformGrid {
   }
 
   private boolean isOnGround(int x, int y) {
-    return tileGrid[x][y-1] != 0;
+    return (tileGrid[x][y-1] != 0 && tileGrid[x][y-1] != 5 && tileGrid[x][y-1] != 7);
   }
 
   /**
