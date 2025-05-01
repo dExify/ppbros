@@ -78,7 +78,7 @@ public class ScreenView implements Screen {
    */
   public ScreenView(GameModel model) {
     this.gameModel = model;
-    this.playerController = new PlayerController(model);
+    this.playerController = new PlayerController(model, true);
     
   }
   
