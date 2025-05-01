@@ -116,23 +116,30 @@ class GameModelTest {
 
     @Test
     void testMovePlayerHitsEnemy() {
-        // Set enemy in front of player
-        gameModel.getEnemyHitboxes().clear();
         PlayerModel player = gameModel.getPlayer();
         float initialX = player.getX();
         float initialY = player.getY();
-        player.setSize(50, 100); // Set player size so overlapping can happen
-
-        Rectangle enemy = new Rectangle(initialX + player.getSpeed(), initialY, player.getWidth(), player.getHeight());
-        gameModel.getEnemyHitboxes().add(enemy);
-
+        player.setSize(50, 100);
+    
+        // Create enemy model and set size/position
+        EnemyModel enemy = new EnemyModel(new Coordinate((int) (initialX + player.getSpeed()), (int) initialY), 0);
+        enemy.setSize(50, 100); 
+        enemy.setX(initialX + player.getSpeed());
+        enemy.setY(initialY);
+        enemy.updateCollisionBox(enemy.getX(), enemy.getY());
+    
+        // Clear enemies and insert our test enemy
+        gameModel.getEnemies().clear();
+        gameModel.getEnemies().add(enemy);
+    
         int initialHealth = player.getHealth();
-
+    
         gameModel.movePlayer(1, 0); // Move right into enemy
-
-        assertEquals(initialHealth - 10, player.getHealth(), "Player should lose 10 health after hitting enemy.");
+    
+        assertEquals(initialHealth - 10, player.getHealth(),
+            "Player should lose 10 health after hitting enemy");
     }
-
+    
 
     @Test
     void testAttackableEnemyFound() {

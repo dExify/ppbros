@@ -198,4 +198,5 @@ public class PlayerModel extends AbstractEntity {
     public EntityType getType() {
         return EntityType.MAIN_CHARACTER;
     }
+
 }

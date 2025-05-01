@@ -2,6 +2,7 @@ package inf112.ppbros.model;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 
@@ -119,26 +120,25 @@ public class GameModel extends Game {
     this.player = new PlayerModel(startX, startY);
   }
   
-  /**
-   * Moves player based on its speed.
-   * Checks for collision with platforms and enemies.
-   * Collision with platforms puts the player back to previous position.
-   * Collision with enemies makes player take damage
-   * @param deltaX horizontal movement
-   * @param deltaY vertical movement
-   */
-  public void movePlayer(float deltaX, float deltaY) {
+  /** Moves player based on its speed.
+  * Checks for collision with platforms and enemies.
+  * Collision with platforms puts the player back to previous position.
+  * Collision with enemies makes player take damage
+  * @param deltaX horizontal movement
+  * @param deltaY vertical movement
+  */
+  public void movePlayer(float dx, float dy) {
     float prevX = player.getX();
     float prevY = player.getY();
-    player.move(deltaX * player.getSpeed(), deltaY * player.getSpeed());
+
+    player.move(dx * player.getSpeed(), dy * player.getSpeed());
+
     if (collisionCheck(platformHitboxes)) {
-      player.setX(prevX);
-      player.setY(prevY);
+        player.setX(prevX);
+        player.setY(prevY);
     }
-    if (collisionCheck(enemyHitboxes)){
-      playerIsHit();
-    }
-  }
+    if (collisionWithAnyEnemy()) playerIsHit();
+}
   
   /**
    * Returns an enemy the player can currently attack
@@ -207,16 +207,15 @@ public class GameModel extends Game {
   }
 
   /**
-   * Checks if enemy collides with player.
-   * @param enemy enemy to check collision with
-   * @return {@code true} if enemy collides with player, {@code false} if they don't
+   * Checks if the player is colliding with any spawned enemy
+   * @return true if player collides
    */
-  private boolean collisionCheck(EnemyModel enemy) {
-    if (enemy.collidesWith(player.getCollisionBox())) {
-      return true;
+  private boolean collisionWithAnyEnemy() {
+    for (EnemyModel e : enemies) {
+        if (player.collidesWith(e.getCollisionBox())) return true;
     }
     return false;
-  }
+}
   
   /**
   * Builds a platform grid and returns the platformGrid object and corresponding enemy on grid.
@@ -319,13 +318,17 @@ public class GameModel extends Game {
    * This is used to ensure that the enemies move at a consistent speed, regardless of the frame rate.
    */
   public void updateEnemiesPos(float deltaTime) {
-    float delta = deltaTime;
-    for (EnemyModel enemy : enemies) {
-      enemy.updateMovement(player, platformHitboxes, delta);
-      // checks for collision with player
-      if (collisionCheck(enemy)){
-        playerIsHit();
-      }
+    for (Iterator<EnemyModel> it = enemies.iterator(); it.hasNext();) {
+        EnemyModel enemy = it.next();
+
+        enemy.updateMovement(player, platformHitboxes, deltaTime);
+
+        if (enemy.getHealth() <= 0) {
+            it.remove();                  // drop from list
+            addToScore();
+            continue;                     // nothing more to do
+        }
+        if (enemy.collidesWith(player.getCollisionBox())) playerIsHit();
     }
   }
 

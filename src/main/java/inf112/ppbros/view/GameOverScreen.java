@@ -42,7 +42,7 @@ public class GameOverScreen implements Screen {
         final GameModel game = gameModel;
         //this.game = game; // creates new game logic as creating a new ScreenView does not
         this.stage = new Stage(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); 
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json")); 
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
