@@ -87,7 +87,9 @@ public class PlayerController extends InputAdapter {
         }
         if (keysPressed.contains(Input.Keys.SPACE)) {
             gameModel.jump();
-            audioController.playSoundEffect("jump");
+            if (audioController != null) {
+              audioController.playSoundEffect("jump");
+            }
         }
         if (keysPressed.contains(Input.Keys.F) && isAttacking) {
           if (audioController != null) {

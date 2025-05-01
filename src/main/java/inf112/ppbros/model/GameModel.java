@@ -54,13 +54,15 @@ public class GameModel extends Game {
    */
   public GameModel(boolean createsView, boolean loadAudio) {
     this.createView = createsView;
-    if (createView) {
+    if (createView) { // To allow unit tests
       this.setScreen(new StartMenuView(this));
       EnemyModel.loadAnimations();
       // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
     }
-    if (loadAudio) {
+    if (loadAudio) { // To allow unit tests
       this.audioController = new AudioController();
+    } else {
+      this.audioController = null;
     }
     this.score = 0;
     this.cameraPos = 0;
