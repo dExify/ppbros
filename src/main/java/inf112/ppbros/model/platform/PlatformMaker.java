@@ -100,11 +100,16 @@ public class PlatformMaker {
    * @throws IllegalStateException if no patterns are available
    */
   public Platform getNext() {
-    if (patterns.isEmpty()) {
-      throw new IllegalStateException("No patterns available.");
-    }
-    int index = random.nextInt(patterns.size());
-    return new Platform(patterns.get(index));
+    // if (patterns.isEmpty()) {
+    //   throw new IllegalStateException("No patterns available.");
+    // }
+    // int index = random.nextInt(patterns.size());
+    // return new Platform(patterns.get(index));
+    return new Platform(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 0, 0, 0, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
   }
   
   /**
