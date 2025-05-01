@@ -30,8 +30,6 @@ public class EnemyModel extends AbstractEntity {
         this.width = 0;
         this.height = 0;
         this.collisionBox = new Rectangle(x, y, width, height);
-        this.slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
-        setSize(slimeTexture.getRegionWidth() / 3, slimeTexture.getRegionHeight() / 3);
     }
 
     /**
@@ -144,4 +142,8 @@ public class EnemyModel extends AbstractEntity {
         movingLeft = !movingLeft;
     }
 
+    public void initViewSize() {
+      slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
+      setSize(slimeTexture.getRegionWidth() / 3, slimeTexture.getRegionHeight() / 3);
+    }
 }

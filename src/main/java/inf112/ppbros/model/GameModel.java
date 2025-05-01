@@ -319,6 +319,7 @@ public class GameModel extends Game {
   private EnemyModel getNext(PlatformGrid grid) {
     Coordinate spawnPos = grid.getValidSpawnPos();
     EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
+    enemy.initViewSize();
     return enemy;
   }
 }
