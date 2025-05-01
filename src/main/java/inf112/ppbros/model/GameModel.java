@@ -306,7 +306,7 @@ public class GameModel extends Game {
         }
         if (enemy.collidesWith(player.getCollisionBox())) playerIsHit();
     }
-}
+  }
   
   public void loadPlayerAnimations() {
     player.loadAnimations();

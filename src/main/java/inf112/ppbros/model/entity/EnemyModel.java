@@ -11,7 +11,6 @@ import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.platform.TileConfig;
 
 public class EnemyModel extends AbstractEntity {
-    private float moveSpeed = 50.0f;
     private boolean movingLeft = true;
     private boolean movingRight = false;
     private static Animation<TextureRegion> enemyRunAnimR;
@@ -30,7 +29,7 @@ public class EnemyModel extends AbstractEntity {
     }
 
     public void updateMovement(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
-        if ((player.getY() >= this.y - TileConfig.TILE_SIZE * 2) && (player.getY() <= this.y + TileConfig.TILE_SIZE * 2)) {
+        if ((player.getY() >= this.y - TileConfig.TILE_SIZE * 2) && (player.getY() <= this.y + TileConfig.TILE_SIZE * 2) && (player.getX() >= this.x - TileConfig.TILE_SIZE * 3) && (player.getX() <= this.x + TileConfig.TILE_SIZE * 3)) {
             pathTowardsPlayer(player, hitboxes, deltaTime);
         } else {
             patrolPlatform(hitboxes, deltaTime);
@@ -38,12 +37,10 @@ public class EnemyModel extends AbstractEntity {
     }
 
     private void patrolPlatform(List<Rectangle> hitboxes, float deltaTime) {
-        this.moveSpeed = 50.0f;
         moveEnemy(hitboxes, deltaTime);
     }
 
     private void pathTowardsPlayer(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
-        this.moveSpeed = 75.0f;
         if ((player.getX() < x && !movingLeft) || (player.getX() > x && !movingRight)) {
             changeDirection();
         }
@@ -59,7 +56,7 @@ public class EnemyModel extends AbstractEntity {
             return;
         }
 
-        move(direction * moveSpeed * deltaTime, 0);
+        move(direction * speed * deltaTime, 0);
 
         if (platformCollision(hitboxes)) {
             x = prevX;
