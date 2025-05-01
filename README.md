@@ -33,6 +33,7 @@
 
 ### Sound Effects & Music
 
+
 - **Boss Theme**  
   [Boss Battle 2 (8-bit)](https://opengameart.org/content/boss-battle-2-8-bit)
 
@@ -48,6 +49,19 @@
 - **Attack Sound**  
   [3 Melee Sounds](https://opengameart.org/content/3-melee-sounds)
 
+- **Slime Being Attacked**  
+  [Slime Ultimate - The Best](https://opengameart.org/content/slime-ultimate-the-best)
+
+- **Player Taking Damage**  
+  [EVRetro - Player Damage Sound](https://freesound.org/people/EVRetro/sounds/501104/)
+
+- **Game Over Sound**  
+  [CogFireStudios - Game Over](https://freesound.org/people/CogFireStudios/sounds/676811/)
+
+- **Point Acquired Sound**  
+  [AceOfSpadesProduc100 - Point Pickup](https://freesound.org/people/AceOfSpadesProduc100/sounds/341695/)
+
+---
 
 ### UI Skin
 
@@ -55,3 +69,9 @@
   Credits to **Daniel Holderbaum**  
   - [HTL Dornbirn Repository](https://git.it-bi.htldornbirn.vol.at/mschwaer/libgdx_diverse/-/tree/5c609168e3eed3cc684a79e6548104fed66f4ce7/android/assets/skin/gdx-holo)  
   - [GitHub Profile](https://github.com/nooone)
+
+
+### License Disclaimer
+
+All sounds and assets listed above are used under the **Creative Commons CC0 (Public Domain)**, **CC BY 3.0** or **CC BY 4.0** licenses.  
+Where attribution is required, it has been provided above. For full licensing terms, please refer to the linked asset pages.
