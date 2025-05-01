@@ -186,7 +186,7 @@ public class ScreenView implements Screen {
     playerController.update(delta);
     gameModel.updatePlayer();
     
-    if (gameModel.checkOutOfBounds()) {
+    if (gameModel.isOutOfBounds()) {
       //System.out.println("Player is out of bounds!");
     }
   }
