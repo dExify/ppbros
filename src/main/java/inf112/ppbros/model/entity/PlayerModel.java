@@ -64,8 +64,8 @@ public class PlayerModel extends AbstractEntity {
         Rectangle enemyBox = enemy.getCollisionBox();
         float horizontalDistance = Math.abs(enemyBox.x - x);
         float verticalDistance = Math.abs(enemyBox.y - y);
-        boolean isNotBelow = y >= enemyBox.y;
-        return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
+        boolean isNotToofarUp = enemyBox.x <= y + height;
+        return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotToofarUp;
     }
 
     /**

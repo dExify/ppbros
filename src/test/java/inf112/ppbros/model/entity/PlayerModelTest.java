@@ -53,9 +53,9 @@ class PlayerModelTest {
     }
 
     @Test
-    void testCannotAttackIfBelow() {
+    void testCannotAttackIfTooFarUp() {
         EnemyModel enemy = mock(EnemyModel.class);
-        when(enemy.getCollisionBox()).thenReturn(new Rectangle(100, 250, 40, 100));
+        when(enemy.getCollisionBox()).thenReturn(new Rectangle(100, 350, 40, 100));
         assertFalse(player.canAttack(enemy));
     }
 
