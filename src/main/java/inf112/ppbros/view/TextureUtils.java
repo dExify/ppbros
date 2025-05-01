@@ -4,10 +4,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 
+/**
+ * Utility class for performing operations on {@link Texture} objects.
+ * 
+ * <p>This class provides methods such as resizing a texture using Pixmaps.
+ */
 public class TextureUtils {
   
   private TextureUtils() {}
   
+  /**
+   * Resizes a given {@link Texture} to the specified width and height.
+   * 
+   * @param originalTexture The original texture to resize.
+   * @param width           The desired width of the new texture.
+   * @param height          The desired height of the new texture.
+   * @return A new {@link Texture} object with the specified dimensions.
+   */
   public static Texture resizeTexture(Texture originalTexture, int width, int height) {
     // Make sure the texture is prepared (fully loaded into memory)
     originalTexture.getTextureData().prepare();  // Prepare the texture data
