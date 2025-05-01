@@ -26,7 +26,32 @@
 
 ## Runner
 * Compiles with `mvn package`.
-* Runs with `java -jar target/power-pipes-bros-1.0-SNAPSHOT-fat.jar`
+* Runs with `java -jar target/powerpipesbros-1.0-RELEASE.jar`
 * Requires Java 21+
 
 ## Credits
+
+### Sound Effects & Music
+
+- **Boss Theme**  
+  [Boss Battle 2 (8-bit)](https://opengameart.org/content/boss-battle-2-8-bit)
+
+- **Jump Initiated Sound**  
+  [Jump Sound Effect (Yo Frankie)](https://opengameart.org/content/jump-sound-effect-yo-frankie)
+
+- **Jump Landing Sound**  
+  [Jump Landing Sound](https://opengameart.org/content/jump-landing-sound)
+
+- **Background Theme**  
+  [Swamp Environment Audio](https://opengameart.org/content/swamp-environment-audio)
+
+- **Attack Sound**  
+  [3 Melee Sounds](https://opengameart.org/content/3-melee-sounds)
+
+
+### UI Skin
+
+- **GDX Holo Skin**  
+  Credits to **Daniel Holderbaum**  
+  - [HTL Dornbirn Repository](https://git.it-bi.htldornbirn.vol.at/mschwaer/libgdx_diverse/-/tree/5c609168e3eed3cc684a79e6548104fed66f4ce7/android/assets/skin/gdx-holo)  
+  - [GitHub Profile](https://github.com/nooone)
