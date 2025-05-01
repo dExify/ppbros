@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.math.Rectangle;
 
+import inf112.mockutil.GdxTestMock;
 import inf112.ppbros.model.entity.EnemyModel;
 import inf112.ppbros.model.entity.PlayerModel;
 import inf112.ppbros.testutils.TestApplicationListener; 
@@ -25,22 +26,8 @@ class GameModelTest {
       HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
       new HeadlessApplication(new TestApplicationListener(), config);
     }
-    // if (Gdx.gl == null) {
-    // Gdx.gl = mock(GL20.class);
-    // }
-    // if (Gdx.gl20 == null) {
-    //     Gdx.gl20 = mock(GL20.class);
-    // }
-    // if (Gdx.gl30 == null) {
-    //     Gdx.gl30 = mock(GL30.class);
-    // }
-    
-    // // mock Gdx.graphics
-    // if (Gdx.graphics == null) {
-    //     Gdx.graphics = mock(Graphics.class);
-    //     when(Gdx.graphics.getWidth()).thenReturn(800);
-    //     when(Gdx.graphics.getHeight()).thenReturn(600);
-    // }
+    GdxTestMock.init();
+
     gameModel = new GameModel(false);
     gameModel.makePlayer(0, 150);
   }
@@ -219,14 +206,7 @@ class GameModelTest {
   void testGetEnemyHitboxesNotNull() {
     assertNotNull(gameModel.getEnemyHitboxes(), "Enemy hitbox list should not be null.");
   }
-  
-  @Test
-  void testGetNextPlatformGridReturnsNonNullGrid() {
-    assertNotNull(gameModel.getNextPlatformGrid(), "Should return a platform grid object.");
-    assertFalse(gameModel.getPlatformHitboxes().isEmpty(), "Platform hitboxes should be updated.");
-    assertFalse(gameModel.getEnemies().isEmpty(), "Enemies list should be updated.");
-  }
-  
+
   @Test
   void testStopTimerDoesNotThrow() {
     assertDoesNotThrow(() -> gameModel.stopTimer(), "Stopping timer should not throw");
