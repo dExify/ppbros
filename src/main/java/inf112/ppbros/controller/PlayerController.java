@@ -5,24 +5,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.entity.PlayerModel;
-import inf112.ppbros.view.ScreenView;
 
 import java.util.HashSet;
 
 /**
  * The controller for Power Pipes Bros characters.
- * This class handles input for any playable characters.
+ * This class handles input for the player.
  */
 public class PlayerController extends InputAdapter {
     private final GameModel gameModel;
-    private final ScreenView gameView;
     private final AudioController audioController;
     private final HashSet<Integer> keysPressed = new HashSet<>();
     private boolean isAttacking = false;
 
-    public PlayerController(GameModel gameModel, ScreenView gameView) {
+    public PlayerController(GameModel gameModel) {
         this.gameModel = gameModel;
-        this.gameView = gameView;
         Gdx.input.setInputProcessor(this);
         this.audioController = new AudioController();
         audioController.playBackgroundMusic(true);
@@ -62,6 +59,11 @@ public class PlayerController extends InputAdapter {
         return true;
     }
 
+    /**
+     * Detetcs and handles any keypresses for movement and attack.
+     * Updates animation states for player.
+     * @param deltaTime all input is based on delta time 
+     */
     public void update(float deltaTime) {
         PlayerModel player = gameModel.getPlayer(); // get PlayerModel
 
@@ -92,17 +94,26 @@ public class PlayerController extends InputAdapter {
         player.setFacesLeft(facingLeft);
     }
 
+    /**
+     * Check if player is in movement: if any of the movement keys are being pressed
+     * @return true or false depending on is player is in movement
+     */
     public boolean isMoving() {
-        return keysPressed.contains(Input.Keys.D) ||
-               keysPressed.contains(Input.Keys.A) ||
-               keysPressed.contains(Input.Keys.W) ||
-               keysPressed.contains(Input.Keys.S);
+        return keysPressed.contains(Input.Keys.D) || keysPressed.contains(Input.Keys.A);
     }
 
+    /**
+     * Check if player is facing left
+     * @return true if player is facing left, false if they are not
+     */
     public boolean facesLeft() {
         return gameModel.getPlayer().facesLeft(); // delegate to model now
     }
 
+    /**
+     * Check if player is attacking
+     * @return true if player is attacking, false if not
+     */
     public boolean isAttacking() {
         return isAttacking;
     }

@@ -5,7 +5,11 @@ import com.badlogic.gdx.Screen;
 
 import inf112.ppbros.view.StartMenuView;
 
-// Main Game Class
+/**
+ * Main Game class of Power Pipes Bros.
+ * Initiates start menu screen and handles 
+ * trainsitions between screens.
+ */ 
 public class PowerPipesBros extends Game {
     private Screen pendingScreen; 
 
@@ -18,7 +22,6 @@ public class PowerPipesBros extends Game {
     public void render(){
         super.render();
 
-        // Handle pending screen transition
         if (pendingScreen != null) {
             if (getScreen() != null) {
                 getScreen().dispose();

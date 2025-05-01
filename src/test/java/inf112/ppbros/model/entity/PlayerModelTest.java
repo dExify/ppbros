@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.badlogic.gdx.math.Rectangle;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ class PlayerModelTest {
     @BeforeEach
     void setUp() {
         player = new PlayerModel(100, 200);
-        player.setSize(50, 100); // Setting size to enable hitbox checks
+        player.setSize(50, 100);
     }
 
     @Test
@@ -85,17 +86,17 @@ class PlayerModelTest {
     void testJumpSetsVelocityWhenOnGround() {
         List<Rectangle> platforms = new ArrayList<>();
         platforms.add(new Rectangle(100, 100, 100, 20));
-        player.setY(120); // Position player just above platform
-        player.update(1 / 60f, platforms); // Simulate update to detect platform
+        player.setY(120); // Position just above platform
+        player.update(1 / 60f, platforms);
         player.jump();
-        player.update(1 / 60f, platforms); // Jump should affect Y
+        player.update(1 / 60f, platforms);
         assertTrue(player.getY() > 120);
     }
 
     @Test
     void testUpdateGravityWhenFalling() {
         float initialY = player.getY();
-        player.update(1.0f, new ArrayList<>()); // No platforms
+        player.update(1.0f, new ArrayList<>()); // no platforms
         assertTrue(player.getY() < initialY);
     }
 
@@ -106,6 +107,15 @@ class PlayerModelTest {
         player.setY(60);
         player.update(1.0f, platforms);
         float afterY = player.getY();
-        assertEquals(70, afterY, 0.01); // Platform.y + height
+        assertEquals(70, afterY, 0.01); // platform.y + height
     }
-} 
+
+    @Test
+    void testSetAndGetFacesLeft() {
+        player.setFacesLeft(true);
+        assertTrue(player.facesLeft());
+        player.setFacesLeft(false);
+        assertFalse(player.facesLeft());
+    }
+
+}
