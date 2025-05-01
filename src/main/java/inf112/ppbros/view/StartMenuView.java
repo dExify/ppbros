@@ -57,7 +57,7 @@ public class StartMenuView implements Screen {
     startButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        GameModel model = new GameModel(true);
+        GameModel model = new GameModel(true, true);
         game.setScreen(new ScreenView(model));
       }
     });

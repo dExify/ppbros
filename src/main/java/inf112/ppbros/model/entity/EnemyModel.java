@@ -11,154 +11,179 @@ import inf112.ppbros.model.Coordinate;
 import inf112.ppbros.model.platform.TileConfig;
 
 /**
- * Represents an enemy in the game world.
- * <p>
- * The {@code EnemyModel} class defines the behavior, movement logic, and animations
- * of a basic enemy. It handles patrolling behavior when the player is far and pathfinding
- * behavior when the player is within a certain vertical range. Enemies can also load and
- * update their animations and change direction when hitting platform edges or obstacles.
- * <p>
- * This class extends {@link AbstractEntity}, inheriting shared entity properties
- * such as position, health, and collision handling.
- */
+* Represents an enemy in the game world.
+* <p>
+* The {@code EnemyModel} class defines the behavior, movement logic, and animations
+* of a basic enemy. It handles patrolling behavior when the player is far and pathfinding
+* behavior when the player is within a certain vertical range. Enemies can also load and
+* update their animations and change direction when hitting platform edges or obstacles.
+* <p>
+* This class extends {@link AbstractEntity}, inheriting shared entity properties
+* such as position, health, and collision handling.
+*/
 public class EnemyModel extends AbstractEntity {
-    private float moveSpeed = 50.0f;
-    private boolean movingLeft = true;
-    private boolean movingRight = false;
-    private static Animation<TextureRegion> enemyRunAnimR;
-    private static Animation<TextureRegion> enemyRunAnimL;
-
-    /**
-     * Creates a new enemy instance at a specified starting position
-     * @param startPos  the initial starting position
-     * @param yPos      the vertical offset to be added to the initial y position
-     */
-    public EnemyModel(Coordinate startPos, int yPos) {
-        this.x = startPos.x();
-        this.y = startPos.y() + yPos;
-        this.health = 100;
-        this.speed = 50.0f;
-        this.attackRange = 0;
-        this.attackDmg = 10;
-        this.width = 0;
-        this.height = 0;
-        this.collisionBox = new Rectangle(x, y, width, height);
+  private boolean movingLeft = true;
+  private List<Rectangle> hitboxes;
+  private float deltaTime;
+  private float playerX;
+  private float playerY;
+  private TextureRegion slimeTexture;
+  private static Animation<TextureRegion> enemyRunAnimR;
+  private static Animation<TextureRegion> enemyRunAnimL;
+  
+  /**
+  * Creates a new enemy instance at a specified starting position
+  * @param startPos  the initial starting position
+  * @param yPos      the vertical offset to be added to the initial y position
+  */
+  public EnemyModel(Coordinate startPos, int yPos) {
+    this.x = startPos.x();
+    this.y = startPos.y() + yPos;
+    this.health = 100;
+    this.speed = 50.0f;
+    this.attackRange = 0;
+    this.attackDmg = 10;
+    this.width = 0;
+    this.height = 0;
+    this.collisionBox = new Rectangle(x, y, width, height);
+  }
+  
+  /**
+  * Updates the enemy's movement based on the player's position.
+  * <p>
+  * If the player is within vertical range, the enemy will path towards the player.
+  * Otherwise it will continue patrolling the platform moving left and right switching 
+  * direction once at the end of platform or collision detected.
+  * @param player    the player to path towards
+  * @param hitboxes  list of platform hitboxes
+  * @param deltaTime time elapsed since last frame update 
+  */
+  public void updateMovement(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
+    this.hitboxes = hitboxes;
+    this.deltaTime = deltaTime;
+    this.playerX = player.getX();
+    this.playerY = player.getY();
+    
+    if (playerInRange()) {
+      pathTowardsPlayer(player);
+    } else {
+      patrolPlatform();
     }
-
-    /**
-     * Updates the enemy's movement based on the player's position.
-     * <p>
-     * If the player is within vertical range, the enemy will path towards the player.
-     * Otherwise it will continue patrolling the platform moving left and right switching 
-     * direction once at the end of platform or collision detected.
-     * @param player    the player to path towards
-     * @param hitboxes  list of platform hitboxes
-     * @param deltaTime time elapsed since last frame update 
-     */
-    public void updateMovement(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
-        if ((player.getY() >= this.y - TileConfig.TILE_SIZE * 2) && (player.getY() <= this.y + TileConfig.TILE_SIZE * 2)) {
-            pathTowardsPlayer(player, hitboxes, deltaTime);
-        } else {
-            patrolPlatform(hitboxes, deltaTime);
-        }
+  }
+  
+  
+  
+  private boolean playerInRange() {
+    return (playerY >= y - TileConfig.TILE_SIZE * 2) && (playerY <= y + TileConfig.TILE_SIZE * 2) && 
+    (playerX >= x - TileConfig.TILE_SIZE * 3) && (playerX <= x + TileConfig.TILE_SIZE * 3);
+  }
+  
+  private void patrolPlatform() {
+    moveEnemy();
+  }
+  
+  private void pathTowardsPlayer(PlayerModel player) {
+    if ((player.getX() < x && !movingLeft) || (player.getX() > x && movingLeft)) {
+      changeDirection();
     }
-
-    private void patrolPlatform(List<Rectangle> hitboxes, float deltaTime) {
-        this.moveSpeed = 50.0f;
-        moveEnemy(hitboxes, deltaTime);
+    moveEnemy();
+  }
+  
+  private void moveEnemy() {
+    float prevX = x;
+    int direction = movingLeft ? -1 : 1;
+    
+    if (!hasTileBelow()) {
+      changeDirection();
+      return;
     }
-
-    private void pathTowardsPlayer(PlayerModel player, List<Rectangle> hitboxes, float deltaTime) {
-        this.moveSpeed = 75.0f;
-        if ((player.getX() < x && !movingLeft) || (player.getX() > x && !movingRight)) {
-            changeDirection();
-        }
-        moveEnemy(hitboxes, deltaTime);
+    
+    move(direction * speed * deltaTime, 0);
+    
+    if (platformCollision()) {
+      x = prevX;
+      collisionBox.setPosition(x, y);
+      changeDirection();
     }
-
-    private void moveEnemy(List<Rectangle> hitboxes, float deltaTime) {
-        float prevX = x;
-        int direction = movingLeft ? -1 : 1;
-
-        if (!hasTileBelow(hitboxes)) {
-            changeDirection();
-            return;
-        }
-
-        move(direction * moveSpeed * deltaTime, 0);
-
-        if (platformCollision(hitboxes)) {
-            x = prevX;
-            collisionBox.setPosition(x, y);
-            changeDirection();
-        }
+  }
+  
+  private boolean hasTileBelow() {
+    float checkX = movingLeft ? x - width : x + width;
+    float checkY = y - height;
+    Rectangle checkBox = new Rectangle(checkX, checkY, width, height);
+    for (Rectangle rec : hitboxes) {
+      if (checkBox.overlaps(rec)) {   
+        return true;
+      }
     }
-
-    private boolean hasTileBelow(List<Rectangle> hitboxes) {
-        float checkX = movingLeft ? x - width : x + width;
-        float checkY = y - height;
-        Rectangle checkBox = new Rectangle(checkX, checkY, width, height / 2);
-        for (Rectangle rec : hitboxes) {
-            if (checkBox.overlaps(rec)) {
-                return true;
-            }
-        }
-        return false;
+    return false;
+  }
+  
+  
+  private boolean platformCollision() {
+    for (Rectangle rec : hitboxes) {
+      if (collisionBox.overlaps(rec)) {
+        return true;
+      }
     }
-
-    private boolean platformCollision(List<Rectangle> hitboxes) {
-        for (Rectangle rec : hitboxes) {
-            if (collisionBox.overlaps(rec)) {
-                return true;
-            }
-        }
-        return false;
+    return false;
+  }
+  
+  @Override
+  public EntityType getType() {
+    return EntityType.ENEMY;
+  }
+  
+  /**
+  * Loads the enemy animations from the specified directory.
+  * The animations are loaded into static variables for later use.
+  */
+  /**
+  * Loads the enemy animations from the specified directory.
+  * The animations are loaded into static variables for later use.
+  */
+  public static void loadAnimations() {
+    Array<TextureRegion> runFramesRight = new Array<>();
+    Array<TextureRegion> runFramesLeft = new Array<>();
+    
+    for (int i = 0; i <= 22; i++) {
+      String filenameR = String.format("idle%02dr.png", i);
+      String filenameL = String.format("idle%02dl.png", i);
+      runFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + filenameR))));
+      runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + filenameL))));
     }
-
-    /**
-     * Loads and initializes the enemy's running animation frames.
-     */
-    public static void loadAnimations() {
-        Array<TextureRegion> runFramesRight = new Array<>();
-        Array<TextureRegion> runFramesLeft = new Array<>();
-
-        for (int i = 0; i <= 22; i++) {
-            String filenameR = String.format("idle%02dr.png", i);
-            String filenameL = String.format("idle%02dl.png", i);
-            runFramesRight.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + filenameR))));
-            runFramesLeft.add(new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/idle/" + filenameL))));
-        }
-
-        enemyRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
-        enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP);
-    }
-
-    /**
-     * Reverse the enemy's horizontal movement direction.
-     * <p>
-     * Used when the enemy hits a wall or edge of a platform. 
-     */
-    public void changeDirection() {
-        movingLeft = !movingLeft;
-        movingRight = !movingRight;
-    }
-
-    /**
-     * Checks if enemy is currently facing left.
-     * @return true if the enemy is facing left, false otherwise.
-     */
-    public boolean facesLeft() {
-        return movingLeft;
-    }
-
-    @Override
-    public void updateAnimation(float delta) {
-        animationTime += delta;
-        currentFrame = movingLeft ? enemyRunAnimL.getKeyFrame(animationTime) : enemyRunAnimR.getKeyFrame(animationTime);
-    }
-
-    @Override
-    public EntityType getType() {
-        return EntityType.ENEMY;
-    }
+    
+    enemyRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
+    enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP); 
+    enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP); 
+  }
+  
+  /**
+  * Reverse the enemy's horizontal movement direction.
+  * <p>
+  * Used when the enemy hits a wall or edge of a platform. 
+  */
+  public void changeDirection() {
+    movingLeft = !movingLeft;
+  }
+  
+  /**
+  * Checks if enemy is currently facing left.
+  * @return true if the enemy is facing left, false otherwise.
+  */
+  public boolean facesLeft() {
+    return movingLeft;
+  }
+  
+  @Override
+  public void updateAnimation(float delta) {
+    animationTime += delta;
+    currentFrame = movingLeft ? enemyRunAnimL.getKeyFrame(animationTime) : enemyRunAnimR.getKeyFrame(animationTime);
+  }
+  
+  public void initViewSize() {
+    slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
+    setSize(slimeTexture.getRegionWidth() / 3, slimeTexture.getRegionHeight() / 3);
+    
+  }
 }

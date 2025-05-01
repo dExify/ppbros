@@ -60,7 +60,7 @@ public class GameOverScreen implements Screen {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new ScreenView(new GameModel(true))); // restarts game
+                ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new ScreenView(new GameModel(true, true))); // restarts game
             }
         });
 

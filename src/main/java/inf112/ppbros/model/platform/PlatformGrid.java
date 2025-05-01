@@ -207,11 +207,10 @@ public class PlatformGrid {
     // The enemy can only spawn on a platform, so we check if the tile at (x, y) is occupied (1) and the tile below it is not occupied (0)
     // This ensures that the enemy spawns on top of a platform and not in the air or below it
     while (true) {
-      int x = random.nextInt(TileConfig.GRID_WIDTH); // random x coordinate for enemy
+      int x = random.nextInt(TileConfig.GRID_WIDTH - 1) + 1; // random x coordinate for enemy
       int y = random.nextInt(TileConfig.GRID_HEIGHT - 1) + 1; // random y coordinate for enemy
       coordinate = new Coordinate(x, y); // random coordinate for enemy
       if (isFree(x, y) && isOnGround(x, y)) {
-        // TODO: MAKE A CHECK THAT TAKES IN CONSIDERATION OF ENEMY'S SURROUNDING AREA (DON'T LET IT SPAWN WHEN ANOTHER ENEMY IS NEARBY)
         return coordinate; // returns the valid spawn coordnate for the enemy
       } else {
         continue; // if the coordinate is not valid, continue to search for a new one
@@ -224,7 +223,11 @@ public class PlatformGrid {
   }
 
   private boolean isOnGround(int x, int y) {
-    return tileGrid[x][y-1] != 0;
+    boolean occupiedTile = (tileGrid[x][y-1] != 0)
+                        && (tileGrid[x][y-1] != 5) 
+                        && (tileGrid[x][y-1] != 7)
+                        && (tileGrid[x-1][y-1] != 0);
+    return (occupiedTile);
   }
 
   /**

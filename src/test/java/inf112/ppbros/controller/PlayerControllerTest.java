@@ -29,7 +29,7 @@ public class PlayerControllerTest {
         // Mock Gdx.input
         Gdx.input = Mockito.mock(Input.class);
         GdxTestMock.init();
-        model = new GameModel(false);
+        model = new GameModel(false, false);
         model.makePlayer(0, 150);
         player = model.getPlayer();
         player.setSize(50, 100); // Ensure player has size so collision checks behave as expected
