@@ -5,10 +5,12 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import java.util.HashMap;
 
+/**
+ * AudioController crates and handles all audio, sound and music within the game. 
+ */
 public class AudioController {
   private Music backgroundMusic;
   private HashMap<String, Sound> soundEffects;
-  
   
   /**
   * Constructs a AudioController-object, responsible for playing background music and sound effects.
@@ -20,7 +22,10 @@ public class AudioController {
     loadSoundEffect("landing", "audio/jump_landing.mp3");
     loadSoundEffect("attack", "audio/sword_attack.mp3");
     loadSoundEffect("bossfight", "audio/boss_battle.mp3");
-    
+    loadSoundEffect("enemyAttacked", "audio/slime_step_1.mp3");
+    loadSoundEffect("takeDamage","audio/take_damage_sound.mp3");
+    loadSoundEffect("gameOver", "audio/loose_game_sound.mp3");
+    loadSoundEffect("pointAcquired", "audio/point_acquired.mp3");
   }
   
   private void loadBackgroundMusic(String filePath) {
@@ -66,6 +71,9 @@ public class AudioController {
     }
   }
   
+  /**
+   * Disposes of any sounds and musics
+   */
   public void dispose() {
     if (backgroundMusic != null) {
       backgroundMusic.dispose();

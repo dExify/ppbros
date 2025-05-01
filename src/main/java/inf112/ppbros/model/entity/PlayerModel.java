@@ -8,8 +8,16 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import inf112.ppbros.controller.AudioController;
 
+/**
+ * Represents the player in the game.
+ * <p>
+ * The {@code PlayerModel} handles player-specific attributes such as movement,
+ * jumping, attacking, collision with platforms, and animation states.
+ * <p>
+ * It extends {@link AbstractEntity} and provides player-specific logic on top of
+ * shared entity functionality.
+ */
 public class PlayerModel extends AbstractEntity {
     private float velocityY = 0;
     private TextureRegion playerTextureRight;
@@ -26,6 +34,12 @@ public class PlayerModel extends AbstractEntity {
     private final float JUMP_VELOCITY = 900f;
     private boolean isOnGround = false;
 
+    /**
+     * Constructs a new player instance at the given starting position.
+     * 
+     * @param startX the initial horizontal position of the player.
+     * @param startY the initial vertical position of the player.
+     */
     public PlayerModel(float startX, float startY) {
         this.x = startX;
         this.y = startY;
@@ -38,8 +52,15 @@ public class PlayerModel extends AbstractEntity {
         this.collisionBox = new Rectangle(x, y, width, height);
     }
 
+    /**
+     * Determines whether the player can attack the specified enemy.
+     * <p>
+     * A valid attack requires that the enemy is within both horizontal and vertical
+     * attack range and is not positioned below the player.
+     * @param enemy the enemy entity to check.
+     * @return {@code true} if enemy is within attack range, {code false} otherwise.
+     */
     public boolean canAttack(Entity enemy) {
-        if (!(enemy instanceof EnemyModel)) return false;
         Rectangle enemyBox = enemy.getCollisionBox();
         float horizontalDistance = Math.abs(enemyBox.x - x);
         float verticalDistance = Math.abs(enemyBox.y - y);
@@ -47,6 +68,15 @@ public class PlayerModel extends AbstractEntity {
         return horizontalDistance <= attackRange && verticalDistance <= attackRange && isNotBelow;
     }
 
+    /**
+     * Updates the player's vertical position and collision state.
+     * <p>
+     * Applies gravity if the player is not on the ground, and checks for collisions
+     * with nearby platform hitboxes. Adjusts the player's position to align with
+     * the top of platforms when collisions occur.
+     * @param deltaTime         time elapsed since the last update
+     * @param platformHitboxes  list of platform rectangles to check collisions against
+     */
     public void update(float deltaTime, List<Rectangle> platformHitboxes) {
         platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - this.getY())));
         
@@ -70,6 +100,11 @@ public class PlayerModel extends AbstractEntity {
         }
     }
 
+    /**
+     * Causes the player to jump if they are currently on the ground.
+     * <p>
+     * Sets the vertical velocity to a jump speed and disables ground status.
+     */
     public void jump() {
         if (isOnGround) {
             velocityY = JUMP_VELOCITY;
@@ -77,11 +112,12 @@ public class PlayerModel extends AbstractEntity {
         }
     }
 
-    @Override
-    public EntityType getType() {
-        return EntityType.MAIN_CHARACTER;
-    }
-
+    /**
+     * Loads and initializes textures and animations for the player.
+     * <p>
+     * This includes idle, running, and attack animations for both
+     * left- and right-facing directions.
+     */
     public void loadAnimations() {
         playerTextureRight = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_r.png")));
         playerTextureLeft = new TextureRegion(new Texture(Gdx.files.internal("entity/player/player_l.png")));
@@ -109,6 +145,42 @@ public class PlayerModel extends AbstractEntity {
         setSize(playerTextureRight.getRegionWidth() / 3, playerTextureRight.getRegionHeight() / 3);
     }
 
+    /**
+     * Sets whether the player is currently moving.
+     *
+     * @param moving {@code true} if the player is moving; {@code false} otherwise
+     */
+    public void setMoving(boolean moving) {
+        this.isMoving = moving;
+    }
+
+    /**
+     * Sets whether the player is currently attacking.
+     *
+     * @param attacking {@code true} if the player is attacking; {@code false} otherwise
+     */
+    public void setAttacking(boolean attacking) {
+        this.isAttacking = attacking;
+    }
+
+    /**
+     * Sets the direction the player is facing.
+     *
+     * @param facesLeft {@code true} if the player should face left; {@code false} to face right
+     */
+    public void setFacesLeft(boolean facesLeft) {
+        this.facesLeft = facesLeft;
+    }
+
+    /**
+     * Checks if the player is currently facing left.
+     *
+     * @return {@code true} if the player is facing left; {@code false} otherwise
+     */
+    public boolean facesLeft() {
+        return facesLeft;
+    }
+
     @Override
     public void updateAnimation(float delta) {
         animationTime += delta;
@@ -120,20 +192,10 @@ public class PlayerModel extends AbstractEntity {
             currentFrame = facesLeft ? playerRunAnimL.getKeyFrame(animationTime) : playerRunAnimR.getKeyFrame(animationTime);
         }
     }
-
-    public void setMoving(boolean moving) {
-        this.isMoving = moving;
+    
+    @Override
+    public EntityType getType() {
+        return EntityType.MAIN_CHARACTER;
     }
 
-    public void setAttacking(boolean attacking) {
-        this.isAttacking = attacking;
-    }
-
-    public void setFacesLeft(boolean facesLeft) {
-        this.facesLeft = facesLeft;
-    }
-
-    public boolean facesLeft() {
-        return facesLeft;
-    }
 }

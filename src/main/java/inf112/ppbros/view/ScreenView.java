@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
 
 import inf112.ppbros.app.PowerPipesBros;
 import inf112.ppbros.controller.PlayerController;
@@ -26,6 +24,17 @@ import inf112.ppbros.model.entity.PlayerModel;
 import inf112.ppbros.model.platform.PlatformGrid;
 import inf112.ppbros.model.platform.TileConfig;
 
+/**
+ * The ScreenView class represents the main game screen where the gameplay occurs.
+ * It is responsible for rendering the game world, managing the camera, UI overlays,
+ * drawing the player, enemies, platform tiles, and handling scene transitions such as
+ * game over.
+ *
+ * <p>This class serves as the visual representation of the game state defined by {@link GameModel},
+ * where {@link PlayerController} handles input for character movement.
+ * It handles rendering background, platforms, entities, UI elements like score and health,
+ * and orchestrates the update loop in sync with LibGDX's rendering cycle.
+ */
 public class ScreenView implements Screen {
   
   private GameModel gameModel;
@@ -37,7 +46,6 @@ public class ScreenView implements Screen {
   private Stage stage;
   private Label scoreLabel;
   private Label healthLabel;
-  
   
   private static final int TILE_SIZE = TileConfig.TILE_SIZE;
   private int yPos;
@@ -55,8 +63,6 @@ public class ScreenView implements Screen {
   
   private PlayerModel player;
 
-  
-  
   private TextureRegion currentFrame;
   private float animationTime = 0;
   
@@ -65,9 +71,14 @@ public class ScreenView implements Screen {
   
   private boolean drawInfiniteBackground;
   
+  /**
+   * Constructs the main gameplay screen with a reference to the game's logic.
+   *
+   * @param model the GameModel containing the logic and state of the game
+   */
   public ScreenView(GameModel model) {
     this.gameModel = model;
-    this.playerController = new PlayerController(model, this);
+    this.playerController = new PlayerController(model, true);
     
   }
   
@@ -83,7 +94,7 @@ public class ScreenView implements Screen {
     // Make UI overlay
     stage = new Stage();
     // Make UI overlay for score and health bar
-    skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
+    skin = new Skin(Gdx.files.internal("skin/uiskin.json")); // Placeholderskin til vi er ferdig med å lage vårt eget
     scoreTable = new Table();
     healthTable = new Table();
     scoreLabel = new Label("", skin);
@@ -160,10 +171,6 @@ public class ScreenView implements Screen {
     //drawPlayerAttack();
     
     enemies = gameModel.getEnemies();
-    // // Set size for enemies based on enemy texture
-     for (EnemyModel enemy : enemies) {
-       enemy.setSize(160,110);
-     }
     
     // temp for texture
     drawEnemies(delta);
@@ -203,8 +210,8 @@ public class ScreenView implements Screen {
     // drawEnemiesHitbox(); //debugging
   }
   
-  
-  
+  // === Debugging Methods ===
+
   private void drawHitboxes() {
     batch.begin();
     for (Rectangle rec : gameModel.getPlatformHitboxes()) {
@@ -219,7 +226,18 @@ public class ScreenView implements Screen {
     batch.draw(debuggingTexture, playerCollisionBox.getX(), playerCollisionBox.getY(), playerCollisionBox.getWidth(), playerCollisionBox.getHeight());
     batch.end();
   }
-  
+
+  private void drawEnemiesHitbox() {
+    enemies = gameModel.getEnemies();
+    batch.begin();
+    for (EnemyModel enemy : enemies){
+      batch.draw(debuggingTexture, enemy.getCollisionBox().getX(), enemy.getCollisionBox().getY(), enemy.getCollisionBox().getWidth(), enemy.getCollisionBox().getHeight());
+      // System.out.println("Enemy at: " + enemy.getCollisionBox().getX() + ", " + enemy.getCollisionBox().getY());
+      // System.out.println("Size: " + enemy.getCollisionBox().getWidth() + "x" + enemy.getCollisionBox().getHeight());
+    }
+    batch.end();
+  }
+
   private void drawEnemies(float delta) {
     enemies = gameModel.getEnemies();
     batch.begin();
@@ -232,20 +250,7 @@ public class ScreenView implements Screen {
     
     batch.end();
   }
-  
-  
-  
-  private void drawEnemiesHitbox() {
-    enemies = gameModel.getEnemies();
-    batch.begin();
-    for (EnemyModel enemy : enemies){
-      batch.draw(debuggingTexture, enemy.getCollisionBox().getX(), enemy.getCollisionBox().getY(), enemy.getCollisionBox().getWidth(), enemy.getCollisionBox().getHeight());
-      // System.out.println("Enemy at: " + enemy.getCollisionBox().getX() + ", " + enemy.getCollisionBox().getY());
-      // System.out.println("Size: " + enemy.getCollisionBox().getWidth() + "x" + enemy.getCollisionBox().getHeight());
-    }
-    batch.end();
-  }
-  
+
   private void drawPlayerAttack() {
     batch.begin();
     batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
@@ -281,7 +286,7 @@ public class ScreenView implements Screen {
   
   /**
   * Renders the platform grid
-  * @param platformGrid
+  * @param platformGrid to be rendered
   */
   private void drawPlatformGrid(PlatformGrid platformGrid) {
     yPos = platformGrid.getYPos();
@@ -323,19 +328,16 @@ public class ScreenView implements Screen {
   @Override
   public void pause() {
     // Not implemented
-    
   }
   
   @Override
   public void resume() {
     // Not implemented
-    
   }
   
   @Override
   public void hide() {
     // Not implemented
-    
   }
   
   @Override

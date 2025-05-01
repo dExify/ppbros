@@ -15,21 +15,34 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import inf112.ppbros.app.PowerPipesBros;
 import inf112.ppbros.model.GameModel;
 
+/**
+ * The {@code GameOverScreen} class represents the screen that appears
+ * when the game has ended. It displays a "Game Over" message, the player's score,
+ * and provides UI buttons to either retry the game or exit the application.
+ * <p>
+ * This screen is implemented using libGDX's Scene2D UI framework and includes:
+ * <ul>
+ *   <li>A label indicating the game is over</li>
+ *   <li>The final score from the {@link GameModel}</li>
+ *   <li>A "Retry" button to restart the game</li>
+ *   <li>An "Exit" button to close the application</li>
+ * </ul>
+ *
+ * This screen is designed to be shown after the player loses or finishes the game.
+ */
 public class GameOverScreen implements Screen {
-    private final GameModel game;
     private final Stage stage;
     private final Skin skin;
     
     /**
-     * A game over screen appears when the game is ended, score is displayed
-     * and interactable buttons are available. Buttons can be pressed on to
-     * retry the game or exit the program.
+     * Constructs the game over with a title, score count, retry button, and exit button.
      * @param game game that just ended.
      * */
-    public GameOverScreen(GameModel game) {
-        this.game = game; // creates new game logic as creating a new ScreenView does not
+    public GameOverScreen(GameModel gameModel) {
+        final GameModel game = gameModel;
+        //this.game = game; // creates new game logic as creating a new ScreenView does not
         this.stage = new Stage(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal("clean-crispy-ui.json")); 
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json")); 
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
@@ -47,7 +60,7 @@ public class GameOverScreen implements Screen {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new ScreenView(new GameModel(true))); // restarts game
+                ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new ScreenView(new GameModel(true, true))); // restarts game
             }
         });
 
