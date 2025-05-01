@@ -14,7 +14,14 @@
 - Attack sound
 * https://opengameart.org/content/3-melee-sounds
 
-- GDX Holo skin
-- - Credits to Daniel Holderbaum.
-* https://git.it-bi.htldornbirn.vol.at/mschwaer/libgdx_diverse/-/tree/5c609168e3eed3cc684a79e6548104fed66f4ce7/android/assets/skin/gdx-holo
-* https://github.com/nooone
+- Slime being attacked 
+* https://opengameart.org/content/slime-ultimate-the-best
+
+- Player taking damage
+* https://freesound.org/people/EVRetro/sounds/501104/
+
+- Game Over
+* https://freesound.org/people/CogFireStudios/sounds/676811/
+
+- Point acquired sound
+* https://freesound.org/people/AceOfSpadesProduc100/sounds/341695/

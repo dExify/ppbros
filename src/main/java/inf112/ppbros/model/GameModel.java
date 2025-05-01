@@ -10,6 +10,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
+import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.model.entity.EnemyModel;
 import inf112.ppbros.model.entity.PlayerModel;
 import inf112.ppbros.model.entity.RandomEnemyMaker;
@@ -31,6 +32,7 @@ import inf112.ppbros.view.TilePositionInPixels;
  */
 public class GameModel extends Game {
   private boolean createView;
+  private AudioController audioController;
   private PlayerModel player;
   private int score;
   private List<EnemyModel> enemies;
@@ -59,7 +61,7 @@ public class GameModel extends Game {
       EnemyModel.loadAnimations(); 
       // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
     }
-    
+    this.audioController = new AudioController();
     this.score = 0;
     this.cameraPos = 0;
     this.platformGridMaker = new PlatformGridMaker();
@@ -108,6 +110,7 @@ public class GameModel extends Game {
   * Increments the score by 1.
   */
   public void addToScore(){
+    audioController.playSoundEffect("pointAcquired");
     score ++;
   }
   
@@ -175,9 +178,13 @@ public class GameModel extends Game {
     long now = System.currentTimeMillis();
     if (now - lastExecution >= COOLDOWNTIME){
       lastExecution = now;
+      audioController.playSoundEffect("takeDamage");
       player.takeDamage(10); // change to getAttackdmg() but once we have added mutiple enemy types? 
       System.out.println("Player is hit, -10 hp!");
       System.out.println("Player health: " + player.getHealth());
+      if (player.getHealth() == 0) {
+        audioController.playSoundEffect("gameOver");
+      }
     }
   }
   
