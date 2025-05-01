@@ -28,7 +28,7 @@ class GameModelTest {
     }
     GdxTestMock.init();
 
-    gameModel = new GameModel(false);
+    gameModel = new GameModel(false, true);
     gameModel.makePlayer(0, 150);
   }
   
