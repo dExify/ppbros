@@ -31,11 +31,6 @@ public class PlatformMaker {
     //     { 1, 0, 0, 0, 1 },
     //     { 1, 1, 1, 1, 1 },
     // });
-    // patterns.add(new int[][] {
-    //         { 1, 1, 1, 1 },
-    //         { 1, 0, 0, 1 },
-    //         { 1, 1, 1, 1 },
-    //     });
   }
   
   private void addDefaultPatterns() {
@@ -75,45 +70,7 @@ public class PlatformMaker {
       { 1, 1, 1, 1, 1 },
     });
   }
-  
-  // private void addDefaultPatterns() {
-  //     patterns.add(new int[][] {
-  //         { 1, 0, 0, 0 },
-  //         { 1, 5, 0, 1 },
-  //         { 1, 1, 1, 0 },
-  //     });
-  //     patterns.add(new int[][] {
-  //         { 0, 0, 0, 0 },
-  //         { 7, 0, 0, 0 },
-  //         { 1, 1, 1, 1 },
-  //     });
-  //     patterns.add(new int[][] {
-  //         { 1, 0, 0, 0 },
-  //         { 0, 0, 5, 0 },
-  //         { 0, 1, 1, 1 },
-  //     });
-  //     patterns.add(new int[][] {
-  //         { 0, 0, 0, 7 },
-  //         { 7, 5, 0, 1 },
-  //         { 1, 1, 0, 0 },
-  //     });
-  //     patterns.add(new int[][] {
-  //         { 0, 0, 0, 0 },
-  //         { 1, 1, 7, 0 },
-  //         { 0, 0, 1, 1 },
-  //     });
-  //     patterns.add(new int[][] {
-  //         { 0, 0, 0, 0 },
-  //         { 0, 0, 0, 0 },
-  //         { 0, 0, 1, 1 },
-  //     });
-  //     patterns.add(new int[][] {
-  //         { 0, 0, 0, 0 },
-  //         { 0, 5, 0, 0 },
-  //         { 1, 1, 1, 0 },
-  //     });
-  // }
-  
+
   /**
    * Adds a new platform pattern to the list of available patterns.
    * The pattern must match the predefined width and height.
@@ -122,7 +79,7 @@ public class PlatformMaker {
    * @throws IllegalStateException if the pattern dimensions are invalid
    */
   public void addPattern(int[][] pattern) {
-    if (pattern.length == platformWidth && pattern[0].length == platformHeight) {
+    if (pattern.length == platformHeight && pattern[0].length == platformWidth) {
       patterns.add(pattern);
     } else {
       throw new IllegalStateException("Platform is not of the right length");

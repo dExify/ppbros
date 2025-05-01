@@ -200,7 +200,7 @@ public class PlatformGrid {
    * Finds a valid spawn coordinate for the enemy in the platform grid
    * @param grid the platform grid to check for valid spawn coordinates
    */
-  public Coordinate getValidSpawnPos() {
+  public Coordinate getValidEnemySpawnPos() {
     Coordinate coordinate;
     
     // Loop until a valid spawn coordinate is found
