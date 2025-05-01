@@ -57,6 +57,7 @@ public class GameModel extends Game {
     if (createView) {
       this.setScreen(new StartMenuView(this));
       EnemyModel.loadAnimations();
+      EnemyModel.loadAnimations();
       // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
     }
     this.audioController = new AudioController();
@@ -244,6 +245,7 @@ public class GameModel extends Game {
   */
   private void updateEnemies(PlatformGrid platformGrid) {
     EnemyModel newEnemy = getNext(platformGrid);
+    EnemyModel newEnemy = getNext(platformGrid);
     // Convert enemy positions from tiles to pixels 
     Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TILESIZE);
     // Update and add collisionbox to a list of all enemy collision boxes 
@@ -324,6 +326,17 @@ public class GameModel extends Game {
   public void updateEnemiesPos(float deltaTime) {
     for (Iterator<EnemyModel> it = enemies.iterator(); it.hasNext();) {
       EnemyModel enemy = it.next();
+      EnemyModel enemy = it.next();
+
+      if (enemy.getHealth() <= 0) {
+        it.remove();
+        addToScore();
+        continue;
+      }
+
+      enemy.updateMovement(player, platformHitboxes, deltaTime);
+
+      if (enemy.collidesWith(player.getCollisionBox())) playerIsHit();
 
       if (enemy.getHealth() <= 0) {
         it.remove();
@@ -343,6 +356,18 @@ public class GameModel extends Game {
    */
   public void loadPlayerAnimations() {
     player.loadAnimations();
+  }
+
+  /**
+   * Returns a new enemy, in a valid position on the platform grid
+  * @param grid the platform grid to check for valid spawn coordinates
+  * @return EnemyModel
+  */
+  private EnemyModel getNext(PlatformGrid grid) {
+    Coordinate spawnPos = grid.getValidSpawnPos();
+    EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
+    enemy.initViewSize();
+    return enemy;
   }
 
   /**

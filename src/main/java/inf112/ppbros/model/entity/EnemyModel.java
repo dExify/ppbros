@@ -28,6 +28,11 @@ public class EnemyModel extends AbstractEntity {
     private float playerX;
     private float playerY;
     private TextureRegion slimeTexture;
+    private List<Rectangle> hitboxes;
+    private float deltaTime;
+    private float playerX;
+    private float playerY;
+    private TextureRegion slimeTexture;
     private static Animation<TextureRegion> enemyRunAnimR;
     private static Animation<TextureRegion> enemyRunAnimL;
 
@@ -66,7 +71,15 @@ public class EnemyModel extends AbstractEntity {
 
         if (playerInRange()) {
             pathTowardsPlayer(player);
+        this.hitboxes = hitboxes;
+        this.deltaTime = deltaTime;
+        this.playerX = player.getX();
+        this.playerY = player.getY();
+
+        if (playerInRange()) {
+            pathTowardsPlayer(player);
         } else {
+            patrolPlatform();
             patrolPlatform();
         }
     }
@@ -78,26 +91,40 @@ public class EnemyModel extends AbstractEntity {
 
     private void patrolPlatform() {
         moveEnemy();
+    private boolean playerInRange() {
+        return (playerY >= y - TileConfig.TILE_SIZE * 2) && (playerY <= y + TileConfig.TILE_SIZE * 2) && 
+                (playerX >= x - TileConfig.TILE_SIZE * 3) && (playerX <= x + TileConfig.TILE_SIZE * 3);
     }
 
+    private void patrolPlatform() {
+        moveEnemy();
+    }
+
+    private void pathTowardsPlayer(PlayerModel player) {
+        if ((player.getX() < x && !movingLeft) || (player.getX() > x && movingLeft)) {
     private void pathTowardsPlayer(PlayerModel player) {
         if ((player.getX() < x && !movingLeft) || (player.getX() > x && movingLeft)) {
             changeDirection();
         }
         moveEnemy();
+        moveEnemy();
     }
 
+    private void moveEnemy() {
     private void moveEnemy() {
         float prevX = x;
         int direction = movingLeft ? -1 : 1;
 
+        if (!hasTileBelow()) {
         if (!hasTileBelow()) {
             changeDirection();
             return;
         }
 
         move(direction * speed * deltaTime, 0);
+        move(direction * speed * deltaTime, 0);
 
+        if (platformCollision()) {
         if (platformCollision()) {
             x = prevX;
             collisionBox.setPosition(x, y);
@@ -106,10 +133,13 @@ public class EnemyModel extends AbstractEntity {
     }
 
     private boolean hasTileBelow() {
+    private boolean hasTileBelow() {
         float checkX = movingLeft ? x - width : x + width;
         float checkY = y - height;
         Rectangle checkBox = new Rectangle(checkX, checkY, width, height);
+        Rectangle checkBox = new Rectangle(checkX, checkY, width, height);
         for (Rectangle rec : hitboxes) {
+            if (checkBox.overlaps(rec)) {   
             if (checkBox.overlaps(rec)) {   
                 return true;
             }
@@ -117,6 +147,7 @@ public class EnemyModel extends AbstractEntity {
         return false;
     }
 
+    private boolean platformCollision() {
     private boolean platformCollision() {
         for (Rectangle rec : hitboxes) {
             if (collisionBox.overlaps(rec)) {
@@ -135,6 +166,10 @@ public class EnemyModel extends AbstractEntity {
      * Loads the enemy animations from the specified directory.
      * The animations are loaded into static variables for later use.
      */
+    /**
+     * Loads the enemy animations from the specified directory.
+     * The animations are loaded into static variables for later use.
+     */
     public static void loadAnimations() {
         Array<TextureRegion> runFramesRight = new Array<>();
         Array<TextureRegion> runFramesLeft = new Array<>();
@@ -147,6 +182,7 @@ public class EnemyModel extends AbstractEntity {
         }
 
         enemyRunAnimR = new Animation<>(0.1f, runFramesRight, Animation.PlayMode.LOOP);
+        enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP); 
         enemyRunAnimL = new Animation<>(0.1f, runFramesLeft, Animation.PlayMode.LOOP); 
     }
 
@@ -178,6 +214,9 @@ public class EnemyModel extends AbstractEntity {
         return EntityType.ENEMY;
     }
 
+    public void initViewSize() {
+      slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
+      setSize(slimeTexture.getRegionWidth() / 3, slimeTexture.getRegionHeight() / 3);
     public void initViewSize() {
       slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
       setSize(slimeTexture.getRegionWidth() / 3, slimeTexture.getRegionHeight() / 3);
