@@ -22,6 +22,7 @@ import inf112.ppbros.model.platform.TileConfig;
  * such as position, health, and collision handling.
  */
 public class EnemyModel extends AbstractEntity {
+
     private float moveSpeed = 50.0f;
     private boolean movingLeft = true;
     private boolean movingRight = false;
@@ -35,7 +36,7 @@ public class EnemyModel extends AbstractEntity {
      */
     public EnemyModel(Coordinate startPos, int yPos) {
         this.x = startPos.x();
-        this.y = startPos.y() + yPos;
+        this.y = startPos.y() + (float) yPos;
         this.health = 100;
         this.speed = 50.0f;
         this.attackRange = 0;

@@ -54,14 +54,18 @@ public class GameModel extends Game {
    *
    * @param createsView Whether to create and show the view immediately.
    */
-  public GameModel(boolean createsView) {
+  public GameModel(boolean createsView, boolean loadAudio) {
     this.createView = createsView;
-    if (createView) {
+    if (createView) { // To allow unit tests
       this.setScreen(new StartMenuView(this));
       EnemyModel.loadAnimations(); 
       // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
     }
-    this.audioController = new AudioController();
+    if (loadAudio) { // To allow unit tests
+      this.audioController = new AudioController();
+    } else {
+      this.audioController = null;
+    }
     this.score = 0;
     this.cameraPos = 0;
     this.platformGridMaker = new PlatformGridMaker();

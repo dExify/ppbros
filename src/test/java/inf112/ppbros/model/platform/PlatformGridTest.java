@@ -15,7 +15,6 @@ import inf112.mockutil.GdxTestMock;
 import inf112.ppbros.model.Coordinate;
 
 import java.util.List;
-import java.util.Random;
 
 class PlatformGridTest {
 
@@ -87,25 +86,25 @@ class PlatformGridTest {
         when(mockMaker.getPlatformHeight()).thenReturn(1);
         when(mockMaker.getPlatformWidth()).thenReturn(3);
 
-        PlatformGrid platformGrid = new PlatformGrid(mockMaker, 0);
-        platformGrid.buildGrid(1);
+        PlatformGrid platformGridBuilt = new PlatformGrid(mockMaker, 0);
+        platformGridBuilt.buildGrid(1);
 
-        Coordinate spawnPos = platformGrid.getValidEnemySpawnPos();
+        Coordinate spawnPos = platformGridBuilt.getValidEnemySpawnPos();
 
         int x = spawnPos.x();
         int y = spawnPos.y();
 
-        assertEquals(0, platformGrid.get(x, y), "Spawn position should be free (0)");
-        assertTrue(platformGrid.get(x, y - 1) != 0, "Tile below spawn position should be occupied (non-zero)");
+        assertEquals(0, platformGridBuilt.get(x, y), "Spawn position should be free (0)");
+        assertNotEquals(0,platformGridBuilt.get(x, y - 1), "Tile below spawn position should be occupied (non-zero)");
     }
 
     @Test
     void testTileGridHeight() {
-        assertEquals(platformGrid.tileGridHeight(), TileConfig.GRID_HEIGHT);
+        assertEquals(TileConfig.GRID_HEIGHT, platformGrid.tileGridHeight());
     }
 
     @Test
     void testTileGridWidth() {
-        assertEquals(platformGrid.tileGridWidth(), TileConfig.GRID_WIDTH);
+        assertEquals(TileConfig.GRID_WIDTH, platformGrid.tileGridWidth());
     }
 }

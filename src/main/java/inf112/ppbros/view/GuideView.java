@@ -3,7 +3,6 @@ package inf112.ppbros.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class GuideView implements Screen {
   
+  @SuppressWarnings("unused")
   private Game game;
   private StartMenuView view;
   private Stage stage;
@@ -94,18 +94,17 @@ public class GuideView implements Screen {
   
   @Override
   public void pause() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'pause'");
+    // Not used
   }
   
   @Override
   public void resume() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'resume'");
+    // Not used
   }
   
   @Override
   public void hide() {
+    // Not used
   }
   
   @Override

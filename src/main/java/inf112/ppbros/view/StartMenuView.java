@@ -3,9 +3,7 @@ package inf112.ppbros.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -57,7 +55,7 @@ public class StartMenuView implements Screen {
     startButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        GameModel model = new GameModel(true);
+        GameModel model = new GameModel(true, true);
         game.setScreen(new ScreenView(model));
       }
     });

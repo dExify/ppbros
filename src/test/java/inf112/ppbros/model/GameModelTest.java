@@ -25,23 +25,8 @@ class GameModelTest {
       HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
       new HeadlessApplication(new TestApplicationListener(), config);
     }
-    // if (Gdx.gl == null) {
-    // Gdx.gl = mock(GL20.class);
-    // }
-    // if (Gdx.gl20 == null) {
-    //     Gdx.gl20 = mock(GL20.class);
-    // }
-    // if (Gdx.gl30 == null) {
-    //     Gdx.gl30 = mock(GL30.class);
-    // }
-    
-    // // mock Gdx.graphics
-    // if (Gdx.graphics == null) {
-    //     Gdx.graphics = mock(Graphics.class);
-    //     when(Gdx.graphics.getWidth()).thenReturn(800);
-    //     when(Gdx.graphics.getHeight()).thenReturn(600);
-    // }
-    gameModel = new GameModel(false);
+
+    gameModel = new GameModel(false, true);
     gameModel.makePlayer(0, 150);
   }
   

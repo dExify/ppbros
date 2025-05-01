@@ -60,7 +60,7 @@ public class GameOverScreen implements Screen {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new ScreenView(new GameModel(true))); // restarts game
+                ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new ScreenView(new GameModel(true, true))); // restarts game
             }
         });
 
@@ -81,14 +81,12 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
+      // Not used
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0,0,0,1,true);
-
-        // Gdx.gl.glClearColor(0, 0, 0, 1);
-        // Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
         stage.draw();
@@ -100,11 +98,19 @@ public class GameOverScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() { 
+      // Not used
+      }
+
     @Override
-    public void resume() {}
+    public void resume() {
+      // Not used
+    }
     @Override
-    public void hide() {}
+    public void hide() {
+      // Not used
+    }
+
     @Override
     public void dispose() {
         stage.dispose();

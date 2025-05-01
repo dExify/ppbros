@@ -125,14 +125,14 @@ public class PlatformGrid {
     * @param x the relative x position within the platform pattern
     * @param y the relative y position within the platform pattern
     */
-    private void insertTile(int tileType, Coordinate platformStart, int x, int y) { //Todo: Update this method so that it is affected by yPos
+    private void insertTile(int tileType, Coordinate platformStart, int x, int y) {
       int gridX = platformStart.x() + x;
       int gridY = platformStart.y() + y;
       tileGrid[gridX][gridY] = tileType;
       if (tileType == 1) {
         updateOccupiedCoordinates(gridX, gridY);
         Coordinate tilePosInPixels = TilePositionInPixels.getTilePosInPixels(gridX, gridY, TILE_SIZE);
-        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + yPos, TILE_SIZE, TILE_SIZE));
+        hitboxes.add(new Rectangle(tilePosInPixels.x(), tilePosInPixels.y() + (float) yPos, TILE_SIZE, TILE_SIZE));
       }
     }
     
@@ -211,11 +211,8 @@ public class PlatformGrid {
       int y = random.nextInt(TileConfig.GRID_HEIGHT - 1) + 1; // random y coordinate for enemy
       coordinate = new Coordinate(x, y); // random coordinate for enemy
       if (isFree(x, y) && isOnGround(x, y)) {
-        // TODO: MAKE A CHECK THAT TAKES IN CONSIDERATION OF ENEMY'S SURROUNDING AREA (DON'T LET IT SPAWN WHEN ANOTHER ENEMY IS NEARBY)
         return coordinate; // returns the valid spawn coordnate for the enemy
-      } else {
-        continue; // if the coordinate is not valid, continue to search for a new one
-      }
+      } 
     }
   }
 

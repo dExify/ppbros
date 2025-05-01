@@ -2,9 +2,6 @@ package inf112.ppbros.controller;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
-import java.util.HashSet;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +14,7 @@ import inf112.mockutil.GdxTestMock;
 import inf112.ppbros.model.GameModel;
 import inf112.ppbros.model.entity.PlayerModel;
 
-public class PlayerControllerTest {
+class PlayerControllerTest {
 
     private GameModel model;
     private PlayerController controller;
@@ -29,7 +26,7 @@ public class PlayerControllerTest {
         // Mock Gdx.input
         Gdx.input = Mockito.mock(Input.class);
         GdxTestMock.init();
-        model = new GameModel(false);
+        model = new GameModel(false, false);
         model.makePlayer(0, 150);
         player = model.getPlayer();
         player.setSize(50, 100); // Ensure player has size so collision checks behave as expected
