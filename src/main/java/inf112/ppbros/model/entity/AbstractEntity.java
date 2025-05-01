@@ -11,8 +11,10 @@ import com.badlogic.gdx.math.Rectangle;
  * common across entities.
  */
 public abstract class AbstractEntity implements Entity {
-    protected float x, y;
-    protected float width, height;
+    protected float x; 
+    protected float y;
+    protected float width;
+    protected float height;
     protected int health;
     protected float speed;
     protected float attackRange;
@@ -21,7 +23,7 @@ public abstract class AbstractEntity implements Entity {
     protected static TextureRegion currentFrame;
     protected float animationTime = 0f;
 
-    public AbstractEntity() {
+    protected AbstractEntity() {
         // Empty constructor for subclasses
     }
 

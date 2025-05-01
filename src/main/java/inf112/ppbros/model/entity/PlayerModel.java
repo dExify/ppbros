@@ -61,7 +61,6 @@ public class PlayerModel extends AbstractEntity {
      * @return {@code true} if enemy is within attack range, {code false} otherwise.
      */
     public boolean canAttack(Entity enemy) {
-        if (!(enemy instanceof EnemyModel)) return false;
         Rectangle enemyBox = enemy.getCollisionBox();
         float horizontalDistance = Math.abs(enemyBox.x - x);
         float verticalDistance = Math.abs(enemyBox.y - y);
