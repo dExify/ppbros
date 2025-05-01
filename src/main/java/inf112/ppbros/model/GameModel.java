@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Rectangle;
 import inf112.ppbros.controller.AudioController;
 import inf112.ppbros.model.entity.EnemyModel;
 import inf112.ppbros.model.entity.PlayerModel;
-import inf112.ppbros.model.entity.RandomEnemyMaker;
 import inf112.ppbros.model.platform.PlatformGrid;
 import inf112.ppbros.model.platform.PlatformGridMaker;
 import inf112.ppbros.model.platform.TileConfig;
@@ -37,7 +36,6 @@ public class GameModel extends Game {
   private int score;
   private List<EnemyModel> enemies;
   private int enemyAmount = 5; // Number of enemies to spawn on each platform grid
-  private RandomEnemyMaker randomEnemyMaker;
   private int cameraPos;
   private Timer timer;
   private CameraYPos timerTask;
@@ -58,7 +56,7 @@ public class GameModel extends Game {
     this.createView = createsView;
     if (createView) { // To allow unit tests
       this.setScreen(new StartMenuView(this));
-      EnemyModel.loadAnimations(); 
+      EnemyModel.loadAnimations();
       // Load animations a little after initializing game, avoids placing loading in contructors which interferes with tests
     }
     if (loadAudio) { // To allow unit tests
@@ -69,7 +67,6 @@ public class GameModel extends Game {
     this.score = 0;
     this.cameraPos = 0;
     this.platformGridMaker = new PlatformGridMaker();
-    randomEnemyMaker = new RandomEnemyMaker();
     enemies = new ArrayList<>();
     this.timer = new Timer();
     this.timerTask = new CameraYPos();
@@ -193,10 +190,19 @@ public class GameModel extends Game {
   }
   
   /**
+   * When player is out of bounds they take damage.
+   */
+  public void checkOutOfBounds() {
+    if (isOutOfBounds()) {
+      playerIsHit(); // Alternativly, execute instantly game over screen
+    }
+  }
+
+  /**
   * Checks if player is out of bounds left, right and bottom of screeen.
   * @return {@code true} if player is out of bounds, {@code false} if they are within bounds
   */
-  public boolean isOutOfBounds() {
+  protected boolean isOutOfBounds() {
     float playerX = player.getX();
     float playerY = player.getY();
     return (playerX + player.getWidth() < 0) || (playerX > Gdx.graphics.getWidth() || 
@@ -250,7 +256,7 @@ public class GameModel extends Game {
   * @param platformGrid grid to check valid position for enemy
   */
   private void updateEnemies(PlatformGrid platformGrid) {
-    EnemyModel newEnemy = randomEnemyMaker.getNext(platformGrid);
+    EnemyModel newEnemy = getNext(platformGrid);
     // Convert enemy positions from tiles to pixels 
     Coordinate enemyPosInPixels = TilePositionInPixels.getTilePosInPixels((int)newEnemy.getX(), (int)newEnemy.getY(), TILESIZE);
     // Update and add collisionbox to a list of all enemy collision boxes 
@@ -330,17 +336,19 @@ public class GameModel extends Game {
    */
   public void updateEnemiesPos(float deltaTime) {
     for (Iterator<EnemyModel> it = enemies.iterator(); it.hasNext();) {
-        EnemyModel enemy = it.next();
+      EnemyModel enemy = it.next();
 
-        enemy.updateMovement(player, platformHitboxes, deltaTime);
+      if (enemy.getHealth() <= 0) {
+        it.remove();
+        addToScore();
+        continue;
+      }
 
-        if (enemy.getHealth() <= 0) {
-            it.remove();                  // drop from list
-            addToScore();
-            continue;                     // nothing more to do
-        }
-        if (enemy.collidesWith(player.getCollisionBox())) playerIsHit();
+      enemy.updateMovement(player, platformHitboxes, deltaTime);
+
+      if (enemy.collidesWith(player.getCollisionBox())) playerIsHit();
     }
+
   }
 
   /**
@@ -349,4 +357,17 @@ public class GameModel extends Game {
   public void loadPlayerAnimations() {
     player.loadAnimations();
   }
+
+  /**
+   * Returns a new enemy, in a valid position on the platform grid
+  * @param grid the platform grid to check for valid spawn coordinates
+  * @return EnemyModel
+  */
+  private EnemyModel getNext(PlatformGrid grid) {
+    Coordinate spawnPos = grid.getValidEnemySpawnPos();
+    EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
+    enemy.initViewSize();
+    return enemy;
+  }
+
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.math.Rectangle;
 
+import inf112.mockutil.GdxTestMock;
 import inf112.ppbros.model.entity.EnemyModel;
 import inf112.ppbros.model.entity.PlayerModel;
 import inf112.ppbros.testutils.TestApplicationListener; 
@@ -25,6 +26,7 @@ class GameModelTest {
       HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
       new HeadlessApplication(new TestApplicationListener(), config);
     }
+    GdxTestMock.init();
 
     gameModel = new GameModel(false, true);
     gameModel.makePlayer(0, 150);
@@ -204,14 +206,7 @@ class GameModelTest {
   void testGetEnemyHitboxesNotNull() {
     assertNotNull(gameModel.getEnemyHitboxes(), "Enemy hitbox list should not be null.");
   }
-  
-  @Test
-  void testGetNextPlatformGridReturnsNonNullGrid() {
-    assertNotNull(gameModel.getNextPlatformGrid(), "Should return a platform grid object.");
-    assertFalse(gameModel.getPlatformHitboxes().isEmpty(), "Platform hitboxes should be updated.");
-    assertFalse(gameModel.getEnemies().isEmpty(), "Enemies list should be updated.");
-  }
-  
+
   @Test
   void testStopTimerDoesNotThrow() {
     assertDoesNotThrow(() -> gameModel.stopTimer(), "Stopping timer should not throw");

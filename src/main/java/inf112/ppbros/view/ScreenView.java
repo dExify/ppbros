@@ -171,10 +171,6 @@ public class ScreenView implements Screen {
     //drawPlayerAttack();
     
     enemies = gameModel.getEnemies();
-    // // Set size for enemies based on enemy texture
-     for (EnemyModel enemy : enemies) {
-       enemy.setSize(160,110);
-     }
     
     // temp for texture
     drawEnemies(delta);
@@ -183,6 +179,7 @@ public class ScreenView implements Screen {
     playerController.update(delta);
     animationTime += delta;
     
+    gameModel.checkOutOfBounds();
     drawPlayer(delta);
     
     stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
@@ -192,10 +189,6 @@ public class ScreenView implements Screen {
     
     //drawHitboxes(); //debugging
     //drawPlayerHitbox(); //debugging
-    
-    if (gameModel.isOutOfBounds()) {
-      //System.out.println("Player is out of bounds!");
-    }
   }
   
   private void drawPlayer(float delta) {
@@ -215,10 +208,6 @@ public class ScreenView implements Screen {
     // drawHitboxes(); //debugging
     // drawPlayerHitbox(); //debugging
     // drawEnemiesHitbox(); //debugging
-    
-    if (gameModel.isOutOfBounds()) {
-      // System.out.println("Player is out of bounds!");
-    }
   }
   
   // === Debugging Methods ===
