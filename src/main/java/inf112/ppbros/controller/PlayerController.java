@@ -18,11 +18,16 @@ public class PlayerController extends InputAdapter {
     private final HashSet<Integer> keysPressed = new HashSet<>();
     private boolean isAttacking = false;
 
-    public PlayerController(GameModel gameModel) {
+    public PlayerController(GameModel gameModel, boolean loadAudio) {
         this.gameModel = gameModel;
         Gdx.input.setInputProcessor(this);
+
+        if (loadAudio) {
         this.audioController = new AudioController();
         audioController.playBackgroundMusic(true);
+        } else {
+          audioController = null;
+        }
     }
 
     @Override
@@ -84,7 +89,9 @@ public class PlayerController extends InputAdapter {
             audioController.playSoundEffect("jump");
         }
         if (keysPressed.contains(Input.Keys.F) && isAttacking) {
+          if (audioController != null) {
             audioController.playSoundEffect("attack");
+          }
         }
 
         // Update animation states on player model

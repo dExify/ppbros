@@ -34,7 +34,7 @@ public class PlayerControllerTest {
         player = model.getPlayer();
         player.setSize(50, 100); // Ensure player has size so collision checks behave as expected
 
-        controller = new PlayerController(model);
+        controller = new PlayerController(model, false);
 
     }
     @Test
