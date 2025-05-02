@@ -8,7 +8,7 @@ import inf112.ppbros.view.StartMenuView;
 /**
  * Main Game class of Power Pipes Bros.
  * Initiates start menu screen and handles 
- * trainsitions between screens.
+ * transitions between screens.
  */ 
 public class PowerPipesBros extends Game {
     private Screen pendingScreen; 

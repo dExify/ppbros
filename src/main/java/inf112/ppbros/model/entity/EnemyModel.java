@@ -181,6 +181,9 @@ public class EnemyModel extends AbstractEntity {
     currentFrame = movingLeft ? enemyRunAnimL.getKeyFrame(animationTime) : enemyRunAnimR.getKeyFrame(animationTime);
   }
   
+  /**
+   * Initializes the size of the collision box and view on screen for slimes
+   */
   public void initViewSize() {
     TextureRegion slimeTexture;
     slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
