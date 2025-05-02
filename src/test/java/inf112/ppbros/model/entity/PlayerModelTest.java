@@ -139,4 +139,13 @@ class PlayerModelTest {
 
       assertTrue(inAir, "Player should be in the air after jumping");
     }
+
+    @Test
+    void testHpIncreasesOnKill() {
+        int intialHealth = player.getHealth();
+        player.takeDamage(10); // Set initial health to 50
+        player.getHpOnKill(); // Gain power-up
+        assertEquals(intialHealth, player.getHealth(), "Health should increase by 5 after gaining power-up");
+    }
+
 }

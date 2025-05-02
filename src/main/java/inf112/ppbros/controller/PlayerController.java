@@ -4,6 +4,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import inf112.ppbros.model.GameModel;
+import inf112.ppbros.model.entity.EnemyModel;
 import inf112.ppbros.model.entity.PlayerModel;
 
 import java.util.HashSet;
@@ -37,11 +38,13 @@ public class PlayerController extends InputAdapter {
             case Input.Keys.F:
                 isAttacking = true;
                 // Check attack on F press
-                if (gameModel.attackableEnemy() != null) {
-                    gameModel.playerAttacksEnemy(gameModel.attackableEnemy());
-                    audioController.playSoundEffect("enemyAttacked");
-                    System.out.println("Hit registered!");
-                    System.out.println("Enemy health: " + gameModel.attackableEnemy().getHealth());
+                if (gameModel.attackableEnemies().size() != 0) {
+                    for (EnemyModel enemy : gameModel.attackableEnemies()) {
+                        gameModel.playerAttacksEnemy(enemy);
+                        audioController.playSoundEffect("enemyAttacked");
+                        System.out.println("Hit registered!");
+                        System.out.println("Enemy health: " + enemy.getHealth());
+                    }
                 } else {
                     System.out.println("No hit");
                 }
