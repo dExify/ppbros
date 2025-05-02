@@ -30,6 +30,8 @@ public class EnemyModel extends AbstractEntity {
   private static Animation<TextureRegion> enemyRunAnimR;
   private static Animation<TextureRegion> enemyRunAnimL;
   private static final float SIZE_RATIO = 3f;
+  private static final int SLIME_TEXTURE_PIXEL_WIDTH = 160;
+  private static final int SLIME_TEXTURE_PIXEL_HEIGHT = 110;
   
   /**
   * Creates a new enemy instance at a specified starting position
@@ -46,6 +48,7 @@ public class EnemyModel extends AbstractEntity {
     this.width = 0;
     this.height = 0;
     this.collisionBox = new Rectangle(x, y, width, height);
+    setSize(SLIME_TEXTURE_PIXEL_WIDTH / SIZE_RATIO, SLIME_TEXTURE_PIXEL_HEIGHT / SIZE_RATIO);
   }
   
   /**
@@ -181,13 +184,4 @@ public class EnemyModel extends AbstractEntity {
     currentFrame = movingLeft ? enemyRunAnimL.getKeyFrame(animationTime) : enemyRunAnimR.getKeyFrame(animationTime);
   }
   
-  /**
-   * Initializes the size of the collision box and view on screen for slimes
-   */
-  public void initViewSize() {
-    TextureRegion slimeTexture;
-    slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
-    setSize(slimeTexture.getRegionWidth() / SIZE_RATIO, slimeTexture.getRegionHeight() / SIZE_RATIO);
-    
-  }
 }

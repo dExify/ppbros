@@ -325,7 +325,6 @@ public class GameModel extends Game {
    * Updates the player’s position and animation state.
    */
   public void updatePlayer() {
-    platformHitboxes.sort(Comparator.comparingDouble(platform -> Math.abs(platform.y - player.getY())));
     player.update(Gdx.graphics.getDeltaTime(), platformHitboxes);
   }
 
@@ -367,7 +366,6 @@ public class GameModel extends Game {
   private EnemyModel getNext(PlatformGrid grid) {
     Coordinate spawnPos = grid.getValidEnemySpawnPos();
     EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
-    enemy.initViewSize();
     return enemy;
   }
 
