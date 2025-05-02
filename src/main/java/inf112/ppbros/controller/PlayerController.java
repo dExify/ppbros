@@ -40,10 +40,6 @@ public class PlayerController extends InputAdapter {
                 if (gameModel.attackableEnemy() != null) {
                     gameModel.playerAttacksEnemy(gameModel.attackableEnemy());
                     audioController.playSoundEffect("enemyAttacked");
-                    System.out.println("Hit registered!");
-                    System.out.println("Enemy health: " + gameModel.attackableEnemy().getHealth());
-                } else {
-                    System.out.println("No hit");
                 }
                 break;
             case Input.Keys.ESCAPE:
