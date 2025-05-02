@@ -53,6 +53,8 @@ public class GuideView implements Screen {
     OBJECTIVE:
     Attack slimes and gain points! But don't fall below the map—
     your health is limited!
+    For each slime killed, your health will slightly increase!
+    Damage will slightly increase for every 5 points gathered
     
     Press ESC at any time to exit.
 """, skin);
