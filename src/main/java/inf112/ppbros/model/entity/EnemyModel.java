@@ -1,6 +1,8 @@
 package inf112.ppbros.model.entity;
 
 import java.util.List;
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -23,6 +25,7 @@ import inf112.ppbros.model.platform.TileConfig;
 */
 public class EnemyModel extends AbstractEntity {
   private boolean movingLeft = true;
+  private Random random;
   private List<Rectangle> hitboxes;
   private float deltaTime;
   private float playerX;
@@ -45,6 +48,8 @@ public class EnemyModel extends AbstractEntity {
     this.attackDmg = 10;
     this.width = 0;
     this.height = 0;
+    this.random = new Random();
+    this.movingLeft = random.nextBoolean();
     this.collisionBox = new Rectangle(x, y, width, height);
   }
   
