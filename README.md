@@ -69,6 +69,12 @@
   - [HTL Dornbirn Repository](https://git.it-bi.htldornbirn.vol.at/mschwaer/libgdx_diverse/-/tree/5c609168e3eed3cc684a79e6548104fed66f4ce7/android/assets/skin/gdx-holo)  
   - [GitHub Profile](https://github.com/nooone)
 
+### Sprites
+
+- **Player & Enemy sprites, Platforms, Decorative elemens, World background, Menu background**
+  Credits to **Mathias Hestvik**
+  - []()
+
 
 ### License Disclaimer
 
