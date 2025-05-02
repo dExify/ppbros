@@ -341,7 +341,6 @@ public class GameModel extends Game {
 
       if (enemy.getHealth() <= 0) {
         it.remove();
-        addToScore();
         continue;
       }
 
