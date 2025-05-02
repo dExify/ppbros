@@ -25,7 +25,7 @@ public class PlatformMaker {
     platformHeight = 3;
     patterns = new ArrayList<>();
     random = new Random();
-    addDefaultPatterns();
+    addSimplePatterns();
   }
   
   private void addDefaultPatterns() {
@@ -63,6 +63,34 @@ public class PlatformMaker {
       { 0, 0, 0, 0, 0 },
       { 0, 5, 0, 0, 7 },
       { 1, 1, 1, 1, 1 },
+    });
+  }
+
+  private void addSimplePatterns() {
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 7, 0, 5, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 0, 0, 0, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 0, 5, 7, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 7, 0, 0, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 5, 0, 0, 0},
+      { 0, 1, 1, 1, 0 },
     });
   }
 
