@@ -27,7 +27,7 @@ class GameModelTest {
       new HeadlessApplication(new TestApplicationListener(), config);
     }
     GdxTestMock.init();
-
+    
     gameModel = new GameModel(false, true);
     gameModel.makePlayer(0, 150);
   }
@@ -206,7 +206,7 @@ class GameModelTest {
   void testGetEnemyHitboxesNotNull() {
     assertNotNull(gameModel.getEnemyHitboxes(), "Enemy hitbox list should not be null.");
   }
-
+  
   @Test
   void testStopTimerDoesNotThrow() {
     assertDoesNotThrow(() -> gameModel.stopTimer(), "Stopping timer should not throw");
@@ -218,72 +218,99 @@ class GameModelTest {
   }
   
   @Test
-void testPlayerAttacksEnemyReducesHealthAndIncreasesScore() {
+  void testPlayerAttacksEnemyReducesHealthAndIncreasesScore() {
     EnemyModel enemy = new EnemyModel(new Coordinate(0, 0), 0);
     enemy.setSize(50, 100);
-
+    
     // Set enemy health low enough so it will die after one hit
     int initialHealth = enemy.getHealth();
     enemy.takeDamage(initialHealth - 1); // enemy now has 1 HP
-
+    
     int initialScore = gameModel.getScore();
-
+    
     // Attack: this should reduce health to 0 and increase score
     gameModel.playerAttacksEnemy(enemy);
     
     assertEquals(0, enemy.getHealth(), "Enemy health should be zero");
     assertEquals(initialScore + 1, gameModel.getScore(), "Score should increase by 1 after enemy dies.");
-}
-
-@Test
-void testUpdateEnemiesRemoveDeadAndIncrementScore() {
+  }
+  
+  @Test
+  void testUpdateEnemiesRemoveDeadAndIncrementScore() {
     PlayerModel player = gameModel.getPlayer();
     player.setSize(50, 100); // to ensure valid hitbox comparisons
-
+    
     // Create a dead enemy
     EnemyModel deadEnemy = new EnemyModel(new Coordinate(100, 100), 0);
     deadEnemy.setSize(50, 100);
     deadEnemy.setX(100);
     deadEnemy.setY(100);
     deadEnemy.updateCollisionBox(100, 100);
-
+    
     // Set health to 0 to simulate dead enemy
     deadEnemy.takeDamage(deadEnemy.getHealth()); // now health == 0
-
+    
     gameModel.getEnemies().add(deadEnemy);
     int initialScore = gameModel.getScore();
-
+    
     // Act
     gameModel.updateEnemiesPos(0.1f);
-
+    
     // Assert
     assertFalse(gameModel.getEnemies().contains(deadEnemy), "Dead enemy should be removed");
     assertEquals(initialScore + 1, gameModel.getScore(), "Score should increase when enemy is removed");
-}
-
-@Test
-void testNoPlayerHitWhenNoCollision() {
+  }
+  
+  @Test
+  void testNoPlayerHitWhenNoCollision() {
     PlayerModel player = gameModel.getPlayer();
     player.setSize(50, 100);
     float initialHealth = player.getHealth();
-
+    
     // Place player far from enemy
     player.setX(0);
     player.setY(0);
-
+    
     // Create an enemy far away from player
     EnemyModel enemy = new EnemyModel(new Coordinate(1000, 1000), 0);
     enemy.setSize(50, 100);
     enemy.setX(1000);
     enemy.setY(1000);
     enemy.updateCollisionBox(1000, 1000);
-
+    
     gameModel.getEnemies().add(enemy);
     gameModel.updateEnemiesPos(0.1f);
-
+    
     assertEquals(initialHealth, player.getHealth(), "Player health should not change when there is no collision");
-}
-
-
-
+  }
+  
+  @Test
+  void testPlayerTakesDamageOutOfBounds() {
+    PlayerModel player = gameModel.getPlayer();
+    
+    int initialHealth = player.getHealth();
+    
+    // Move player out of screen
+    player.setX(Gdx.graphics.getWidth() + 100);
+    
+    gameModel.checkOutOfBounds();
+    
+    assertEquals(initialHealth - 10, player.getHealth(), "Player should take damage when out of bounds.");
+  }
+  
+  @Test
+  void testPlayerNotDamagedIfInBounds() {
+    PlayerModel player = gameModel.getPlayer();
+    
+    int initialHealth = player.getHealth();
+    
+    // Ensure player is in bounds
+    player.setX(100);
+    
+    gameModel.checkOutOfBounds();
+    
+    assertEquals(initialHealth, player.getHealth(), "Player should not take damage if inside bounds.");
+  }
+  
+  
 }

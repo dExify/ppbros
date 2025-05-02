@@ -86,10 +86,10 @@ public class PlayerController extends InputAdapter {
             facingLeft = true;
         }
         if (keysPressed.contains(Input.Keys.SPACE)) {
-            gameModel.jump();
-            if (audioController != null) {
-              audioController.playSoundEffect("jump");
-            }
+          if ((audioController != null) && gameModel.getPlayer().isOnGround()) { // Play jump sound only once
+            audioController.playSoundEffect("jump");
+          }
+          gameModel.jump();
         } 
         if (keysPressed.contains(Input.Keys.F) && isAttacking && audioController != null) {
             audioController.playSoundEffect("attack");
