@@ -53,7 +53,6 @@ public class ScreenView implements Screen {
   private PlatformGrid platformGridObject2;
   private Texture mapTexture;
   private Texture platformTexture;
-  private Texture platformBlackTexture;
   private Texture barrelTexture;
   private Texture debuggingTexture;
   private Texture skullsTexture;
@@ -113,12 +112,12 @@ public class ScreenView implements Screen {
     
     // Initiate the platform texture and platformGrid object
     batch = new SpriteBatch();
-    platformTexture = new Texture(Gdx.files.internal("Platforms/GraystoneBrickTileWithOutline80.png"));
-    skullsTexture = new Texture(Gdx.files.internal("Platforms/Skulls.png"));
-    barrelTexture = new Texture(Gdx.files.internal("Platforms/Barrel.png"));
-    debuggingTexture = new Texture(Gdx.files.internal("Red_X.png"));
-    mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
-    sewerLoop = new Texture(Gdx.files.internal("sewer_1.png"));
+    platformTexture = new Texture(Gdx.files.internal("world/platform/GraystoneBrickTileWithOutline80.png"));
+    skullsTexture = new Texture(Gdx.files.internal("world/platform/Skulls.png"));
+    barrelTexture = new Texture(Gdx.files.internal("world/platform/Barrel.png"));
+    debuggingTexture = new Texture(Gdx.files.internal("debug_hitbox.png"));
+    mapTexture = new Texture(Gdx.files.internal("world/background/sewer_full.png"));
+    sewerLoop = new Texture(Gdx.files.internal("world/background/sewer_repeat.png"));
     platformGridObject1 = gameModel.getNextPlatformGrid(); 
     platformGridObject2 = gameModel.getNextPlatformGrid();
     this.yPos = 0;
