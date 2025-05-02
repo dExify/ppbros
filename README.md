@@ -23,7 +23,7 @@
 - Increasing in difficulty: The game becomes progressively more difficult as players accumulate more points.
 - Goal: Stay alive and collect as many points as possible.
 
-## Runner
+## Running
 * Compiles with `mvn package`.
 * Runs with `java -jar target/powerpipesbros-1.0-RELEASE-fat.jar`
 * Requires Java 21+
