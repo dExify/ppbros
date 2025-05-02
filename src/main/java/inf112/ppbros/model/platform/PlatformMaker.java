@@ -25,7 +25,7 @@ public class PlatformMaker {
     platformHeight = 3;
     patterns = new ArrayList<>();
     random = new Random();
-    addDefaultPatterns();
+    addSimplePatterns();
   }
   
   private void addDefaultPatterns() {
@@ -66,6 +66,34 @@ public class PlatformMaker {
     });
   }
 
+  private void addSimplePatterns() {
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 7, 0, 5, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 0, 0, 0, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 0, 5, 7, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 7, 0, 0, 0 },
+      { 0, 1, 1, 1, 0 },
+    });
+    patterns.add(new int[][] {
+      { 0, 0, 0, 0, 0 },
+      { 0, 5, 0, 0, 0},
+      { 0, 1, 1, 1, 0 },
+    });
+  }
+
   /**
    * Adds a new platform pattern to the list of available patterns.
    * The pattern must match the predefined width and height.
@@ -100,16 +128,11 @@ public class PlatformMaker {
    * @throws IllegalStateException if no patterns are available
    */
   public Platform getNext() {
-    // if (patterns.isEmpty()) {
-    //   throw new IllegalStateException("No patterns available.");
-    // }
-    // int index = random.nextInt(patterns.size());
-    // return new Platform(patterns.get(index));
-    return new Platform(new int[][] {
-      { 0, 0, 0, 0, 0 },
-      { 0, 0, 0, 0, 0 },
-      { 0, 1, 1, 1, 0 },
-    });
+    if (patterns.isEmpty()) {
+      throw new IllegalStateException("No patterns available.");
+    }
+    int index = random.nextInt(patterns.size());
+    return new Platform(patterns.get(index));
   }
   
   /**
