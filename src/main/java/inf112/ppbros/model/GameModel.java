@@ -232,8 +232,7 @@ public class GameModel extends Game {
     if (now - lastExecution >= COOLDOWNTIME){
       lastExecution = now;
       audioController.playSoundEffect("takeDamage");
-      player.takeDamage(damage); 
-      System.out.println("Player is hit, " + damage + " hp!");
+      player.takeDamage(10); 
       if (player.getHealth() == 0) {
         audioController.playSoundEffect("gameOver");
       }

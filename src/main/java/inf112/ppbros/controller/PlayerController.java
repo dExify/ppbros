@@ -38,15 +38,9 @@ public class PlayerController extends InputAdapter {
             case Input.Keys.F:
                 isAttacking = true;
                 // Check attack on F press
-                if (gameModel.attackableEnemies().size() != 0) {
-                    for (EnemyModel enemy : gameModel.attackableEnemies()) {
-                        gameModel.playerAttacksEnemy(enemy);
-                        audioController.playSoundEffect("enemyAttacked");
-                        System.out.println("Hit registered!");
-                        System.out.println("Enemy health: " + enemy.getHealth());
-                    }
-                } else {
-                    System.out.println("No hit");
+                if (gameModel.attackableEnemy() != null) {
+                    gameModel.playerAttacksEnemy(gameModel.attackableEnemy());
+                    audioController.playSoundEffect("enemyAttacked");
                 }
                 break;
             case Input.Keys.ESCAPE:

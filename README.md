@@ -23,10 +23,17 @@
 - Increasing in difficulty: The game becomes progressively more difficult as players accumulate more points.
 - Goal: Stay alive and collect as many points as possible.
 
-## Runner
-* Compiles with `mvn package`.
+
+## Requirements
+- Java 17 or newer
+- Maven 
+
+## Building
+* Compiles with `mvn clean package`.
+* Tests with `mvn test`
+
+## Running
 * Runs with `java -jar target/powerpipesbros-1.0-RELEASE-fat.jar`
-* Requires Java 21+
 
 ## Credits
 
@@ -69,6 +76,11 @@
   - [HTL Dornbirn Repository](https://git.it-bi.htldornbirn.vol.at/mschwaer/libgdx_diverse/-/tree/5c609168e3eed3cc684a79e6548104fed66f4ce7/android/assets/skin/gdx-holo)  
   - [GitHub Profile](https://github.com/nooone)
 
+### Sprites
+
+- **Player & Enemy sprites, Platforms, Decorative elemens, World background, Menu background**
+  
+  Credits to **Mathias Hestvik**
 
 ### License Disclaimer
 
