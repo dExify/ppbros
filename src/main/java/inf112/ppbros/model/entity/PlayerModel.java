@@ -212,4 +212,14 @@ public class PlayerModel extends AbstractEntity {
         return EntityType.MAIN_CHARACTER;
     }
 
+    /** 
+     * Updates the player attack damage.
+     * @param deltaDamage How much attack damage to add
+     */
+    public void updateAttackDamage(int deltaDamage) {
+        if (attackDmg <= 50) {
+            attackDmg += deltaDamage;
+        }
+    }
+
 }

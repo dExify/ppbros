@@ -72,7 +72,6 @@ public class GameModel extends Game {
     this.timerTask = new CameraYPos();
     this.platformHitboxes = new ArrayList<>();
     this.enemyHitboxes = new ArrayList<>();
-  
     
     // Sets player start position
     makePlayer(0, 150);
@@ -164,10 +163,14 @@ public class GameModel extends Game {
    */
   public void playerAttacksEnemy(EnemyModel enemy) {
     enemy.takeDamage(player.getAttackDmg());
-    if (enemy.getHealth() == 0) {
+    if (enemy.getHealth() <= 0) {
       addToScore();
+      if (checkPowerup()) {
+        player.updateAttackDamage(5);
+        // audioController.playSoundEffect("pointAcquired");
+        System.out.println("ATTACK DAMAGE INCREASED BY 5");
+      }
     }
-    
   }
   
   /**
@@ -281,7 +284,7 @@ public class GameModel extends Game {
   * Start timer with fixed rate execution
   */
   public void startTimer() {
-    timer.scheduleAtFixedRate(timerTask, 0, 25);
+    timer.scheduleAtFixedRate(timerTask, 0, 30);
   }
   
   /**
@@ -340,7 +343,6 @@ public class GameModel extends Game {
 
       if (enemy.getHealth() <= 0) {
         it.remove();
-        addToScore();
         continue;
       }
 
@@ -349,6 +351,14 @@ public class GameModel extends Game {
       if (enemy.collidesWith(player.getCollisionBox())) playerIsHit();
     }
 
+  }
+
+  /**
+   * Checks if the score is high enough for the player to get a powerup
+   * @return boolean
+   */
+  private boolean checkPowerup() {
+    return score % 5 == 0;
   }
 
   /**
