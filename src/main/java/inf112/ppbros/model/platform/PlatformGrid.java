@@ -217,7 +217,7 @@ public class PlatformGrid {
   }
 
   private boolean isFree(int x, int y) {
-    return tileGrid[x][y] == 0;
+    return get(x, y) == 0;
   }
 
   private boolean isOnGround(int x, int y) {
