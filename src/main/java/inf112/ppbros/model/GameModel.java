@@ -117,6 +117,7 @@ public class GameModel extends Game {
   public void addToScore(){
     audioController.playSoundEffect("pointAcquired");
     score ++;
+    onEnemyKilled();
   }
   
   /**
@@ -171,12 +172,11 @@ public class GameModel extends Game {
     enemy.takeDamage(player.getAttackDmg());
     if (enemy.getHealth() == 0) {
       addToScore();
-      onEnemyKilled();
     }
   }
 
   private void onEnemyKilled() {
-    player.hpOnKill();
+    player.getHpOnKill();
     if (score % 5 == 0) {
       player.gainPowerUp();
       messageTimer = 0f;
