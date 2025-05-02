@@ -125,7 +125,7 @@ Som en spiller vil jeg oppleve animasjoner, lydeffekter og visuelle effekter, so
 - Åse har hatt rollen som kundekontakt, men det har vært lite faktisk kundekontakt i prosjektet, så rollen har vært mer symbolsk.  
 - Ole var i starten ansvarlig for merge requests som git-ansvarlig, men dette ansvaret ble etter hvert spredt mer ut på hele teamet.  
 - Luka fikk tilgang til assets via en bekjent, så han fikk naturlig ansvar for grafiske ressurser.  
-- Vi ser ikke behov for å endre teamlead eller kundekontakt nå, men kan vurdere å tydeliggjøre ansvar for merge/versjonskontroll i neste sprint.
+- Vi har ikke sett behov for å endre rollene, de har fungert godt nok i prosjektet
 
 ### Vurdering av teamdynamikk og metodevalg
 - Gruppens kommunikasjon og samarbeid har generelt fungert godt. Vi har hatt få uenigheter, og ansvarsfordelingen har skjedd naturlig ved at oppgaver ble delegert til enkeltpersoner som tok eierskap.  
