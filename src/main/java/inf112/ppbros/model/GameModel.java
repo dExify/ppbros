@@ -180,9 +180,7 @@ public class GameModel extends Game {
     if (now - lastExecution >= COOLDOWNTIME){
       lastExecution = now;
       audioController.playSoundEffect("takeDamage");
-      player.takeDamage(10); // change to getAttackdmg() but once we have added mutiple enemy types? 
-      System.out.println("Player is hit, -10 hp!");
-      System.out.println("Player health: " + player.getHealth());
+      player.takeDamage(10); 
       if (player.getHealth() == 0) {
         audioController.playSoundEffect("gameOver");
       }
