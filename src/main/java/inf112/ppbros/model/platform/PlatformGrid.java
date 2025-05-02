@@ -224,7 +224,9 @@ public class PlatformGrid {
     boolean occupiedTile = (tileGrid[x][y-1] != 0)
                         && (tileGrid[x][y-1] != 5) 
                         && (tileGrid[x][y-1] != 7)
-                        && (tileGrid[x-1][y-1] != 0);
+                        && (tileGrid[x-1][y-1] != 0)
+                        && (tileGrid[x-1][y-1] != 5)
+                        && (tileGrid[x-1][y-1] != 7);
     return (occupiedTile);
   }
 

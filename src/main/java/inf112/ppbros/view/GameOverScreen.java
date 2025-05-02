@@ -2,8 +2,10 @@ package inf112.ppbros.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -33,6 +35,7 @@ import inf112.ppbros.model.GameModel;
 public class GameOverScreen implements Screen {
     private final Stage stage;
     private final Skin skin;
+    private Texture backgroundTexture;
     
     /**
      * Constructs the game over with a title, score count, retry button, and exit button.
@@ -44,6 +47,11 @@ public class GameOverScreen implements Screen {
         this.stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json")); 
         Gdx.input.setInputProcessor(stage);
+
+        backgroundTexture = new Texture(Gdx.files.internal("background/gameover_bg.png"));
+        Image backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -115,5 +123,6 @@ public class GameOverScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+        backgroundTexture.dispose();
     }
 }

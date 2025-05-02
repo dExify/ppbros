@@ -118,4 +118,8 @@ class PlayerModelTest {
         assertFalse(player.facesLeft());
     }
 
+    @Test
+    void testGetTypeReturnsMainCharacter() {
+        assertEquals(EntityType.MAIN_CHARACTER, player.getType(), "getType should return MAIN_CHARACTER");
+    }
 }
