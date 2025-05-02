@@ -296,19 +296,13 @@ public class ScreenView implements Screen {
         Coordinate platformPixelPos = TilePositionInPixels.getTilePosInPixels(x, y, TILE_SIZE);
         switch(platformGrid.get(x, y)) {
           case 1:
-          batch.draw(platformTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
-          break;
-          case 2:
-          batch.draw(platformBlackTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+            drawPlatformTexture(platformTexture, platformPixelPos);
           break;
           case 5:
-          batch.draw(skullsTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
+            drawPlatformTexture(skullsTexture, platformPixelPos);
           break;
           case 7:
-          batch.draw(barrelTexture, platformPixelPos.x(), yPos + platformPixelPos.y(), TILE_SIZE, TILE_SIZE);
-          break;
-          case -1:
-          //Placeholder X
+            drawPlatformTexture(barrelTexture, platformPixelPos);
           break;
           default:
           continue;
@@ -318,6 +312,9 @@ public class ScreenView implements Screen {
     batch.end();
   }
   
+  private void drawPlatformTexture(Texture texture, Coordinate coordinate) {
+    batch.draw(texture, coordinate.x(), yPos + coordinate.y(), TILE_SIZE, TILE_SIZE);
+  }
   
   @Override
   public void resize(int width, int height) {
