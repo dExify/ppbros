@@ -4,7 +4,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import inf112.ppbros.model.GameModel;
-import inf112.ppbros.model.entity.EnemyModel;
 import inf112.ppbros.model.entity.PlayerModel;
 
 import java.util.HashSet;

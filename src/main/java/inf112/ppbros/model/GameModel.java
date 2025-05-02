@@ -46,7 +46,9 @@ public class GameModel extends Game {
 
   private boolean showPowerUpMessage = false;
   private float messageTimer = 0f;
-  private final float MESSAGE_DURATION = 1.55f;
+  private static final float MESSAGE_DURATION = 1.55f;
+  private static final int OUT_OF_BOUNDS_DAMAGE = 10;
+
   
   private static final long COOLDOWNTIME = 1000; // 1 second, can be changed
   private static final int TILESIZE = TileConfig.TILE_SIZE;
@@ -244,7 +246,7 @@ public class GameModel extends Game {
    */
   public void checkOutOfBounds() {
     if (isOutOfBounds()) {
-      playerIsHit(5); // Alternativly, execute instantly game over screen
+      playerIsHit(OUT_OF_BOUNDS_DAMAGE); // Alternativly, execute instantly game over screen
     }
   }
 
@@ -396,7 +398,7 @@ public class GameModel extends Game {
 
       enemy.updateMovement(player, platformHitboxes, deltaTime);
 
-      if (enemy.collidesWith(player.getCollisionBox())) playerIsHit(8);
+      if (enemy.collidesWith(player.getCollisionBox())) playerIsHit(enemy.getAttackDmg());
     }
 
   }
