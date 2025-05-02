@@ -69,9 +69,9 @@ class EnemyModelTest {
 
   @Test
   void testFacesLeft() {
-    assertTrue(enemy.facesLeft()); // default is left
+    boolean initialDirection = enemy.facesLeft(); // Enemy direction is random at construction
     enemy.changeDirection();
-    assertFalse(enemy.facesLeft());
+    assertEquals(!initialDirection, enemy.facesLeft());
   }
 
   @Test
