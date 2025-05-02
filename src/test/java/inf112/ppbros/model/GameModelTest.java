@@ -235,4 +235,55 @@ void testPlayerAttacksEnemyReducesHealthAndIncreasesScore() {
     assertEquals(initialScore + 1, gameModel.getScore(), "Score should increase by 1 after enemy dies.");
 }
 
+@Test
+void testUpdateEnemiesRemoveDeadAndIncrementScore() {
+    PlayerModel player = gameModel.getPlayer();
+    player.setSize(50, 100); // to ensure valid hitbox comparisons
+
+    // Create a dead enemy
+    EnemyModel deadEnemy = new EnemyModel(new Coordinate(100, 100), 0);
+    deadEnemy.setSize(50, 100);
+    deadEnemy.setX(100);
+    deadEnemy.setY(100);
+    deadEnemy.updateCollisionBox(100, 100);
+
+    // Set health to 0 to simulate dead enemy
+    deadEnemy.takeDamage(deadEnemy.getHealth()); // now health == 0
+
+    gameModel.getEnemies().add(deadEnemy);
+    int initialScore = gameModel.getScore();
+
+    // Act
+    gameModel.updateEnemiesPos(0.1f);
+
+    // Assert
+    assertFalse(gameModel.getEnemies().contains(deadEnemy), "Dead enemy should be removed");
+    assertEquals(initialScore + 1, gameModel.getScore(), "Score should increase when enemy is removed");
+}
+
+@Test
+void testNoPlayerHitWhenNoCollision() {
+    PlayerModel player = gameModel.getPlayer();
+    player.setSize(50, 100);
+    float initialHealth = player.getHealth();
+
+    // Place player far from enemy
+    player.setX(0);
+    player.setY(0);
+
+    // Create an enemy far away from player
+    EnemyModel enemy = new EnemyModel(new Coordinate(1000, 1000), 0);
+    enemy.setSize(50, 100);
+    enemy.setX(1000);
+    enemy.setY(1000);
+    enemy.updateCollisionBox(1000, 1000);
+
+    gameModel.getEnemies().add(enemy);
+    gameModel.updateEnemiesPos(0.1f);
+
+    assertEquals(initialHealth, player.getHealth(), "Player health should not change when there is no collision");
+}
+
+
+
 }
