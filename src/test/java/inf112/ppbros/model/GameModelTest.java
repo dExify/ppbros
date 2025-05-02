@@ -167,7 +167,7 @@ class GameModelTest {
     PlayerModel player = gameModel.getPlayer();
     int initialHealth = player.getHealth();
     
-    gameModel.playerIsHit();
+    gameModel.playerIsHit(10);
     
     assertEquals(initialHealth - 10, player.getHealth(), "Player's health should decrease by 10 after being hit.");
   }

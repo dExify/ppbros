@@ -146,7 +146,7 @@ public class GameModel extends Game {
         player.setX(prevX);
         player.setY(prevY);
     }
-    if (collisionWithAnyEnemy()) playerIsHit();
+    if (collisionWithAnyEnemy()) playerIsHit(8);
   }
 
   /**
@@ -227,14 +227,13 @@ public class GameModel extends Game {
   * Has a cooldown to prevent player from continously taking damage.
   * When player no longe has more health they die/its game over.
   */
-  public void playerIsHit() {
+  public void playerIsHit(int damage) {
     long now = System.currentTimeMillis();
     if (now - lastExecution >= COOLDOWNTIME){
       lastExecution = now;
       audioController.playSoundEffect("takeDamage");
-      player.takeDamage(10); // change to getAttackdmg() but once we have added mutiple enemy types? 
-      System.out.println("Player is hit, -10 hp!");
-      // System.out.println("Player health: " + player.getHealth());
+      player.takeDamage(damage); 
+      System.out.println("Player is hit, " + damage + " hp!");
       if (player.getHealth() == 0) {
         audioController.playSoundEffect("gameOver");
       }
@@ -246,7 +245,7 @@ public class GameModel extends Game {
    */
   public void checkOutOfBounds() {
     if (isOutOfBounds()) {
-      playerIsHit(); // Alternativly, execute instantly game over screen
+      playerIsHit(5); // Alternativly, execute instantly game over screen
     }
   }
 
@@ -398,7 +397,7 @@ public class GameModel extends Game {
 
       enemy.updateMovement(player, platformHitboxes, deltaTime);
 
-      if (enemy.collidesWith(player.getCollisionBox())) playerIsHit();
+      if (enemy.collidesWith(player.getCollisionBox())) playerIsHit(8);
     }
 
   }
