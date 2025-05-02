@@ -212,4 +212,8 @@ public class PlayerModel extends AbstractEntity {
         return EntityType.MAIN_CHARACTER;
     }
 
+    public boolean isOnGround() {
+      return isOnGround;
+    }
+
 }

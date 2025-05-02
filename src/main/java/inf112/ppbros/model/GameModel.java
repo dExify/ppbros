@@ -209,6 +209,7 @@ public class GameModel extends Game {
     playerY + player.getHeight() < getCameraYCoordinate() - Gdx.graphics.getHeight()/2);
   }
   
+  
   /**
    * Checks if player collides with an array containing collision boxes as rectangles.
    * @param collisionBox an array of collision boxes to check collision with

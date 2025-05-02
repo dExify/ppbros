@@ -7,10 +7,12 @@ import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mockutil.GdxTestMock;
 import inf112.ppbros.model.Coordinate;
+import inf112.ppbros.model.GameModel;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 class EnemyModelTest {
@@ -120,5 +122,30 @@ class EnemyModelTest {
   }
 
 
+  @Test
+  void testAttackableEnemyReturnsCorrectEnemy() throws Exception {
+      GameModel gameModel = new GameModel(false, false);
+  
+      PlayerModel mockPlayer = mock(PlayerModel.class);
+      EnemyModel enemyInRange = mock(EnemyModel.class);
+  
+      // collision box
+      Rectangle mockBox = new Rectangle(0, 0, 10, 10);
+      when(enemyInRange.getCollisionBox()).thenReturn(mockBox);
+  
+      // Stub canAttack logic
+      when(mockPlayer.canAttack(enemyInRange)).thenCallRealMethod();
+      when(mockPlayer.getCollisionBox()).thenReturn(new Rectangle(0, 0, 20, 20)); // Player box for comparison
+  
+      // Inject mock player
+      Field playerField = GameModel.class.getDeclaredField("player");
+      playerField.setAccessible(true);
+      playerField.set(gameModel, mockPlayer);
+  
+      gameModel.getEnemies().add(enemyInRange);
+  
+      EnemyModel result = gameModel.attackableEnemy();
+      assertEquals(enemyInRange, result);
+  }
 
 }
