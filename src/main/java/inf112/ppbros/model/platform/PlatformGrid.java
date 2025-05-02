@@ -22,6 +22,8 @@ public class PlatformGrid {
   private static final int GRID_HEIGHT = TileConfig.GRID_HEIGHT;
   private static final int TILE_SIZE = TileConfig.TILE_SIZE;
   private static final int PLATFORM_GRIDHEIGHT_PIXELS = TileConfig.PLATFORM_GRIDHEIGHT_PIXELS;
+  private static final int xMargin = 1;
+  private static final int yMargin = 1;
   
   private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
   private ArrayList<Rectangle> hitboxes;
@@ -143,13 +145,11 @@ public class PlatformGrid {
   private Coordinate getPlatformStart() {
     int platformHeight = platformMaker.getPlatformHeight();
     int platformWidth = platformMaker.getPlatformWidth();
-    int xMargin = 1;
-    int yMargin = 1;
     int expectedVacantPosCount = (platformHeight + yMargin * 2) * (platformWidth + xMargin * 2);
 
     for (int checks = 0; checks < 10; checks++) {
-        int randomX = 1 + random.nextInt(GRID_WIDTH - platformWidth);
-        int randomY = 1 + random.nextInt(GRID_HEIGHT - platformHeight);
+        int randomX = xMargin + random.nextInt(GRID_WIDTH - platformWidth - 2 * xMargin);
+        int randomY = yMargin + random.nextInt(GRID_HEIGHT - platformHeight - 2 * yMargin);      
         Coordinate startCoordinate = new Coordinate(randomX, randomY);
 
         if (isAreaVacant(startCoordinate, platformWidth, platformHeight, xMargin, yMargin, expectedVacantPosCount)) {

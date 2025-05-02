@@ -30,8 +30,8 @@ public class PlatformMaker {
   
   private void addDefaultPatterns() {
     patterns.add(new int[][] {
-      { 0, 0, 0, 0, 0 },
-      { 1, 5, 0, 1, 1 },
+      { 0, 0, 0, 1, 1 },
+      { 1, 5, 0, 0, 0 },
       { 1, 1, 1, 0, 0 },
     });
     patterns.add(new int[][] {
@@ -40,9 +40,9 @@ public class PlatformMaker {
       { 1, 1, 1, 0, 0 },
     });
     patterns.add(new int[][] {
-      { 1, 0, 0, 0, 0 },
+      { 1, 1, 0, 0, 0 },
       { 0, 0, 5, 0, 0 },
-      { 0, 1, 1, 1, 0 },
+      { 0, 1, 1, 1, 1 },
     });
     patterns.add(new int[][] {
       { 0, 0, 0, 7, 0 },
