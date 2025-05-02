@@ -109,13 +109,30 @@ public class PlatformGrid {
   * @param start Coordinate starting position of the platform
   */
   private void insertPlatformTiles(int[][] pattern, Coordinate start) {
-    for (int y = 0; y < pattern.length; y++) { //riktig rekkefølge
+    int patternHeight = pattern.length;
+    int patternWidth = pattern[0].length;
+
+    for (int y = 0; y < patternHeight; y++) { //riktig rekkefølge
         for (int x = 0; x < pattern[y].length; x++) {
             if (pattern[y][x] != 0) {
-                insertTile(pattern[y][x], start, x, pattern.length - 1 - y);
+                insertTile(pattern[y][x], start, x, patternHeight- 1 - y);
             }
         }
     }
+    // Add a row of occupied tiles above the platform
+    int bufferRowsAbove = 1; 
+    for (int x = 0; x < patternWidth; x++) {
+        for (int row = 1; row <= bufferRowsAbove; row++) {
+            int gridX = start.x() + x;
+            int gridY = start.y() + patternHeight - 1 + row;
+            if (isWithinGrid(gridX, gridY)) {
+                updateOccupiedCoordinates(gridX, gridY);
+            }
+        }
+    }
+  }
+  private boolean isWithinGrid(int x, int y) {
+    return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT;
   }
 
     
