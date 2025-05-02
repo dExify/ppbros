@@ -135,8 +135,8 @@ class GameModelTest {
     
     gameModel.movePlayer(1, 0); // Move right into enemy
     
-    assertEquals(initialHealth - 10, player.getHealth(),
-    "Player should lose 10 health after hitting enemy");
+    assertEquals(initialHealth - 8, player.getHealth(),
+    "Player should lose 8 health after hitting enemy");
   }
   
   
