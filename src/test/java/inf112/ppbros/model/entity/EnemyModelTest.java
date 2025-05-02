@@ -109,16 +109,30 @@ class EnemyModelTest {
   @Test
   void testPlatformCollisionChangesDirection() {
       enemy.setSize(10, 10);
-      Rectangle wall = new Rectangle(enemy.getX() + 5, enemy.getY(), 10, 10); // Just in front
-      List<Rectangle> platforms = List.of(new Rectangle(enemy.getX(), enemy.getY() - 10, 50, 10), wall);
-
+  
       PlayerModel player = mock(PlayerModel.class);
-      when(player.getX()).thenReturn(enemy.getX() - 100); // Still in patrol mode
+      when(player.getX()).thenReturn(enemy.getX() - 100); // Stay in patrol range
       when(player.getY()).thenReturn(enemy.getY());
-
+  
       boolean initialDirection = enemy.facesLeft();
+      float enemyX = enemy.getX();
+      float enemyY = enemy.getY();
+  
+      Rectangle ground = new Rectangle(enemyX - 5, enemyY - 10, 50, 10); // ground beneath enemy
+      Rectangle wall;
+  
+      // Create wall depending on direction
+      if (initialDirection) {
+          wall = new Rectangle(enemyX - 10, enemyY, 10, 10); // wall to the left
+      } else {
+          wall = new Rectangle(enemyX + 10, enemyY, 10, 10); // wall to the right
+      }
+  
+      List<Rectangle> platforms = List.of(ground, wall);
+  
       enemy.updateMovement(player, platforms, 0.1f);
-      assertNotEquals(initialDirection, enemy.facesLeft(), "Enemy should reverse on collision");
+  
+      assertNotEquals(initialDirection, enemy.facesLeft(), "Enemy should reverse direction on collision");
   }
 
 
