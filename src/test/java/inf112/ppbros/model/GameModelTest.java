@@ -9,12 +9,24 @@ import com.badlogic.gdx.math.Rectangle;
 import inf112.mockutil.GdxTestMock;
 import inf112.ppbros.model.entity.EnemyModel;
 import inf112.ppbros.model.entity.PlayerModel;
+import inf112.ppbros.model.platform.PlatformGrid;
+import inf112.ppbros.model.platform.PlatformGridMaker;
 import inf112.ppbros.testutils.TestApplicationListener; 
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 class GameModelTest {
   private GameModel gameModel;
@@ -310,5 +322,71 @@ class GameModelTest {
     assertEquals(initialHealth, player.getHealth(), "Player should not take damage if inside bounds.");
   }
   
+  
+  @Test
+  void testGetNextPlatformGridAddsEnemiesAndReturnsGrid() {
+    PlatformGrid dummyGrid = mock(PlatformGrid.class);
+    when(dummyGrid.getHitboxes()).thenReturn(List.of(new Rectangle(0, 0, 10, 10)));
+    
+    // Inject mock PlatformGridMaker
+    try {
+      Field field = GameModel.class.getDeclaredField("platformGridMaker");
+      field.setAccessible(true);
+      PlatformGridMaker makerMock = mock(PlatformGridMaker.class);
+      when(makerMock.getNextPlatformGrid()).thenReturn(dummyGrid);
+      when(dummyGrid.getValidEnemySpawnPos()).thenReturn(new Coordinate(0, 0));
+      field.set(gameModel, makerMock);
+    } catch (Exception e) {
+      fail("Reflection injection failed: " + e.getMessage());
+    }
+    
+    // Clear enemies and hitboxes before test
+    gameModel.getEnemies().clear();
+    gameModel.getPlatformHitboxes().clear();
+    
+    PlatformGrid result = gameModel.getNextPlatformGrid();
+    
+    assertNotNull(result, "Returned PlatformGrid should not be null.");
+    assertEquals(5, gameModel.getEnemies().size(), "Exactly 5 enemies should be added.");
+    assertEquals(1, gameModel.getPlatformHitboxes().size(), "Platform hitboxes should include the dummy hitbox.");
+  }
+  
+  @Test
+  void testJumpTriggersPlayerJump() {
+    PlayerModel player = spy(gameModel.getPlayer());
+    
+    // Inject the spy back into the GameModel
+    try {
+      Field playerField = GameModel.class.getDeclaredField("player");
+      playerField.setAccessible(true);
+      playerField.set(gameModel, player);
+    } catch (Exception e) {
+      fail("Failed, error: " + e.getMessage());
+    }
+    
+    gameModel.jump();
+    
+    verify(player, times(1)).jump();
+  }
+  
+  @Test
+  void testUpdatePlayerCallsPlayerUpdate() throws Exception {
+    PlayerModel playerSpy = spy(gameModel.getPlayer());
+    
+    // Inject the spy into gamemodel
+    try {
+      Field playerField = GameModel.class.getDeclaredField("player");
+      playerField.setAccessible(true);
+      playerField.set(gameModel, playerSpy);
+    } catch (Exception e) {
+      fail("Failed, error: " + e.getMessage());
+    }
+    
+    // Call the method under test
+    gameModel.updatePlayer();
+    
+    // Verify update is called
+    verify(playerSpy, times(1)).update(anyFloat(), anyList());
+  }
   
 }
