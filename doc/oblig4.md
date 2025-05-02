@@ -169,3 +169,77 @@ Når det gjelder de ekstra implementasjonene (bosses, two-player mode, forskjell
 
 ### Justeringer av MVP
 - MVP'en vi lagde var mer omfattende og tidskrevende enn det vi trodde og vi tenker det er mulig å forkorte den mens den alikevel vil bli ansett som en MVP. Justert MVP er skrevet under forrige MVP og er forkortet ved å ha fjernet noen krav for logikk implementasjon og forenklet visuelle krav.
+
+## Kode
+
+### Bruk av statiske analyseverktøy
+
+Vi brukte SonarQube som et statisk analyseverktøy for å identifisere potensielle feil og forbedringspunkter i koden vår. Det viste seg å være svært nyttig, spesielt for å rydde opp i mindre formfeil og forbedre kodekvaliteten generelt. Verktøyet hjalp oss med å identifisere potensielle problemer som vi ellers kanskje ikke ville lagt merke til, som ubrukte variabler, duplisert logikk og manglende dokumentasjon.
+
+Spesielt nyttig var SonarQube-utvidelsen for VSCode, som gjorde det mulig å få tilbakemeldinger direkte i editor. Dette sparte oss for tid ved at vi slapp å vente på at CI-pipelinen skulle fullføres før vi fikk se eventuelle problemer. Det førte til en mer effektiv arbeidsflyt og gjorde det enklere å rette opp feil underveis i utviklingen.
+
+Alt i alt bidro SonarQube til bedre struktur, bedre kodekvalitet og økt bevissthet på kodestil.
+
+### Manuelle tester
+
+#### 1. Test av spillerens bevegelse
+
+**Teststeg:**
+1. Start spillet.
+2. Bruk venstre og høyre piltast (eller A/D) for å bevege spilleren.
+3. Bruk hoppetasten (mellomrom) for å hoppe.
+
+**Forventet resultat:**
+- Spilleren beveger seg i riktig retning i henhold til input.
+- Spilleren reagerer umiddelbart på tastetrykk.
+- Spilleren kan ikke gå gjennom plattformer.
+
+#### 2. Test av endring i health
+
+**Teststeg:**
+1. Start spillet.
+2. La spilleren kollidere med en fiende eller falle utfor skjermen.
+3. Observer spillerens health/liv.
+
+**Forventet resultat:**
+- Health-scoren reduseres når spilleren tar skade.
+- Når health når 0, vises en “Game Over”-skjerm
+
+#### 3. Test av score-system
+
+**Teststeg:**
+1. Start spillet.
+2. Eliminér en fiende.
+3. Observer score på skjermen.
+
+**Forventet resultat:**
+- Score øker ved eliminasjon.
+- Score oppdateres umiddelbart i visningen.
+
+#### 4. Test at fiender forsvinner når de dør
+
+**Teststeg:**
+1. Start spillet.
+2. Angrip en fiende til den dør.
+3. Observer hva som skjer med fienden på skjermen.
+
+**Forventet resultat:**
+- Fienden forsvinner visuelt etter at den er eliminert.
+- Fienden kan ikke skade spilleren etter at den er død.
+- En lyd spilles når den forsvinner.
+
+#### 5. Test av spillerens animasjoner
+
+**Teststeg:**
+1. Start spillet.
+2. Beveg spilleren til venstre og høyre.
+3. Utfør et angrep (trykk på F).
+
+**Forventet resultat:**
+- En bevegelsesanimasjon spilles når spilleren går/løper.
+- En angrepsanimasjon vises ved angrep.
+- Animasjonene starter og stopper riktig i henhold til input.
+
+
+
+
