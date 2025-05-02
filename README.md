@@ -79,6 +79,7 @@
 ### Sprites
 
 - **Player & Enemy sprites, Platforms, Decorative elemens, World background, Menu background**
+  
   Credits to **Mathias Hestvik**
 
 ### License Disclaimer
