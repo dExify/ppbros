@@ -21,48 +21,76 @@ public class PlatformMaker {
    * a predefined set of platform patterns to the internal list.
    */
   public PlatformMaker() {
-    platformWidth = 5;
-    platformHeight = 3;
     patterns = new ArrayList<>();
     random = new Random();
-    addDefaultPatterns();
+    addSimplePatterns();
+    platformHeight = patterns.get(0).length;
+    platformWidth = patterns.get(0)[0].length;
   }
   
-  private void addDefaultPatterns() {
+  // private void addDefaultPatterns() {
+  //   patterns.add(new int[][] {
+  //     { 0, 0, 0, 1, 1 },
+  //     { 1, 5, 0, 0, 0 },
+  //     { 1, 1, 1, 0, 0 },
+  //   });
+  //   patterns.add(new int[][] {
+  //     { 0, 0, 0, 0, 0 },
+  //     { 7, 0, 0, 1, 1 },
+  //     { 1, 1, 1, 0, 0 },
+  //   });
+  //   patterns.add(new int[][] {
+  //     { 1, 1, 0, 0, 0 },
+  //     { 0, 0, 5, 0, 0 },
+  //     { 0, 1, 1, 1, 1 },
+  //   });
+  //   patterns.add(new int[][] {
+  //     { 0, 0, 0, 7, 0 },
+  //     { 7, 5, 0, 1, 1 },
+  //     { 1, 1, 0, 0, 0 },
+  //   });
+  //   patterns.add(new int[][] {
+  //     { 0, 0, 0, 0, 0 },
+  //     { 1, 1, 7, 0, 0 },
+  //     { 0, 0, 1, 1, 1 },
+  //   });
+  //   patterns.add(new int[][] {
+  //     { 0, 0, 0, 0, 0 },
+  //     { 0, 0, 0, 0, 0 },
+  //     { 0, 0, 1, 1, 1 },
+  //   });
+  //   patterns.add(new int[][] {
+  //     { 0, 0, 0, 0, 0 },
+  //     { 0, 5, 0, 0, 7 },
+  //     { 1, 1, 1, 1, 1 },
+  //   });
+  // }
+
+  private void addSimplePatterns() {
     patterns.add(new int[][] {
-      { 0, 0, 0, 1, 1 },
-      { 1, 5, 0, 0, 0 },
-      { 1, 1, 1, 0, 0 },
+      { 0, 0, 0, 0, 0 },
+      { 0, 7, 0, 5, 0 },
+      { 0, 1, 1, 1, 0 },
     });
     patterns.add(new int[][] {
       { 0, 0, 0, 0, 0 },
-      { 7, 0, 0, 1, 1 },
-      { 1, 1, 1, 0, 0 },
-    });
-    patterns.add(new int[][] {
-      { 1, 1, 0, 0, 0 },
-      { 0, 0, 5, 0, 0 },
-      { 0, 1, 1, 1, 1 },
-    });
-    patterns.add(new int[][] {
-      { 0, 0, 0, 7, 0 },
-      { 7, 5, 0, 1, 1 },
-      { 1, 1, 0, 0, 0 },
+      { 0, 0, 0, 0, 0 },
+      { 0, 1, 1, 1, 0 },
     });
     patterns.add(new int[][] {
       { 0, 0, 0, 0, 0 },
-      { 1, 1, 7, 0, 0 },
-      { 0, 0, 1, 1, 1 },
+      { 0, 0, 5, 7, 0 },
+      { 0, 1, 1, 1, 0 },
     });
     patterns.add(new int[][] {
       { 0, 0, 0, 0, 0 },
-      { 0, 0, 0, 0, 0 },
-      { 0, 0, 1, 1, 1 },
+      { 0, 7, 0, 0, 0 },
+      { 0, 1, 1, 1, 0 },
     });
     patterns.add(new int[][] {
       { 0, 0, 0, 0, 0 },
-      { 0, 5, 0, 0, 7 },
-      { 1, 1, 1, 1, 1 },
+      { 0, 5, 0, 0, 0},
+      { 0, 1, 1, 1, 0 },
     });
   }
 

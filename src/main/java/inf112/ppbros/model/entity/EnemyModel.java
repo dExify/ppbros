@@ -1,6 +1,8 @@
 package inf112.ppbros.model.entity;
 
 import java.util.List;
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -23,6 +25,7 @@ import inf112.ppbros.model.platform.TileConfig;
 */
 public class EnemyModel extends AbstractEntity {
   private boolean movingLeft = true;
+  private Random random;
   private List<Rectangle> hitboxes;
   private float deltaTime;
   private float playerX;
@@ -30,6 +33,8 @@ public class EnemyModel extends AbstractEntity {
   private static Animation<TextureRegion> enemyRunAnimR;
   private static Animation<TextureRegion> enemyRunAnimL;
   private static final float SIZE_RATIO = 3f;
+  private static final int SLIME_TEXTURE_PIXEL_WIDTH = 160;
+  private static final int SLIME_TEXTURE_PIXEL_HEIGHT = 110;
   
   /**
   * Creates a new enemy instance at a specified starting position
@@ -45,7 +50,10 @@ public class EnemyModel extends AbstractEntity {
     this.attackDmg = 10;
     this.width = 0;
     this.height = 0;
+    this.random = new Random();
+    this.movingLeft = random.nextBoolean();
     this.collisionBox = new Rectangle(x, y, width, height);
+    setSize(SLIME_TEXTURE_PIXEL_WIDTH / SIZE_RATIO, SLIME_TEXTURE_PIXEL_HEIGHT / SIZE_RATIO);
   }
   
   /**
@@ -181,10 +189,4 @@ public class EnemyModel extends AbstractEntity {
     currentFrame = movingLeft ? enemyRunAnimL.getKeyFrame(animationTime) : enemyRunAnimR.getKeyFrame(animationTime);
   }
   
-  public void initViewSize() {
-    TextureRegion slimeTexture;
-    slimeTexture = new TextureRegion(new Texture(Gdx.files.internal("entity/enemy/slime/slime_idle.png")));
-    setSize(slimeTexture.getRegionWidth() / SIZE_RATIO, slimeTexture.getRegionHeight() / SIZE_RATIO);
-    
-  }
 }

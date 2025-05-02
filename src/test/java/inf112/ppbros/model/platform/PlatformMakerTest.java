@@ -84,4 +84,22 @@ class PlatformMakerTest {
         Exception exception = assertThrows(IllegalStateException.class, emptyMaker::getNext);
         assertEquals("No patterns available.", exception.getMessage());
     }
+
+    @Test
+    void testGetBasePlatformGeneratesCorrectPattern() {
+        int width = 5;
+
+        Platform basePlatform = platformMaker.getBasePlatform(width);
+
+        assertNotNull(basePlatform, "Platform should not be null");
+
+        int[][] pattern = basePlatform.getPlatform();
+        assertEquals(1, pattern.length, "Base platform should have 1 row");
+        assertEquals(width, pattern[0].length, "Base platform should have correct number of columns");
+
+        for (int i = 0; i < width; i++) {
+            assertEquals(1, pattern[0][i], "Each tile should be set to 1");
+        }
+    }
 }
+

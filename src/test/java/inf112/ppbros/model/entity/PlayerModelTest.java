@@ -122,4 +122,30 @@ class PlayerModelTest {
     void testGetTypeReturnsMainCharacter() {
         assertEquals(EntityType.MAIN_CHARACTER, player.getType(), "getType should return MAIN_CHARACTER");
     }
+
+    @Test
+    void testGetIsOnGround() {
+      List<Rectangle> platforms = new ArrayList<>();
+      platforms.add(new Rectangle(100, 50, 100, 20));
+      player.setX(150);
+      player.setY(70);
+      player.update(1f, platforms);
+      boolean onGround = player.isOnGround();
+      assertTrue(onGround, "Player should be on ground when starting");
+
+      player.jump();
+      player.update(1f, platforms);
+      boolean inAir = !player.isOnGround();
+
+      assertTrue(inAir, "Player should be in the air after jumping");
+    }
+
+    @Test
+    void testHpIncreasesOnKill() {
+        int intialHealth = player.getHealth();
+        player.takeDamage(10); // Set initial health to 50
+        player.getHpOnKill(); // Gain power-up
+        assertEquals(intialHealth, player.getHealth(), "Health should increase by 5 after gaining power-up");
+    }
+
 }

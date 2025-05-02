@@ -58,7 +58,8 @@ public class ScreenView implements Screen {
   private Texture skullsTexture;
   private Texture sewerLoop;
   private PlayerModel player;
-  
+
+  private Label powerUpLabel;  
 
   @SuppressWarnings("unused")
   private float animationTime = 0;
@@ -121,8 +122,15 @@ public class ScreenView implements Screen {
     platformGridObject1 = gameModel.getNextPlatformGrid(); 
     platformGridObject2 = gameModel.getNextPlatformGrid();
     this.yPos = 0;
-    
-    
+
+    // For Powerup
+    Table powerUpTable = new Table();
+    powerUpLabel = new Label("Powerup Aquired! (+Dmg)", skin);
+    powerUpTable.setFillParent(true);
+    powerUpTable.add(powerUpLabel).pad(10);
+    // powerUpTable.center();
+    powerUpLabel.setVisible(false);
+    stage.addActor(powerUpTable);
     
     gameModel.startTimer();
     
@@ -177,9 +185,19 @@ public class ScreenView implements Screen {
     stage.draw();
     playerController.update(delta);
     gameModel.updatePlayer();
+
+    gameModel.updateMessageTimer(delta);
+    if (gameModel.shouldShowPowerUpMessage()) {
+      powerUpLabel.setVisible(true);
+    } else {
+      powerUpLabel.setVisible(false);
+    }
     
-    //drawHitboxes(); //debugging
-    //drawPlayerHitbox(); //debugging
+    // drawHitboxes(); //debugging
+    // drawPlayerHitbox(); //debugging
+    // drawEnemiesHitbox(); //debugging
+
+
   }
   
   private void drawPlayer(float delta) {
@@ -194,11 +212,6 @@ public class ScreenView implements Screen {
     stage.draw();
     
     playerController.update(delta);
-    
-    
-    // drawHitboxes(); //debugging
-    // drawPlayerHitbox(); //debugging
-    // drawEnemiesHitbox(); //debugging
   }
   
   // === Debugging Methods ===

@@ -22,8 +22,8 @@ public class PlatformGrid {
   private static final int GRID_HEIGHT = TileConfig.GRID_HEIGHT;
   private static final int TILE_SIZE = TileConfig.TILE_SIZE;
   private static final int PLATFORM_GRIDHEIGHT_PIXELS = TileConfig.PLATFORM_GRIDHEIGHT_PIXELS;
-  private static final int xMargin = 1;
-  private static final int yMargin = 1;
+  private static final int X_MARGIN = 1;
+  private static final int Y_MARGIN = 1;
   
   private int[][] tileGrid = new int[GRID_WIDTH][GRID_HEIGHT];
   private ArrayList<Rectangle> hitboxes;
@@ -145,14 +145,14 @@ public class PlatformGrid {
   private Coordinate getPlatformStart() {
     int platformHeight = platformMaker.getPlatformHeight();
     int platformWidth = platformMaker.getPlatformWidth();
-    int expectedVacantPosCount = (platformHeight + yMargin * 2) * (platformWidth + xMargin * 2);
+    int expectedVacantPosCount = (platformHeight + Y_MARGIN * 2) * (platformWidth + X_MARGIN * 2);
 
     for (int checks = 0; checks < 10; checks++) {
-        int randomX = xMargin + random.nextInt(GRID_WIDTH - platformWidth - 2 * xMargin);
-        int randomY = yMargin + random.nextInt(GRID_HEIGHT - platformHeight - 2 * yMargin);      
+        int randomX = X_MARGIN + random.nextInt(GRID_WIDTH - platformWidth - 2 * X_MARGIN);
+        int randomY = Y_MARGIN + random.nextInt(GRID_HEIGHT - platformHeight - 2 * Y_MARGIN);      
         Coordinate startCoordinate = new Coordinate(randomX, randomY);
 
-        if (isAreaVacant(startCoordinate, platformWidth, platformHeight, xMargin, yMargin, expectedVacantPosCount)) {
+        if (isAreaVacant(startCoordinate, platformWidth, platformHeight, X_MARGIN, Y_MARGIN, expectedVacantPosCount)) {
             return startCoordinate;
         }
     }
@@ -166,16 +166,16 @@ public class PlatformGrid {
    * @param start         the top-left coordinate of the area
    * @param width         the width of the platform
    * @param height        the height of the platform
-   * @param xMargin       margin added on the x-axis
-   * @param yMargin       margin added on the y-axis
+   * @param X_MARGIN       margin added on the x-axis
+   * @param Y_MARGIN       margin added on the y-axis
    * @param expectedCount the number of expected vacant tiles
    * @return  {@code true} if the area is vacant; {@code false} otherwise
    */
-  private boolean isAreaVacant(Coordinate start, int width, int height, int xMargin, int yMargin, int expectedCount) {
+  private boolean isAreaVacant(Coordinate start, int width, int height, int X_MARGIN, int Y_MARGIN, int expectedCount) {
     int vacantCount = 0;
 
-    for (int y = start.y() - yMargin; y < start.y() + height + yMargin; y++) {
-        for (int x = start.x() - xMargin; x < start.x() + width + xMargin; x++) {
+    for (int y = start.y() - Y_MARGIN; y < start.y() + height + Y_MARGIN; y++) {
+        for (int x = start.x() - X_MARGIN; x < start.x() + width + X_MARGIN; x++) {
             if (!occupiedCoordinates.contains(new Coordinate(x, y))) {
                 vacantCount++;
             } else {
@@ -217,7 +217,7 @@ public class PlatformGrid {
   }
 
   private boolean isFree(int x, int y) {
-    return tileGrid[x][y] == 0;
+    return tileGrid[x][y] == 6 || tileGrid[x][y] == 5 || tileGrid[x][y] == 7 || tileGrid[x][y] == 0;
   }
 
   private boolean isOnGround(int x, int y) {
