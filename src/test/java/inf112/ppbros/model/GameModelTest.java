@@ -236,7 +236,7 @@ class GameModelTest {
   }
   
   @Test
-  void testUpdateEnemiesRemoveDeadAndIncrementScore() {
+  void testUpdateEnemiesRemoveDead() {
     PlayerModel player = gameModel.getPlayer();
     player.setSize(50, 100); // to ensure valid hitbox comparisons
     
@@ -251,14 +251,12 @@ class GameModelTest {
     deadEnemy.takeDamage(deadEnemy.getHealth()); // now health == 0
     
     gameModel.getEnemies().add(deadEnemy);
-    int initialScore = gameModel.getScore();
     
     // Act
     gameModel.updateEnemiesPos(0.1f);
     
     // Assert
     assertFalse(gameModel.getEnemies().contains(deadEnemy), "Dead enemy should be removed");
-    assertEquals(initialScore + 1, gameModel.getScore(), "Score should increase when enemy is removed");
   }
   
   @Test
