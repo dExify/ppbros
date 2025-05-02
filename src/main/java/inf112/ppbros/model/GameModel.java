@@ -232,7 +232,7 @@ public class GameModel extends Game {
     if (now - lastExecution >= COOLDOWNTIME){
       lastExecution = now;
       audioController.playSoundEffect("takeDamage");
-      player.takeDamage(10); 
+      player.takeDamage(damage); 
       if (player.getHealth() == 0) {
         audioController.playSoundEffect("gameOver");
       }
