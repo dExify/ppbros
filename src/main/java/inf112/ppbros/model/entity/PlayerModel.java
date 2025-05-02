@@ -28,11 +28,12 @@ public class PlayerModel extends AbstractEntity {
     private boolean facesLeft = false;
     private boolean isMoving = false;
     private boolean isAttacking = false;
+    private boolean isOnGround = false;
     private static final float GRAVITY = -20f;
     private static final float MAX_FALL_SPEED = -550f;
     private static final float JUMP_VELOCITY = 900f;
-    private boolean isOnGround = false;
-    private static final int maxHealth = 100;
+    private static final int MAX_HEALTH = 100;
+    private static final int MAX_ATTACK_DMG = 50;
 
     /**
      * Constructs a new player instance at the given starting position.
@@ -43,7 +44,7 @@ public class PlayerModel extends AbstractEntity {
     public PlayerModel(float startX, float startY) {
         this.x = startX;
         this.y = startY;
-        this.health = maxHealth;
+        this.health = MAX_HEALTH;
         this.speed = 250.0f;
         this.attackRange = 140;
         this.attackDmg = 20;
@@ -131,7 +132,7 @@ public class PlayerModel extends AbstractEntity {
      * Increases the player's attack damage by a small amount.
      */
     public void gainPowerUp() {
-        if (attackDmg < 50) {
+        if (attackDmg < MAX_ATTACK_DMG) {
             attackDmg += 5;
         }
     }
@@ -140,7 +141,7 @@ public class PlayerModel extends AbstractEntity {
      * Increases the player's health by a small amount upon killing an enemy.
      */
     public void getHpOnKill() {
-        if (health <= (maxHealth - 10)) {
+        if (health <= (MAX_HEALTH - 10)) {
             health += 10;
         }
     }

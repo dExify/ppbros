@@ -47,7 +47,7 @@ public class EnemyModel extends AbstractEntity {
     this.health = 100;
     this.speed = 50.0f;
     this.attackRange = 0;
-    this.attackDmg = 10;
+    this.attackDmg = 8;
     this.width = 0;
     this.height = 0;
     this.random = new Random();
@@ -78,8 +78,6 @@ public class EnemyModel extends AbstractEntity {
       patrolPlatform();
     }
   }
-  
-  
   
   private boolean playerInRange() {
     return (playerY >= y - TileConfig.TILE_SIZE * 2) && (playerY <= y + TileConfig.TILE_SIZE * 2) && 

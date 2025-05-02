@@ -134,7 +134,6 @@ public class GameModel extends Game {
   /** Moves player based on its speed.
   * Checks for collision with platforms and enemies.
   * Collision with platforms puts the player back to previous position.
-  * Collision with enemies makes player take damage
   * @param deltaX horizontal movement
   * @param deltaY vertical movement
   */
@@ -148,7 +147,7 @@ public class GameModel extends Game {
         player.setX(prevX);
         player.setY(prevY);
     }
-    if (collisionWithAnyEnemy()) playerIsHit(8);
+    collisionWithAnyEnemy();
   }
 
   /**
@@ -277,12 +276,16 @@ public class GameModel extends Game {
   }
 
   /**
-   * Checks if the player is colliding with any spawned enemy
+   * Checks if the player is colliding with any spawned enemy.
+   * At collision player takes a hit.
    * @return true if player collides
    */
   private boolean collisionWithAnyEnemy() {
     for (EnemyModel e : enemies) {
-        if (player.collidesWith(e.getCollisionBox())) return true;
+        if (player.collidesWith(e.getCollisionBox())){
+          playerIsHit(e.getAttackDmg());
+          return true;
+        }
     }
     return false;
   }
@@ -383,6 +386,7 @@ public class GameModel extends Game {
   /**
    * Updates the enemies' positions based on the player's position and the platform hitboxes.
    * This method is called every frame to ensure that the enemies move towards the player, and move correctly.
+   * Also checks for collision with player.
    * @param deltaTime The time since the last frame, used to update the enemies' positions.
    * This is used to ensure that the enemies move at a consistent speed, regardless of the frame rate.
    */
@@ -392,13 +396,12 @@ public class GameModel extends Game {
 
       if (enemy.getHealth() <= 0) {
         it.remove();
-        // addToScore();
         continue;
       }
 
       enemy.updateMovement(player, platformHitboxes, deltaTime);
 
-      if (enemy.collidesWith(player.getCollisionBox())) playerIsHit(enemy.getAttackDmg());
+      collisionWithAnyEnemy();
     }
 
   }
