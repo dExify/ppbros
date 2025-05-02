@@ -43,6 +43,10 @@ public class GameModel extends Game {
   private PlatformGridMaker platformGridMaker;
   private List<Rectangle> platformHitboxes;
   private List<Rectangle> enemyHitboxes;
+
+  private boolean showPowerUpMessage = false;
+  private float messageTimer = 0f;
+  private final float MESSAGE_DURATION = 1.55f;
   
   private static final long COOLDOWNTIME = 1000; // 1 second, can be changed
   private static final int TILESIZE = TileConfig.TILE_SIZE;
@@ -142,19 +146,20 @@ public class GameModel extends Game {
         player.setY(prevY);
     }
     if (collisionWithAnyEnemy()) playerIsHit();
-}
-  
+  }
+
   /**
-   * Returns an enemy the player can currently attack
-   * @return attackable enemy or {@code null}
+   * Returns the enemies the player can currently attack
+   * @return {@code List<EnemyModel>} of attackable enemies
    */
-  public EnemyModel attackableEnemy() {
-    for (EnemyModel enemy : enemies){ // if mutiple enemies on same platform, this will not work well
+  public List<EnemyModel> attackableEnemies() {
+    List<EnemyModel> attackableEnemies = new ArrayList<>();
+    for (EnemyModel enemy : enemies){
       if (player.canAttack(enemy)) {
-        return enemy;
+        attackableEnemies.add(enemy);
       }
     }
-    return null;
+    return attackableEnemies;
   }
   
   /**
@@ -166,8 +171,40 @@ public class GameModel extends Game {
     enemy.takeDamage(player.getAttackDmg());
     if (enemy.getHealth() == 0) {
       addToScore();
+      onEnemyKilled();
     }
-    
+  }
+
+  private void onEnemyKilled() {
+    player.hpOnKill();
+    if (score % 5 == 0) {
+      player.gainPowerUp();
+      messageTimer = 0f;
+      showPowerUpMessage = true;
+    }
+  }
+
+  /**
+   * Returns the current state of the power-up message.
+   * @return {@code true} if the power-up message should be shown, {@code false} otherwise.
+   */
+  public boolean shouldShowPowerUpMessage() {
+    return showPowerUpMessage;
+  }
+
+  /**
+   * Updates the message timer for the power-up message.
+   * If the message duration is exceeded, the message is hidden.
+   * @param deltaTime the time since the last frame
+   */
+  public void updateMessageTimer(float deltaTime) {
+    if (showPowerUpMessage) {
+      messageTimer += deltaTime;
+      if (messageTimer >= MESSAGE_DURATION) {
+        showPowerUpMessage = false;
+        messageTimer = 0f;
+      }
+    }
   }
   
   /**
@@ -182,7 +219,7 @@ public class GameModel extends Game {
       audioController.playSoundEffect("takeDamage");
       player.takeDamage(10); // change to getAttackdmg() but once we have added mutiple enemy types? 
       System.out.println("Player is hit, -10 hp!");
-      System.out.println("Player health: " + player.getHealth());
+      // System.out.println("Player health: " + player.getHealth());
       if (player.getHealth() == 0) {
         audioController.playSoundEffect("gameOver");
       }
@@ -233,7 +270,7 @@ public class GameModel extends Game {
         if (player.collidesWith(e.getCollisionBox())) return true;
     }
     return false;
-}
+  }
   
   /**
   * Builds a platform grid and returns the platformGrid object and corresponding enemy on grid.
@@ -340,6 +377,7 @@ public class GameModel extends Game {
 
       if (enemy.getHealth() <= 0) {
         it.remove();
+        // addToScore();
         continue;
       }
 
