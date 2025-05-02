@@ -25,16 +25,16 @@ import inf112.ppbros.model.platform.PlatformGrid;
 import inf112.ppbros.model.platform.TileConfig;
 
 /**
- * The ScreenView class represents the main game screen where the gameplay occurs.
- * It is responsible for rendering the game world, managing the camera, UI overlays,
- * drawing the player, enemies, platform tiles, and handling scene transitions such as
- * game over.
- *
- * <p>This class serves as the visual representation of the game state defined by {@link GameModel},
- * where {@link PlayerController} handles input for character movement.
- * It handles rendering background, platforms, entities, UI elements like score and health,
- * and orchestrates the update loop in sync with LibGDX's rendering cycle.
- */
+* The ScreenView class represents the main game screen where the gameplay occurs.
+* It is responsible for rendering the game world, managing the camera, UI overlays,
+* drawing the player, enemies, platform tiles, and handling scene transitions such as
+* game over.
+*
+* <p>This class serves as the visual representation of the game state defined by {@link GameModel},
+* where {@link PlayerController} handles input for character movement.
+* It handles rendering background, platforms, entities, UI elements like score and health,
+* and orchestrates the update loop in sync with LibGDX's rendering cycle.
+*/
 public class ScreenView implements Screen {
   
   private GameModel gameModel;
@@ -57,25 +57,22 @@ public class ScreenView implements Screen {
   private Texture barrelTexture;
   private Texture debuggingTexture;
   private Texture skullsTexture;
-  private Texture sewer1;
-  private Texture sewer2;
-  private Texture sewer3;
-  
+  private Texture sewerLoop;
   private PlayerModel player;
+  
 
-  private TextureRegion currentFrame;
+  @SuppressWarnings("unused")
   private float animationTime = 0;
   
-  private Texture resizedEnemyTexture;
   private List<EnemyModel> enemies;
   
   private boolean drawInfiniteBackground;
   
   /**
-   * Constructs the main gameplay screen with a reference to the game's logic.
-   *
-   * @param model the GameModel containing the logic and state of the game
-   */
+  * Constructs the main gameplay screen with a reference to the game's logic.
+  *
+  * @param model the GameModel containing the logic and state of the game
+  */
   public ScreenView(GameModel model) {
     this.gameModel = model;
     this.playerController = new PlayerController(model, true);
@@ -89,8 +86,8 @@ public class ScreenView implements Screen {
     Skin skin;
     player = gameModel.getPlayer();
     gameModel.loadPlayerAnimations();
-
-
+    
+    
     // Make UI overlay
     stage = new Stage();
     // Make UI overlay for score and health bar
@@ -121,9 +118,7 @@ public class ScreenView implements Screen {
     barrelTexture = new Texture(Gdx.files.internal("Platforms/Barrel.png"));
     debuggingTexture = new Texture(Gdx.files.internal("Red_X.png"));
     mapTexture = new Texture(Gdx.files.internal("SewerMap.png"));
-    sewer1 = new Texture(Gdx.files.internal("sewer_1.png"));
-    sewer2 = new Texture(Gdx.files.internal("sewer_2.png"));
-    sewer3 = new Texture(Gdx.files.internal("sewer_3.png"));
+    sewerLoop = new Texture(Gdx.files.internal("sewer_1.png"));
     platformGridObject1 = gameModel.getNextPlatformGrid(); 
     platformGridObject2 = gameModel.getNextPlatformGrid();
     this.yPos = 0;
@@ -139,10 +134,10 @@ public class ScreenView implements Screen {
   public void render(float delta) {
     // check if player is at 0 health, initiate game over screen if they are 
     if (player.getHealth() <= 0) {
-        ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new GameOverScreen(gameModel));
-        return; // exits render() call
+      ((PowerPipesBros) Gdx.app.getApplicationListener()).transitionTo(new GameOverScreen(gameModel));
+      return; // exits render() call
     }
-
+    
     batch.setProjectionMatrix(camera.combined);
     
     if (drawInfiniteBackground) {
@@ -158,17 +153,14 @@ public class ScreenView implements Screen {
       platformGridObject2 = gameModel.getNextPlatformGrid();
     }
     
-    // update score and health bar
+    // Update score and health bar
     scoreLabel.setText("Score: " + gameModel.getScore());
     healthLabel.setText("Health: " + player.getHealth());
     
-    // camera movement
-    //gameModel.stopTimer();
+    // Camera movement
     camera.position.y = gameModel.getCameraYCoordinate();
     camera.update();
     
-    // draw player and update controller for input
-    //drawPlayerAttack();
     
     enemies = gameModel.getEnemies();
     
@@ -196,7 +188,7 @@ public class ScreenView implements Screen {
     
     batch.begin();
     TextureRegion frame = player.getCurrentFrame();
-    batch.draw(frame, player.getX(), player.getY(), frame.getRegionWidth() / 3, frame.getRegionHeight() / 3);
+    batch.draw(frame, player.getX(), player.getY(), frame.getRegionWidth() / (float) 3, frame.getRegionHeight() / (float) 3);
     batch.end();
     
     stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
@@ -211,7 +203,8 @@ public class ScreenView implements Screen {
   }
   
   // === Debugging Methods ===
-
+  
+  @SuppressWarnings("unused")
   private void drawHitboxes() {
     batch.begin();
     for (Rectangle rec : gameModel.getPlatformHitboxes()) {
@@ -220,24 +213,24 @@ public class ScreenView implements Screen {
     batch.end();
   }
   
+  @SuppressWarnings("unused")
   private void drawPlayerHitbox() {
     Rectangle playerCollisionBox = player.getCollisionBox();
     batch.begin();
     batch.draw(debuggingTexture, playerCollisionBox.getX(), playerCollisionBox.getY(), playerCollisionBox.getWidth(), playerCollisionBox.getHeight());
     batch.end();
   }
-
+  
+  @SuppressWarnings("unused")
   private void drawEnemiesHitbox() {
     enemies = gameModel.getEnemies();
     batch.begin();
     for (EnemyModel enemy : enemies){
       batch.draw(debuggingTexture, enemy.getCollisionBox().getX(), enemy.getCollisionBox().getY(), enemy.getCollisionBox().getWidth(), enemy.getCollisionBox().getHeight());
-      // System.out.println("Enemy at: " + enemy.getCollisionBox().getX() + ", " + enemy.getCollisionBox().getY());
-      // System.out.println("Size: " + enemy.getCollisionBox().getWidth() + "x" + enemy.getCollisionBox().getHeight());
     }
     batch.end();
   }
-
+  
   private void drawEnemies(float delta) {
     enemies = gameModel.getEnemies();
     batch.begin();
@@ -245,15 +238,9 @@ public class ScreenView implements Screen {
     for (EnemyModel enemy : enemies) {
       enemy.updateAnimation(delta); 
       TextureRegion frame = enemy.getCurrentFrame();
-      batch.draw(frame, enemy.getX(), enemy.getY(), frame.getRegionWidth() / 3, frame.getRegionHeight() / 3);
+      batch.draw(frame, enemy.getX(), enemy.getY(), frame.getRegionWidth() / (float) 3, frame.getRegionHeight() / (float) 3);
     }
     
-    batch.end();
-  }
-
-  private void drawPlayerAttack() {
-    batch.begin();
-    batch.draw(currentFrame, player.getX(), player.getY(), currentFrame.getRegionWidth()/3, currentFrame.getRegionHeight()/3);
     batch.end();
   }
   
@@ -266,20 +253,17 @@ public class ScreenView implements Screen {
     batch.draw(mapTexture, 0, 0, Gdx.graphics.getWidth(), (int) backgroundHeight);
     batch.setColor(1F, 1F, 1F, 1F);
     batch.end();
-    if (backgroundHeight < camera.position.y + Gdx.graphics.getHeight() / 2) {
+    if (backgroundHeight < camera.position.y + Gdx.graphics.getHeight() / (double) 2) {
       drawInfiniteBackground = true;
     }
   }
   
   private void drawInfiniteBackground() {
-    // double backgroundHeight = Gdx.graphics.getWidth() * 0.56;
     double backgroundHeight = TileConfig.PLATFORM_GRIDHEIGHT_PIXELS; 
-    Texture bg1 = sewer1;
-    Texture bg2 = sewer2;
     batch.begin();
     batch.setColor(0.7F, 0.7F, 0.7F, 1F);
-    batch.draw(bg1, 0, platformGridObject1.getYPos(), Gdx.graphics.getWidth(), (int) backgroundHeight);
-    batch.draw(bg2, 0, platformGridObject2.getYPos(), Gdx.graphics.getWidth(), (int) backgroundHeight);
+    batch.draw(sewerLoop, 0, platformGridObject1.getYPos(), Gdx.graphics.getWidth(), (int) backgroundHeight);
+    batch.draw(sewerLoop, 0, platformGridObject2.getYPos(), Gdx.graphics.getWidth(), (int) backgroundHeight);
     batch.setColor(1F, 1F, 1F, 1F);
     batch.end();
   }

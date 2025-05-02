@@ -90,11 +90,9 @@ public class PlayerController extends InputAdapter {
             if (audioController != null) {
               audioController.playSoundEffect("jump");
             }
-        }
-        if (keysPressed.contains(Input.Keys.F) && isAttacking) {
-          if (audioController != null) {
+        } 
+        if (keysPressed.contains(Input.Keys.F) && isAttacking && audioController != null) {
             audioController.playSoundEffect("attack");
-          }
         }
 
         // Update animation states on player model
