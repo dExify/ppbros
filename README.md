@@ -12,7 +12,7 @@
 ### Game mechanic:
 - Playable character: Player controls the main character, attacking enemies and gaining points
 - Movement: Playable character can move left/right (A & D) and jump up (Space).
-- Combat: Players can hit enemies to eliminate them.
+- Combat: Players can hit (F) enemies to eliminate them.
 
 ### Game world:
 - Platform based: Platforms disappears down in the void as the camera moves up, which forces players to be constantly moving upwards.
