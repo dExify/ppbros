@@ -295,19 +295,19 @@ void testNoPlayerHitWhenNoCollision() {
   }
   
   @Test
-  public void testShouldShowPowerUpMessage_initiallyFalse() {
+  void testShouldShowPowerUpMessage_initiallyFalse() {
       assertFalse(gameModel.shouldShowPowerUpMessage());
   }
 
   @Test
-  public void testShouldPowerUpAfterFifthKill() {
+  void testShouldPowerUpAfterFifthKill() {
     PlayerModel player = gameModel.getPlayer();
     int initialDmg = player.getAttackDmg();
 
     for (int i = 0; i < 5; i++) {
       gameModel.addToScore();
     }
-    assertEquals(gameModel.getScore(), 5);
+    assertEquals(5, gameModel.getScore());
     assertTrue(gameModel.shouldShowPowerUpMessage(), "Power-up message should be shown after 5 kills.");
     assertTrue(player.getAttackDmg() > initialDmg, "Player should have increased attack damage after 5 kills.");
   }  
