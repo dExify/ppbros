@@ -34,6 +34,7 @@ public class PlayerModel extends AbstractEntity {
     private static final float JUMP_VELOCITY = 900f;
     private static final int MAX_HEALTH = 100;
     private static final int MAX_ATTACK_DMG = 50;
+    private static final float SIZE_RATIO = 3f;
 
     /**
      * Constructs a new player instance at the given starting position.
@@ -176,7 +177,7 @@ public class PlayerModel extends AbstractEntity {
         playerAttackAnimL = new Animation<>(0.1f, attackFramesLeft, Animation.PlayMode.LOOP);
 
         currentFrame = playerTextureRight;
-        setSize(playerTextureRight.getRegionWidth() / 3, playerTextureRight.getRegionHeight() / 3);
+        setSize(playerTextureRight.getRegionWidth() / SIZE_RATIO, playerTextureRight.getRegionHeight() / SIZE_RATIO);
     }
 
     /**
