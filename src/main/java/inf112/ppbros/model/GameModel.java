@@ -1,7 +1,6 @@
 package inf112.ppbros.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
@@ -21,14 +20,14 @@ import inf112.ppbros.view.StartMenuView;
 import inf112.ppbros.view.TilePositionInPixels;
 
 /**
- * The {@code GameModel} class represents the core logic and state of the game.
- * It manages the player, enemy entities, platform generation, collisions,
- * score tracking, camera movement, and overall game progression.
- * <p>
- * This class also handles initialization of the game view, entity updates,
- * and timer-based camera control. It is responsible for ensuring gameplay
- * state updates are handled properly per frame.
- */
+* The {@code GameModel} class represents the core logic and state of the game.
+* It manages the player, enemy entities, platform generation, collisions,
+* score tracking, camera movement, and overall game progression.
+* <p>
+* This class also handles initialization of the game view, entity updates,
+* and timer-based camera control. It is responsible for ensuring gameplay
+* state updates are handled properly per frame.
+*/
 public class GameModel extends Game {
   private boolean createView;
   private AudioController audioController;
@@ -43,21 +42,21 @@ public class GameModel extends Game {
   private PlatformGridMaker platformGridMaker;
   private List<Rectangle> platformHitboxes;
   private List<Rectangle> enemyHitboxes;
-
+  
   private boolean showPowerUpMessage = false;
   private float messageTimer = 0f;
   private static final float MESSAGE_DURATION = 1.55f;
   private static final int OUT_OF_BOUNDS_DAMAGE = 10;
-
+  
   
   private static final long COOLDOWNTIME = 1000; // 1 second, can be changed
   private static final int TILESIZE = TileConfig.TILE_SIZE;
   
   /**
-   * Constructs the GameModel. Optionally initializes the game view and assets.
-   *
-   * @param createsView Whether to create and show the view immediately.
-   */
+  * Constructs the GameModel. Optionally initializes the game view and assets.
+  *
+  * @param createsView Whether to create and show the view immediately.
+  */
   public GameModel(boolean createsView, boolean loadAudio) {
     this.createView = createsView;
     if (createView) { // To allow unit tests
@@ -78,7 +77,7 @@ public class GameModel extends Game {
     this.timerTask = new CameraYPos();
     this.platformHitboxes = new ArrayList<>();
     this.enemyHitboxes = new ArrayList<>();
-  
+    
     
     // Sets player start position
     makePlayer(0, 150);
@@ -140,20 +139,20 @@ public class GameModel extends Game {
   public void movePlayer(float dx, float dy) {
     float prevX = player.getX();
     float prevY = player.getY();
-
+    
     player.move(dx * player.getSpeed(), dy * player.getSpeed());
-
+    
     if (collisionCheck(platformHitboxes)) {
-        player.setX(prevX);
-        player.setY(prevY);
+      player.setX(prevX);
+      player.setY(prevY);
     }
     collisionWithAnyEnemy();
   }
-
+  
   /**
-   * Returns the enemies the player can currently attack
-   * @return {@code List<EnemyModel>} of attackable enemies
-   */
+  * Returns the enemies the player can currently attack
+  * @return {@code List<EnemyModel>} of attackable enemies
+  */
   public List<EnemyModel> attackableEnemies() {
     List<EnemyModel> attackableEnemies = new ArrayList<>();
     for (EnemyModel enemy : enemies){
@@ -163,11 +162,11 @@ public class GameModel extends Game {
     }
     return attackableEnemies;
   }
-
-    /**
-   * Returns an enemy the player can currently attack
-   * @return attackable enemy or {@code null}
-   */
+  
+  /**
+  * Returns an enemy the player can currently attack
+  * @return attackable enemy or {@code null}
+  */
   public EnemyModel attackableEnemy() {
     for (EnemyModel enemy : enemies){ // if mutiple enemies on same platform, this will not work well
       if (player.canAttack(enemy)) {
@@ -176,20 +175,20 @@ public class GameModel extends Game {
     }
     return null;
   }
-
+  
   
   /**
-   * Player attacks enemy and enemy takes damage.
-   * When enemy no longer has more health the score increments by 1.
-   * @param enemy enemy that is hit
-   */
+  * Player attacks enemy and enemy takes damage.
+  * When enemy no longer has more health the score increments by 1.
+  * @param enemy enemy that is hit
+  */
   public void playerAttacksEnemy(EnemyModel enemy) {
     enemy.takeDamage(player.getAttackDmg());
     if (enemy.getHealth() == 0) {
       addToScore();
     }
   }
-
+  
   private void onEnemyKilled() {
     player.getHpOnKill();
     if (score % 5 == 0) {
@@ -199,20 +198,20 @@ public class GameModel extends Game {
     }
   }
   
-
+  
   /**
-   * Returns the current state of the power-up message.
-   * @return {@code true} if the power-up message should be shown, {@code false} otherwise.
-   */
+  * Returns the current state of the power-up message.
+  * @return {@code true} if the power-up message should be shown, {@code false} otherwise.
+  */
   public boolean shouldShowPowerUpMessage() {
     return showPowerUpMessage;
   }
-
+  
   /**
-   * Updates the message timer for the power-up message.
-   * If the message duration is exceeded, the message is hidden.
-   * @param deltaTime the time since the last frame
-   */
+  * Updates the message timer for the power-up message.
+  * If the message duration is exceeded, the message is hidden.
+  * @param deltaTime the time since the last frame
+  */
   public void updateMessageTimer(float deltaTime) {
     if (showPowerUpMessage) {
       messageTimer += deltaTime;
@@ -241,14 +240,14 @@ public class GameModel extends Game {
   }
   
   /**
-   * When player is out of bounds they take damage.
-   */
+  * When player is out of bounds they take damage.
+  */
   public void checkOutOfBounds() {
     if (isOutOfBounds()) {
       playerIsHit(OUT_OF_BOUNDS_DAMAGE); // Alternativly, execute instantly game over screen
     }
   }
-
+  
   /**
   * Checks if player is out of bounds left, right and bottom of screeen.
   * @return {@code true} if player is out of bounds, {@code false} if they are within bounds
@@ -262,10 +261,10 @@ public class GameModel extends Game {
   
   
   /**
-   * Checks if player collides with an array containing collision boxes as rectangles.
-   * @param collisionBox an array of collision boxes to check collision with
-   * @return {@code true} if player collides with a rectangle, {@code false} if they don't
-   */
+  * Checks if player collides with an array containing collision boxes as rectangles.
+  * @param collisionBox an array of collision boxes to check collision with
+  * @return {@code true} if player collides with a rectangle, {@code false} if they don't
+  */
   private boolean collisionCheck(List<Rectangle> collisionBox) {
     for (Rectangle rec : collisionBox) {
       if (player.collidesWith(rec)) {
@@ -274,18 +273,18 @@ public class GameModel extends Game {
     }
     return false;
   }
-
+  
   /**
-   * Checks if the player is colliding with any spawned enemy.
-   * At collision player takes a hit.
-   * @return true if player collides
-   */
+  * Checks if the player is colliding with any spawned enemy.
+  * At collision player takes a hit.
+  * @return true if player collides
+  */
   private boolean collisionWithAnyEnemy() {
     for (EnemyModel e : enemies) {
-        if (player.collidesWith(e.getCollisionBox())){
-          playerIsHit(e.getAttackDmg());
-          return true;
-        }
+      if (player.collidesWith(e.getCollisionBox())){
+        playerIsHit(e.getAttackDmg());
+        return true;
+      }
     }
     return false;
   }
@@ -352,76 +351,75 @@ public class GameModel extends Game {
     timer.cancel();
   }
   /**
-   * Returns a list of all platform collision hitboxes.
-   *
-   * @return list of platform hitboxes
-   */
+  * Returns a list of all platform collision hitboxes.
+  *
+  * @return list of platform hitboxes
+  */
   public List<Rectangle> getPlatformHitboxes() {
     return platformHitboxes;
   }
-
+  
   /**
-   * Returns a list of all enemy collision hitboxes.
-   *
-   * @return list of enemy hitboxes
-   */
+  * Returns a list of all enemy collision hitboxes.
+  *
+  * @return list of enemy hitboxes
+  */
   public List<Rectangle> getEnemyHitboxes() {
     return enemyHitboxes;
   }
-
+  
   /**
-   * Triggers the player's jump action.
-   */
+  * Triggers the player's jump action.
+  */
   public void jump() {
     player.jump();
   }
-
+  
   /**
-   * Updates the player’s position and animation state.
-   */
+  * Updates the player’s position and animation state.
+  */
   public void updatePlayer() {
     player.update(Gdx.graphics.getDeltaTime(), platformHitboxes);
   }
-
+  
   /**
-   * Updates the enemies' positions based on the player's position and the platform hitboxes.
-   * This method is called every frame to ensure that the enemies move towards the player, and move correctly.
-   * Also checks for collision with player.
-   * @param deltaTime The time since the last frame, used to update the enemies' positions.
-   * This is used to ensure that the enemies move at a consistent speed, regardless of the frame rate.
-   */
+  * Updates the enemies' positions based on the player's position and the platform hitboxes.
+  * This method is called every frame to ensure that the enemies move towards the player, and move correctly.
+  * Also checks for collision with player.
+  * @param deltaTime The time since the last frame, used to update the enemies' positions.
+  * This is used to ensure that the enemies move at a consistent speed, regardless of the frame rate.
+  */
   public void updateEnemiesPos(float deltaTime) {
     for (Iterator<EnemyModel> it = enemies.iterator(); it.hasNext();) {
       EnemyModel enemy = it.next();
-
+      
       if (enemy.getHealth() <= 0) {
         it.remove();
         continue;
       }
-
+      
       enemy.updateMovement(player, platformHitboxes, deltaTime);
-
+      
       collisionWithAnyEnemy();
     }
-
+    
   }
-
+  
   /**
-   * Loads animations for the player character.
-   */
+  * Loads animations for the player character.
+  */
   public void loadPlayerAnimations() {
     player.loadAnimations();
   }
-
+  
   /**
-   * Returns a new enemy, in a valid position on the platform grid
+  * Returns a new enemy, in a valid position on the platform grid
   * @param grid the platform grid to check for valid spawn coordinates
   * @return EnemyModel
   */
   private EnemyModel getNext(PlatformGrid grid) {
     Coordinate spawnPos = grid.getValidEnemySpawnPos();
-    EnemyModel enemy = new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT);
-    return enemy;
+    return new EnemyModel(spawnPos, (grid.getYPos() / TileConfig.PLATFORM_GRIDHEIGHT_PIXELS) * TileConfig.GRID_HEIGHT); 
   }
 
 }

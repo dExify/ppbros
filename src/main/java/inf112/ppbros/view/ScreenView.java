@@ -128,7 +128,6 @@ public class ScreenView implements Screen {
     powerUpLabel = new Label("Powerup Aquired! (+Dmg)", skin);
     powerUpTable.setFillParent(true);
     powerUpTable.add(powerUpLabel).pad(10);
-    // powerUpTable.center();
     powerUpLabel.setVisible(false);
     stage.addActor(powerUpTable);
     
@@ -187,11 +186,7 @@ public class ScreenView implements Screen {
     gameModel.updatePlayer();
 
     gameModel.updateMessageTimer(delta);
-    if (gameModel.shouldShowPowerUpMessage()) {
-      powerUpLabel.setVisible(true);
-    } else {
-      powerUpLabel.setVisible(false);
-    }
+    powerUpLabel.setVisible(gameModel.shouldShowPowerUpMessage());
     
     // drawHitboxes(); //debugging
     // drawPlayerHitbox(); //debugging
@@ -309,7 +304,7 @@ public class ScreenView implements Screen {
   }
   
   private void drawPlatformTexture(Texture texture, Coordinate coordinate) {
-    batch.draw(texture, coordinate.x(), yPos + coordinate.y(), TILE_SIZE, TILE_SIZE);
+    batch.draw(texture, coordinate.x(), (float) yPos + coordinate.y(), TILE_SIZE, TILE_SIZE);
   }
   
   @Override

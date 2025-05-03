@@ -169,7 +169,7 @@ public class PlatformGrid {
         int randomY = Y_MARGIN + random.nextInt(GRID_HEIGHT - platformHeight - 2 * Y_MARGIN);      
         Coordinate startCoordinate = new Coordinate(randomX, randomY);
 
-        if (isAreaVacant(startCoordinate, platformWidth, platformHeight, X_MARGIN, Y_MARGIN, expectedVacantPosCount)) {
+        if (isAreaVacant(startCoordinate, platformWidth, platformHeight, expectedVacantPosCount)) {
             return startCoordinate;
         }
     }
@@ -188,7 +188,7 @@ public class PlatformGrid {
    * @param expectedCount the number of expected vacant tiles
    * @return  {@code true} if the area is vacant; {@code false} otherwise
    */
-  private boolean isAreaVacant(Coordinate start, int width, int height, int X_MARGIN, int Y_MARGIN, int expectedCount) {
+  private boolean isAreaVacant(Coordinate start, int width, int height, int expectedCount) {
     int vacantCount = 0;
 
     for (int y = start.y() - Y_MARGIN; y < start.y() + height + Y_MARGIN; y++) {
