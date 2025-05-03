@@ -31,7 +31,7 @@ class EnemyModelTest {
   void testInitialization() {
     assertEquals(100, enemy.getHealth());
     assertEquals(50.0f, enemy.getSpeed());
-    assertEquals(10, enemy.getAttackDmg());
+    assertEquals(8, enemy.getAttackDmg());
     assertEquals(EntityType.ENEMY, enemy.getType());
   }
 
