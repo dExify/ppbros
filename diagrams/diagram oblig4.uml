@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/christiansollid/Documents/DTEK/6_V25/INF112/sample-group/src/main</OriginalElement>
+  <nodes>
+    <node x="769.36628400328" y="440.53147549840634">inf112.ppbros.model.platform.PlatformGrid</node>
+    <node x="-59.94786300740225" y="112.92600770131082">inf112.ppbros.model.entity.EntityType</node>
+    <node x="988.7578234290759" y="186.9398374923409">inf112.ppbros.model.platform.Platform</node>
+    <node x="1242.06063725614" y="152.43983749234087">inf112.ppbros.view.StartMenuView</node>
+    <node x="769.36628400328" y="87.56724165656522">inf112.ppbros.model.platform.PlatformMaker</node>
+    <node x="1697.7549905089998" y="705.7718322152652">inf112.ppbros.app.PowerPipesBros</node>
+    <node x="1586.1745866263254" y="504.01064033244154">inf112.ppbros.controller.PlayerController</node>
+    <node x="775.8823153881573" y="1137.7754376870853">inf112.ppbros.model.CameraYPos</node>
+    <node x="176.70399352017466" y="936.2409010117992">inf112.ppbros.model.GameModel</node>
+    <node x="769.36628400328" y="302.23565649537363">inf112.ppbros.model.platform.PlatformGridMaker</node>
+    <node x="778.8823153881573" y="1260.8446613466003">inf112.ppbros.view.TextureUtils</node>
+    <node x="1697.7549905089998" y="941.2745294233353">inf112.ppbros.testutils.TestApplicationListener</node>
+    <node x="1247.56063725614" y="1216.7754376870853">inf112.ppbros.view.GameOverScreen</node>
+    <node x="364.05959573720816" y="447.90407133418216">inf112.ppbros.model.entity.PlayerModel</node>
+    <node x="1697.7549905089998" y="836.0231808193003">inf112.ppbros.app.Main</node>
+    <node x="1585.6745866263254" y="348.24944844961783">inf112.ppbros.controller.AudioController</node>
+    <node x="1242.06063725614" y="559.0231808193003">inf112.ppbros.view.ScreenView</node>
+    <node x="264.20399352017466" y="-5.377217219673696">inf112.ppbros.model.entity.Entity</node>
+    <node x="1242.06063725614" y="348.24944844961783">inf112.ppbros.view.GuideView</node>
+    <node x="206.20399352017466" y="87.56724165656516">inf112.ppbros.model.entity.AbstractEntity</node>
+    <node x="769.36628400328" y="1039.7062140275702">inf112.ppbros.view.TilePositionInPixels</node>
+    <node x="-59.947863007402304" y="447.90407133418216">inf112.ppbros.model.entity.EnemyModel</node>
+    <node x="769.36628400328" y="843.3688447629881">inf112.ppbros.model.platform.TileConfig</node>
+    <node x="516.300423658402" y="931.8124485354253">inf112.ppbros.model.Coordinate</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="inf112.ppbros.model.entity.AbstractEntity" target="inf112.ppbros.model.entity.Entity" relationship="REALIZATION">
+      <point x="0.0" y="-159.5" />
+      <point x="0.0" y="19.0" />
+    </edge>
+    <edge source="inf112.ppbros.model.entity.EnemyModel" target="inf112.ppbros.model.entity.AbstractEntity" relationship="GENERALIZATION">
+      <point x="-1.369925976888453E-4" y="-154.50007133418217" />
+      <point x="102.552" y="428.0" />
+      <point x="319.204" y="428.0" />
+      <point x="6.479825344740675E-6" y="159.49975834343485" />
+    </edge>
+    <edge source="inf112.ppbros.model.entity.PlayerModel" target="inf112.ppbros.model.entity.AbstractEntity" relationship="GENERALIZATION">
+      <point x="4.0426279178973346E-4" y="-223.50007133418217" />
+      <point x="533.06" y="428.0" />
+      <point x="319.204" y="428.0" />
+      <point x="6.479825344740675E-6" y="159.49975834343485" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.46340384850135213" showDependencies="false" x="850.7593427392367" y="799.9401128784382" />
+  <SelectedNodes>
+    <node>inf112.ppbros.view.TextureUtils</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
